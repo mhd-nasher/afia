@@ -12,6 +12,7 @@ library;
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/foundation.dart' show kDebugMode;
 
 class PatientAccount {
   final String uid;
@@ -70,6 +71,12 @@ class PatientAuthService {
     required void Function() onAutoSignedIn,
     int? resendToken,
   }) async {
+    if (kDebugMode) {
+      // Simulator/dev: no APNs + console TEST numbers — skip app verification.
+      // Debug builds only; release keeps full verification (URL scheme in
+      // Info.plist covers the reCAPTCHA fallback).
+      await _auth.setSettings(appVerificationDisabledForTesting: true);
+    }
     await _auth.verifyPhoneNumber(
       phoneNumber: phoneE164,
       forceResendingToken: resendToken,

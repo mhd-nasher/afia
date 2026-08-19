@@ -8,6 +8,7 @@ library;
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/foundation.dart' show kDebugMode;
 
 import '../domain/entities.dart';
 import 'repo.dart';
@@ -34,6 +35,13 @@ class AuthService {
     required void Function() onAutoSignedIn,
     int? resendToken,
   }) async {
+    if (kDebugMode) {
+      // Simulator/dev: no APNs and console TEST numbers in use — skip app
+      // verification so the flow works without reCAPTCHA. Debug builds only;
+      // release keeps full verification (APNs → reCAPTCHA fallback via the
+      // URL scheme registered in Info.plist).
+      await _auth.setSettings(appVerificationDisabledForTesting: true);
+    }
     await _auth.verifyPhoneNumber(
       phoneNumber: phoneE164,
       forceResendingToken: resendToken,
