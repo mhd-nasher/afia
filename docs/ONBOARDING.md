@@ -33,12 +33,13 @@ iOS 15.0 (Firebase SDK 12 requires it) — do not lower it.
 CocoaPods crashes without a UTF-8 locale — keep the LANG/LC_ALL prefix.
 
 ## 4. Sign in (dev/test)
-- **Clinician app**: needs an INVITATION + a Firebase console **test phone number**
-  (Auth → Sign-in method → Phone → "Phone numbers for testing"). Seeded invitations:
-  `+966555000001` / `+966555000002` / `+97333000001`. Create your own invitation in the
-  dashboard (Users → Invite clinician), add the same number as a test number, sign in
-  with the fixed code you chose. Real SMS is blocked until Blaze + SMS regions.
-- **Patient app**: self-register in the app (email+password is the verified path).
+Email + password is the ONLY sign-in method everywhere (D-012 / RULES.md W7 — phone/OTP
+does not exist in this product).
+- **Clinician app**: ACCESS is invitation-gated. Create an invitation in the dashboard
+  (Users → Invite clinician) — invitations are keyed by **lowercase email**
+  (`invitations/{email}`) — then create the account IN THE APP with that same email +
+  a password. An email without an invitation reaches only the not-invited screen.
+- **Patient app**: self-register in the app (email+password).
 - **Dashboard**: https://afia-dashboard.vercel.app — register a manager account, or ask
   Mohammed for the admin account.
 
