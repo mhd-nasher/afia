@@ -61,11 +61,21 @@ class _PhoneScreenState extends State<PhoneScreen> {
       },
       onFailed: (e) {
         if (!mounted) return;
+        final msg = e.message ?? '';
         setState(() {
           _busy = false;
-          _error = e.code == 'operation-not-allowed'
-              ? t.phoneAuthUnavailable
-              : t.authError(e.message ?? e.code);
+          // Firebase reports both "provider disabled" AND "SMS region policy /
+          // quota blocked" as operation-not-allowed — distinguish them, the
+          // remedies are different.
+          if (e.code == 'quota-exceeded' ||
+              msg.contains('region') ||
+              msg.contains('quota')) {
+            _error = t.smsRegionBlocked;
+          } else if (e.code == 'operation-not-allowed') {
+            _error = t.phoneAuthUnavailable;
+          } else {
+            _error = t.authError(msg.isEmpty ? e.code : msg);
+          }
         });
       },
       onAutoSignedIn: () {
@@ -83,7 +93,12 @@ class _PhoneScreenState extends State<PhoneScreen> {
       body: SafeArea(
         child: Padding(
           padding: const EdgeInsetsDirectional.symmetric(horizontal: 20),
-          child: Column(crossAxisAlignment: CrossAxisAlignment.stretch, children: [
+          child: Column(children: [
+            Expanded(
+              child: SingleChildScrollView(
+                child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.stretch,
+                    children: [
             const SizedBox(height: 48),
             Text('Afia',
                 style: sans(context, 28, weight: FontWeight.w500, color: c.text)),
@@ -159,7 +174,10 @@ class _PhoneScreenState extends State<PhoneScreen> {
                 ]),
               ),
             ],
-            const Spacer(),
+                      const SizedBox(height: 24),
+                    ]),
+              ),
+            ),
             PrimaryButton(
               onTap: _busy ? null : _send,
               child: _busy

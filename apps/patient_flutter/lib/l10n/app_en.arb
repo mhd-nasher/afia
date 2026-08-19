@@ -1,11 +1,15 @@
 {
   "@@locale": "en",
-
   "emergencyLabel": "Emergency",
   "conditionChanged": "My condition has changed",
   "callNurseLine": "Nurse line — call {number}",
-  "@callNurseLine": { "placeholders": { "number": { "type": "String" } } },
-
+  "@callNurseLine": {
+    "placeholders": {
+      "number": {
+        "type": "String"
+      }
+    }
+  },
   "entryTitle": "Tell the nursing team how you are",
   "entryBody1": "You answer a few questions and describe how you feel, in your own words. What you send goes to the nursing team for a nurse to read.",
   "entryBody2": "It takes a few minutes. You can stop at any point — nothing you enter is lost.",
@@ -18,30 +22,59 @@
   "resumeBody": "You have an unfinished description. Your answers are saved on this phone — you can continue where you left off.",
   "resumeContinue": "Continue where you left off",
   "startOver": "Start again from the beginning",
-
   "safetyQuestionsEyebrow": "Safety questions",
   "safetyQuestionsRepeatEyebrow": "Safety questions — asked again, to be safe",
   "answerYes": "Yes",
   "answerNo": "No",
   "answerDontKnow": "I don't know",
-
   "interruptTitle": "Call {number} now",
-  "@interruptTitle": { "placeholders": { "number": { "type": "String" } } },
+  "@interruptTitle": {
+    "placeholders": {
+      "number": {
+        "type": "String"
+      }
+    }
+  },
   "interruptLeadAnswer": "Based on your answer, call {number} now or ask someone near you to call.",
-  "@interruptLeadAnswer": { "placeholders": { "number": { "type": "String" } } },
+  "@interruptLeadAnswer": {
+    "placeholders": {
+      "number": {
+        "type": "String"
+      }
+    }
+  },
   "interruptLeadFixture": "If this is an emergency, call {number} now or ask someone near you to call.",
-  "@interruptLeadFixture": { "placeholders": { "number": { "type": "String" } } },
+  "@interruptLeadFixture": {
+    "placeholders": {
+      "number": {
+        "type": "String"
+      }
+    }
+  },
   "callEmergency": "Call {number}",
-  "@callEmergency": { "placeholders": { "number": { "type": "String" } } },
+  "@callEmergency": {
+    "placeholders": {
+      "number": {
+        "type": "String"
+      }
+    }
+  },
   "callAdviceLine": "If you cannot call {emergency}, call {advice}",
-  "@callAdviceLine": { "placeholders": { "emergency": { "type": "String" }, "advice": { "type": "String" } } },
+  "@callAdviceLine": {
+    "placeholders": {
+      "emergency": {
+        "type": "String"
+      },
+      "advice": {
+        "type": "String"
+      }
+    }
+  },
   "interruptMistake": "If you tapped Yes by mistake you can go back — your answer stays recorded.",
   "goBack": "Go back",
-
   "whoTitle": "Who is filling this in?",
   "whoSelf": "Myself",
   "whoCarer": "I'm helping someone else",
-
   "voiceEyebrow": "In your own words",
   "voiceTitle": "Describe how you feel",
   "voiceLead": "Talk the way you would to a nurse. There are no wrong words.",
@@ -57,12 +90,10 @@
   "micPrimerBody": "Next, your phone will ask permission to use the microphone. Afia records your voice and turns it into text on this screen, so you can check it before anything is sent. Talking is optional — typing always works.",
   "micPrimerOk": "OK, ask me",
   "micPrimerSkip": "I'll type instead",
-
   "functionalEyebrow": "Compared with your normal",
   "fnSame": "About the same as normal",
   "fnWorse": "Worse than normal",
   "fnMuchWorse": "Much worse than normal",
-
   "reviewTitle": "Check what you are sending",
   "reviewLead": "This is everything you entered. Anything you did not answer is shown as \"Not answered\". You can change any answer, or send it as it is.",
   "reviewSafetyHeading": "Safety questions",
@@ -73,7 +104,13 @@
   "voiceIncluded": "Voice recording included",
   "edit": "Edit",
   "notMentioned": "Not mentioned: {item}",
-  "@notMentioned": { "placeholders": { "item": { "type": "String" } } },
+  "@notMentioned": {
+    "placeholders": {
+      "item": {
+        "type": "String"
+      }
+    }
+  },
   "notMentionedDescription": "your description",
   "sendToTeam": "Send to the nursing team",
   "tidyAction": "Tidy up my words",
@@ -86,7 +123,6 @@
   "translateToArabic": "Show in Arabic",
   "translateToEnglish": "Show in English",
   "aiUnavailable": "Not available right now — your own words stay exactly as they are.",
-
   "authTitle": "Sign in to send",
   "authLead": "Your answers are ready. To send them to the nursing team, sign in or create an account. Everything stays saved on this phone while you do.",
   "authPhone": "Use my phone number",
@@ -98,11 +134,23 @@
   "phoneAuthUnavailable": "Phone sign-in is not available right now. You can use email instead.",
   "otpTitle": "Enter the code",
   "otpSentTo": "We sent a code to {phone}",
-  "@otpSentTo": { "placeholders": { "phone": { "type": "String" } } },
+  "@otpSentTo": {
+    "placeholders": {
+      "phone": {
+        "type": "String"
+      }
+    }
+  },
   "otpInvalid": "That code did not match. Please try again.",
   "verifying": "Checking…",
   "resendIn": "You can resend in {seconds}s",
-  "@resendIn": { "placeholders": { "seconds": { "type": "int" } } },
+  "@resendIn": {
+    "placeholders": {
+      "seconds": {
+        "type": "int"
+      }
+    }
+  },
   "resendCode": "Resend code",
   "emailSignInTitle": "Sign in with email",
   "emailRegisterTitle": "Create your account",
@@ -118,13 +166,18 @@
   "haveAccount": "I already have an account",
   "noAccount": "I don't have an account yet",
   "authError": "Something went wrong: {detail}",
-  "@authError": { "placeholders": { "detail": { "type": "String" } } },
+  "@authError": {
+    "placeholders": {
+      "detail": {
+        "type": "String"
+      }
+    }
+  },
   "emailInvalid": "That email does not look right. Please check it.",
   "passwordTooShort": "Please use at least 8 characters.",
   "emailInUse": "There is already an account with this email. Try signing in.",
   "wrongPassword": "That email and password did not match.",
   "backLabel": "Back",
-
   "statusTitle": "What you have sent",
   "caseRefLabel": "Your case reference:",
   "updateInitial": "Your answers and description",
@@ -138,18 +191,21 @@
   "statusCaseGoneTitle": "Your case is no longer available",
   "statusCaseGoneBody": "Your saved case is no longer available. You can start again.",
   "startAgain": "Start again",
-
   "updateEyebrow": "Your update",
   "updateTitle": "What has changed since last time?",
   "updateLead": "Talk or type — whichever is easier right now.",
   "addToCase": "Add this to my case",
-
   "updateAddedTitle": "Update added",
   "updateAddedBody": "Your update was added to your existing case. You have not lost your place, and you do not need to start again.",
   "caseRefStill": "Your case reference is still {ref}.",
-  "@caseRefStill": { "placeholders": { "ref": { "type": "String" } } },
+  "@caseRefStill": {
+    "placeholders": {
+      "ref": {
+        "type": "String"
+      }
+    }
+  },
   "backToCase": "Back to your case",
-
   "accountTitle": "Your account",
   "accountName": "Name",
   "accountContact": "Contact",
@@ -165,11 +221,10 @@
   "deleteConfirmBody": "This deletes your account and your saved preferences, withdraws your sharing consent, and removes everything saved on this phone. What you already sent stays with the nursing team so your care is not interrupted.",
   "deleteConfirmYes": "Delete my data",
   "cancel": "Cancel",
-
   "languageChoiceTitle": "اللغة · Language",
   "chooseEnglish": "Continue in English",
   "chooseArabic": "المتابعة بالعربية",
-
   "errorGeneric": "Something went wrong. Your answers are still saved on this phone.",
-  "loading": "Loading…"
+  "loading": "Loading…",
+  "smsRegionBlocked": "SMS to this country is currently blocked by the project's SMS region policy / daily quota. For testing: add your number as a TEST phone number in Firebase console (Authentication → Sign-in method → Phone → Phone numbers for testing) and sign in with its fixed code — no SMS needed. For real SMS: enable the country in Authentication → Settings → SMS region policy, and add billing.\n\nإرسال الرسائل لهذه الدولة محجوب حاليًا بسياسة مناطق الرسائل / الحصة اليومية للمشروع. للتجربة: أضف رقمك كرقم اختبار في وحدة تحكم Firebase (Authentication ← Sign-in method ← Phone ← Phone numbers for testing) وادخل بالكود الثابت — بدون رسائل. للرسائل الحقيقية: فعّل الدولة من Authentication ← Settings ← SMS region policy وأضف الفوترة."
 }

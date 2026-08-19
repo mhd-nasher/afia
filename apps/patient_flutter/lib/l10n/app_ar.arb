@@ -1,10 +1,8 @@
 {
   "@@locale": "ar",
-
   "emergencyLabel": "طوارئ",
   "conditionChanged": "حالتي تغيّرت",
   "callNurseLine": "خط التمريض — اتصل على {number}",
-
   "entryTitle": "أخبر فريق التمريض كيف حالك",
   "entryBody1": "ستجيب عن بضعة أسئلة وتصف شعورك بكلماتك أنت. ما ترسله يذهب إلى فريق التمريض لتقرأه ممرضة.",
   "entryBody2": "يستغرق الأمر دقائق قليلة. يمكنك التوقف في أي لحظة — لا يضيع شيء مما تدخله.",
@@ -17,13 +15,11 @@
   "resumeBody": "لديك وصف غير مكتمل. إجاباتك محفوظة على هذا الهاتف — يمكنك المتابعة من حيث توقفت.",
   "resumeContinue": "المتابعة من حيث توقفت",
   "startOver": "البدء من جديد",
-
   "safetyQuestionsEyebrow": "أسئلة السلامة",
   "safetyQuestionsRepeatEyebrow": "أسئلة السلامة — نسألها مجدداً، للاطمئنان",
   "answerYes": "نعم",
   "answerNo": "لا",
   "answerDontKnow": "لا أعرف",
-
   "interruptTitle": "اتصل الآن على {number}",
   "interruptLeadAnswer": "بناءً على إجابتك، اتصل الآن على {number} أو اطلب من شخص قريب منك أن يتصل.",
   "interruptLeadFixture": "إذا كانت هذه حالة طارئة، اتصل الآن على {number} أو اطلب من شخص قريب منك أن يتصل.",
@@ -31,11 +27,9 @@
   "callAdviceLine": "إذا لم تستطع الاتصال على {emergency}، اتصل على {advice}",
   "interruptMistake": "إذا ضغطت \"نعم\" عن طريق الخطأ يمكنك الرجوع — تبقى إجابتك مسجلة.",
   "goBack": "رجوع",
-
   "whoTitle": "من يعبّئ هذا النموذج؟",
   "whoSelf": "أنا بنفسي",
   "whoCarer": "أساعد شخصاً آخر",
-
   "voiceEyebrow": "بكلماتك أنت",
   "voiceTitle": "صف شعورك",
   "voiceLead": "تحدث كما لو كنت تتحدث إلى ممرضة. لا توجد كلمات خاطئة.",
@@ -51,12 +45,10 @@
   "micPrimerBody": "سيطلب هاتفك الآن إذن استخدام الميكروفون. تسجّل عافية صوتك وتحوّله إلى نص على هذه الشاشة لتراجعه قبل إرسال أي شيء. الحديث اختياري — والكتابة تعمل دائماً.",
   "micPrimerOk": "حسناً، اطلب الإذن",
   "micPrimerSkip": "سأكتب بدلاً من ذلك",
-
   "functionalEyebrow": "مقارنةً بوضعك المعتاد",
   "fnSame": "مثل وضعي المعتاد تقريباً",
   "fnWorse": "أسوأ من المعتاد",
   "fnMuchWorse": "أسوأ بكثير من المعتاد",
-
   "reviewTitle": "راجع ما سترسله",
   "reviewLead": "هذا كل ما أدخلته. أي شيء لم تجب عنه يظهر كـ\"لم تتم الإجابة\". يمكنك تغيير أي إجابة، أو الإرسال كما هو.",
   "reviewSafetyHeading": "أسئلة السلامة",
@@ -79,7 +71,6 @@
   "translateToArabic": "اعرض بالعربية",
   "translateToEnglish": "اعرض بالإنجليزية",
   "aiUnavailable": "غير متاح الآن — تبقى كلماتك كما هي تماماً.",
-
   "authTitle": "سجّل الدخول للإرسال",
   "authLead": "إجاباتك جاهزة. لإرسالها إلى فريق التمريض، سجّل الدخول أو أنشئ حساباً. يبقى كل شيء محفوظاً على هذا الهاتف في هذه الأثناء.",
   "authPhone": "استخدام رقم هاتفي",
@@ -114,7 +105,6 @@
   "emailInUse": "يوجد حساب بهذا البريد بالفعل. جرّب تسجيل الدخول.",
   "wrongPassword": "البريد الإلكتروني وكلمة المرور غير متطابقين.",
   "backLabel": "رجوع",
-
   "statusTitle": "ما قمت بإرساله",
   "caseRefLabel": "رقم مرجع حالتك:",
   "updateInitial": "إجاباتك ووصفك",
@@ -128,17 +118,14 @@
   "statusCaseGoneTitle": "حالتك لم تعد متوفرة",
   "statusCaseGoneBody": "حالتك المحفوظة لم تعد متوفرة. يمكنك البدء من جديد.",
   "startAgain": "ابدأ من جديد",
-
   "updateEyebrow": "تحديثك",
   "updateTitle": "ما الذي تغيّر منذ آخر مرة؟",
   "updateLead": "تحدث أو اكتب — أيهما أسهل لك الآن.",
   "addToCase": "أضف هذا إلى حالتي",
-
   "updateAddedTitle": "أُضيف التحديث",
   "updateAddedBody": "أُضيف تحديثك إلى حالتك القائمة. لم تفقد مكانك، ولا تحتاج إلى البدء من جديد.",
   "caseRefStill": "رقم مرجع حالتك لا يزال {ref}.",
   "backToCase": "عودة إلى حالتك",
-
   "accountTitle": "حسابك",
   "accountName": "الاسم",
   "accountContact": "وسيلة التواصل",
@@ -154,11 +141,10 @@
   "deleteConfirmBody": "سيحذف هذا حسابك وتفضيلاتك المحفوظة، ويسحب موافقتك على المشاركة، ويزيل كل ما هو محفوظ على هذا الهاتف. ما أرسلته بالفعل يبقى لدى فريق التمريض حتى لا تتأثر رعايتك.",
   "deleteConfirmYes": "احذف بياناتي",
   "cancel": "إلغاء",
-
   "languageChoiceTitle": "اللغة · Language",
   "chooseEnglish": "Continue in English",
   "chooseArabic": "المتابعة بالعربية",
-
   "errorGeneric": "حدث خطأ ما. إجاباتك لا تزال محفوظة على هذا الهاتف.",
-  "loading": "جارٍ التحميل…"
+  "loading": "جارٍ التحميل…",
+  "smsRegionBlocked": "إرسال الرسائل لهذه الدولة محجوب حاليًا بسياسة مناطق الرسائل / الحصة اليومية للمشروع. للتجربة: أضف رقمك كرقم اختبار في وحدة تحكم Firebase (Authentication ← Sign-in method ← Phone ← Phone numbers for testing) وادخل بالكود الثابت — بدون رسائل. للرسائل الحقيقية: فعّل الدولة من Authentication ← Settings ← SMS region policy وأضف الفوترة.\n\nSMS to this country is currently blocked by the project's SMS region policy / daily quota. For testing: add your number as a TEST phone number in Firebase console (Authentication → Sign-in method → Phone → Phone numbers for testing) and sign in with its fixed code — no SMS needed. For real SMS: enable the country in Authentication → Settings → SMS region policy, and add billing."
 }

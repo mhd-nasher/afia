@@ -111,11 +111,20 @@ class _AuthScreenState extends State<AuthScreen> {
       },
       onFailed: (e) {
         if (!mounted) return;
+        final msg = e.message ?? '';
         setState(() {
           _busy = false;
-          _error = e.code == 'operation-not-allowed'
-              ? t.phoneAuthUnavailable
-              : t.authError(e.message ?? e.code);
+          // operation-not-allowed covers both "provider disabled" and "SMS
+          // region policy / quota blocked" — different remedies.
+          if (e.code == 'quota-exceeded' ||
+              msg.contains('region') ||
+              msg.contains('quota')) {
+            _error = t.smsRegionBlocked;
+          } else if (e.code == 'operation-not-allowed') {
+            _error = t.phoneAuthUnavailable;
+          } else {
+            _error = t.authError(msg.isEmpty ? e.code : msg);
+          }
         });
       },
       onAutoSignedIn: () {
