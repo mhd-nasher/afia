@@ -1,94 +1,95 @@
 # Afia — Patient app (Flutter)
 
 The patient-side surface of the Afia clinical handover platform: describe
-your symptoms before attending, at home. Warm, never clinical — this app is
-opened once, alone, in fright. One question, one action, one screen. No tab
-bar, no bottom navigation, no progress bar, no step counter (HANDOFF §6 /
-F-050).
+your symptoms before attending, at home. Warm, never clinical. Since owner
+decision **D-015** (docs/DECISIONS.md + HANDOFF Amendment 2) this is a
+conventional, extremely obvious app: **auth first → Home with one big
+action → bottom tab bar** (الرئيسية · تقاريري · حسابي). The star
+requirement, verbatim: "لازم يكون التطبيق واضح جدا ومنطقي وسهل".
 
-> **Owner decisions this build carries (deviations from HANDOFF as
-> written):**
-> 1. **Real accounts.** §6 said "no accounts"; the product owner requires
->    real self-registered patient accounts — email + password only
->    (owner decision D-012 removed phone/OTP from the product entirely).
->    See "Why auth comes AFTER the red-flag questions" below.
-> 2. **No demo banner.** The product is moving from demonstration to real
->    use, so the persistent `SYNTHETIC DEMO DATA` strip (F-090) and all
->    demo wording were removed from this app by owner instruction. The
->    mandatory status-screen safety copy is a product safety feature, not a
->    demo label — it stays, verbatim.
->
-> Note the tension a reviewer should see: HANDOFF §9 lists unresolved
-> safety questions (nurse review latency above all) and F-090 still stands
-> in `docs/acceptance.md` for the other surfaces. Moving to real use is a
-> product-owner call recorded here, not an engineering conclusion.
+> **Owner decisions this build carries:**
+> 1. **Real accounts, email + password only** (D-012 removed phone/OTP
+>    entirely): register, sign in, password reset. Patients self-register.
+> 2. **No demo banner / no demo wording** (owner real-use pivot). The
+>    mandatory status honesty copy is a product safety feature, not a demo
+>    label — it stays, verbatim.
+> 3. **D-015 restructure**: auth first, Home + tabs + reports history,
+>    step indicators allowed in the flows. Supersedes HANDOFF §6's
+>    no-tab-bar/no-home design and §11's tab-bar ban (Amendment 2).
+
+## The structure
+
+- **Launch** → first-run language choice (AR/EN, full RTL) → **welcome**
+  (إنشاء حساب / تسجيل الدخول) → after register: one short profile step
+  (name + terms). Sessions persist — later launches go straight to Home.
+- **الرئيسية (Home)**: greeting by name, ONE big action «أبلغ عن حالتي»,
+  the active report's status card («حالتي تغيرت», tap → detail), a resume
+  card when a draft is unfinished, and a quiet help card (nurse line 444 ·
+  emergency 999).
+- **تقاريري (My reports)**: the account's cases, newest first (equality
+  query on `accountUid`, client-side sort — no composite index needed).
+  Tap → detail: full timeline + the MANDATORY honesty copy verbatim.
+- **حسابي (Account)**: name, email, language, delete-my-data (§3.3),
+  prominent sign out.
+- **Report flow** (from Home): red flags → who → describe (voice/type) →
+  functional → review (+ sharing-consent toggle) → send → back to Home.
+  A calm step indicator («٢ من ٥») and a back affordance on every step
+  (both explicitly permitted/required by D-015). Exiting mid-flow keeps
+  the draft; Home offers «أكمل تقريرك».
+- **Active-case rule**: one active case at a time. «أبلغ عن حالتي» with an
+  active case routes to an explanation screen → add an update (APPENDS to
+  the same case, F-056) or explicitly start a separate new report.
+
+## Safety invariants (unchanged by any amendment)
+
+- **The emergency fixture is on EVERY screen INCLUDING welcome/auth** —
+  composed in the MaterialApp builder ABOVE the Navigator, so no screen,
+  keyboard, overlay or loading state can occlude it (§2.7/F-051). It is
+  not red; red is spent entirely on the interrupt screen. It works before
+  any account exists and offline (numbers bundled: 999 / 444, Bahrain).
+- **Red flags are local, deterministic, offline** — pure Dart, bundled
+  bilingual questions, evaluated after every answer; a YES raises the
+  full-screen interrupt instantly. Airplane-mode test in
+  `test/domain_test.dart` stays green.
+- **Mandatory honesty copy verbatim** (EN + faithful AR) on the report
+  detail view. Sync honesty: an update is *sent* only on Firestore SERVER
+  acknowledgement; until then the UI says saved-on-this-phone, not sent.
+- **UNKNOWN is first-class** (§2.2); escalation is one-way (§2.1); no
+  clinical numbers, no urgency levels, no risk language anywhere a patient
+  can see (§11).
 
 ## Run it
 
 ```bash
 cd apps/patient_flutter
 flutter pub get
-flutter gen-l10n            # generates lib/l10n/gen (also runs on build)
-flutter test                # constraint tests (T-001/T-002/T-007 mirrors)
+flutter gen-l10n
+flutter test                # domain constraints + widget flow tests
 flutter analyze
 
 # iOS simulator
 LANG=en_US.UTF-8 LC_ALL=en_US.UTF-8 flutter build ios --simulator --debug
-flutter run                 # picks a booted simulator
+flutter run
 
 # Full UI walk + screenshots on a booted simulator (writes docs_screens/):
-# entry → red flags → emergency interrupt → review → account gate → status.
-# Signs in with a pre-created verification account and writes a synthetic
-# case to the live database.
+# welcome → sign-in → home → report flow → emergency interrupt → review →
+# active card → detail. Signs in with a pre-created verification account
+# and writes a synthetic case to the live database.
 flutter drive --driver=test_driver/integration_test.dart \
-  --target=integration_test/flow_screens_test.dart -d <simulator-id>
+  --target=integration_test/flow_screens_test.dart -d SIMULATOR_ID
 
-# Android
-flutter build apk --debug
-# apk lands at build/app/outputs/flutter-apk/app-debug.apk
+# Release IPA (App Store Connect method, team SDBHYX4BF4)
+LANG=en_US.UTF-8 LC_ALL=en_US.UTF-8 flutter build ipa --release \
+  --export-options-plist=ios/ExportOptions.plist
 ```
 
-### On a physical device
+On a physical device: open `ios/Runner.xcworkspace`, set the team, run
+(deployment target iOS 15.0; if pods are stale:
+`cd ios && LANG=en_US.UTF-8 LC_ALL=en_US.UTF-8 pod install --repo-update`).
+Android: `flutter build apk --debug`, `minSdk` 23.
 
-- **iOS**: open `ios/Runner.xcworkspace` in Xcode, select your team under
-  Signing & Capabilities, choose the device, Run. Deployment target is iOS
-  15.0 (Firebase SDK 12 requirement). If pods are stale:
-  `cd ios && LANG=en_US.UTF-8 LC_ALL=en_US.UTF-8 pod install --repo-update`
-  (the locale vars matter — CocoaPods crashes on an unset locale).
-- **Android**: enable USB debugging, then `flutter install` or
-  `adb install build/app/outputs/flutter-apk/app-debug.apk`. `minSdk` is 23
-  (firebase_auth requirement).
-
-### Console toggles the operator must do once
-
-1. **Email/Password provider**: Firebase console → Authentication →
-   Sign-in method → Email/Password → Enable (registration, sign-in, and
-   password reset all use it — the ONLY auth method per owner decision
-   D-012). Patients self-register — no invitation seeding is needed for
-   this app.
-2. Firebase AI Logic is already enabled for this app's ids (done via the
-   Firebase MCP `firebase_init {ailogic}` for both the iOS and Android app
-   registrations).
-
-## Why auth comes AFTER the red-flag questions
-
-HANDOFF §6 originally specified no accounts. The product owner requires
-real patient accounts — self-registered with email + password (register,
-sign in, reset; the only method per D-012). The ordering is the
-safety-preserving part of that decision:
-
-- **Red flags run before any account exists.** Evaluation is a local,
-  deterministic, pure-Dart rule (§2.7) with the questions and the emergency
-  numbers (999 / 444, Bahrain) bundled at build. A person in danger reaches
-  the full-screen emergency interrupt with zero network, zero sign-in, zero
-  typing beyond three 64px buttons.
-- The account gate appears only at the moment an account is genuinely
-  needed: attaching the finished description to a durable case record that
-  the person can update later ("my condition has changed") and that the
-  nursing team can attribute. Nothing typed before the gate can be lost —
-  every answer persists on-device from the first tap (F-055).
-- Safety gated behind a login screen would put registration friction inside
-  the emergency path, which §2.7 exists to forbid.
+Console prerequisites (once): Authentication → Email/Password enabled (the
+ONLY method, D-012). Firebase AI Logic is enabled for this app's ids.
 
 ## Where things live
 
@@ -96,61 +97,29 @@ safety-preserving part of that decision:
 |---|---|
 | §2 constraints (escalate max-only, appendUpdate one-way, UNKNOWN semantics, bundled red flags/numbers, deterministic gaps) | `lib/domain/` — pure Dart, mirrored from `packages/rules` + `packages/core` |
 | Constraint tests incl. the airplane-mode test | `test/domain_test.dart` |
-| The emergency fixture + dock (outside the step hierarchy, §2.7/F-051) | `lib/ui/widgets/safety_layer.dart`, composed in `lib/app.dart`'s MaterialApp builder — above the Navigator, so no screen/keyboard/overlay can occlude it |
+| Emergency fixture (above the Navigator, every screen incl. auth) | `lib/ui/widgets/safety_layer.dart` + `lib/app.dart` builder |
 | The one red screen | `lib/ui/screens/emergency_interrupt.dart` |
-| Flow engine + incremental save | `lib/state/episode_model.dart` + `lib/domain/episode.dart` (SharedPreferences JSON on every change) |
-| Firestore case seam + sync honesty | `lib/services/case_repo.dart` — `cases` collection, shape mirrors `packages/core/src/case.ts` + additive `accountUid` |
-| Auth (email+password only — D-012; self-registration, reset) | `lib/services/auth_service.dart` → `patientAccounts/{uid}` (owner-only rules) |
-| **Gemini model id** | `lib/services/ai_service.dart` → `geminiModelId` (`gemini-3.5-flash`, same constant as the clinician app, with a fallback chain) |
-| AI memory (workflow prefs only) | `lib/services/memory_service.dart` → `aiMemory/{uid}` (owner-only, deletable) |
-| Voice capture / speech-to-text | `lib/services/recorder.dart` (AAC → base64 data URI, <900KB convention) / `lib/services/transcriber.dart` (`ar_SA` / `en_GB`) |
+| Auth first (welcome / register+profile / sign-in / reset) | `lib/ui/screens/auth_screens.dart` + `lib/services/auth_service.dart` → `patientAccounts/{uid}` |
+| Tabs shell + Home / Reports / Account | `lib/ui/home_shell.dart`, `lib/ui/screens/{home_tab,reports_tab,account_tab}.dart` |
+| Report flow + update flow + active-case gate | `lib/ui/screens/{report_flow_screen,update_flow_screen,active_case_gate_screen}.dart` |
+| Report detail (timeline + mandatory copy) | `lib/ui/screens/report_detail_screen.dart` |
+| Flow engine + incremental draft save (F-055) | `lib/state/episode_model.dart` + `lib/domain/episode.dart` |
+| Firestore case seam + sync honesty | `lib/services/case_repo.dart` — `cases` collection + additive `accountUid` |
+| **Gemini model id** | `lib/services/ai_service.dart` → `geminiModelId` (`gemini-3.5-flash`) |
+| Voice capture / speech-to-text | `lib/services/recorder.dart` / `lib/services/transcriber.dart` (`ar_SA`/`en_GB`) |
 | Copy, AR+EN, full RTL | `lib/l10n/app_en.arb` / `app_ar.arb` |
 
-## The AI safety envelope (§4.3 + §11 — patient-facing, extra strict)
+## The AI safety envelope (§4.3 + §11 — unchanged)
 
-**Allowed** — reorganisation of the patient's own words, nothing else:
-tidying their description (own sentences only, validated in code: any output
-word not present in their text discards the result), and AR↔EN translation
-of their own text. Machine output renders in periwinkle (machine-made,
-unverified) until the patient explicitly accepts it.
-
-**Forbidden and structurally absent**: triage/severity/urgency, diagnosis,
-medical advice, symptom interpretation, reassurance or any wording implying
-the patient is fine, clinical numbers or urgency levels. These are (1)
-prohibited in the system prompt, (2) inexpressible — no tool exists through
-which a judgement could flow, and (3) irrelevant to safety logic: red-flag
-evaluation never touches the model (it is local deterministic Dart, §2.7).
-
-**Offline**: a deterministic tidy fallback (whitespace/duplicate/filler
-cleanup — same input, same output) runs instead. The flow never depends on
-the model.
-
-## What is real vs simulated
-
-- **Real**: Firestore reads/writes against the live `afia-12f38` database
-  (me-central2) with offline persistence; email+password auth (register /
-  sign in / reset — the only method, D-012); consent records; one-way priority
-  escalation enforced by the deployed rules; device speech-to-text; AAC
-  audio capture stored as a playable base64 data URI in the case update
-  (oversized audio stays on-device with `urlOmittedReason` — same
-  convention as the clinician app); Gemini tidy/translate via Firebase AI
-  Logic.
-- **Still bounded by the platform's honesty rules**: nobody is watching
-  continuously, and the app says so — the status screen's mandatory copy is
-  verbatim and non-negotiable. The red-flag question set is bundled at
-  build (ids match the seeded `redFlagQuestions` collection) rather than
-  fetched — deliberate, per §2.7: a server config fetch would put the
-  network inside the escalation path.
-- **Sync honesty (F-057)**: an update is marked *sent* only when the
-  Firestore SERVER acknowledges the write (`set()` completing), never on
-  local echo. Until then the status screen says, in so many words, that it
-  is saved on this phone and the nursing team has NOT seen it.
+Allowed: reorganising the patient's OWN words (tidy, AR↔EN translate) —
+output validated word-by-word against their text, rendered in periwinkle
+until accepted, deterministic offline fallback. Forbidden and structurally
+absent: triage/severity/urgency, diagnosis, advice, reassurance, clinical
+numbers. Red-flag evaluation never touches the model.
 
 ## Erasure (§3.3)
 
-Account screen → "Delete my data": deletes `patientAccounts/{uid}` and
-`aiMemory/{uid}` (owner-only rules allow it), stamps `withdrawnAt` on the
-consent record (withdrawal is a timestamp, not a deletion), wipes the
-device-local episode, and signs out. The submitted case record itself stays
-with the nursing team — the deployed rules forbid case deletion (a clinical
-record cannot silently vanish), and the confirmation copy says so honestly.
+Account tab → "Delete my data": deletes `patientAccounts/{uid}` and
+`aiMemory/{uid}`, stamps `withdrawnAt` on the consent record, wipes the
+device-local state, signs out. Case records stay with the nursing team
+(rules forbid case deletion) — the copy says so honestly.

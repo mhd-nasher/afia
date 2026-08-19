@@ -2,7 +2,7 @@ name: afia_patient
 description: "Afia patient app — describe your symptoms before attending, at home."
 publish_to: 'none'
 
-version: 1.0.0+4
+version: 1.0.0+5
 
 environment:
   sdk: ^3.9.2

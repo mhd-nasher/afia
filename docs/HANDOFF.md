@@ -465,3 +465,21 @@ judgement — including the patient-safe stricter variant), §2.8 deterministic 
 detection, §2.10 wait-time-only queues, §2.9 no individual performance data,
 audit immutability, and signature immutability are all unchanged and remain
 structurally enforced in code, tests, and Firestore security rules.
+
+---
+
+# Amendment 2 — Patient app restructure (owner decision D-015, 2026-08-19)
+
+The owner usability-tested the linear-episode patient app and got lost in it.
+§6's "no tab bar / no home / single linear episode" design and §11's tab-bar ban
+are **withdrawn for the patient app** and replaced with a conventional, obvious
+structure: sign-in/register first → Home (one primary action: report my
+condition; active-report status card; emergency & nurse-line info) → bottom
+tabs (Home · My Reports · Account) → report flow with clear steps.
+
+**What §6 keeps, verbatim and non-negotiable:** the always-visible emergency
+control on every screen INCLUDING auth screens (emergency needs no account —
+§2.7 unchanged); local deterministic offline red-flag questions at the start of
+every report; the mandatory status-screen honesty copy; "my condition has
+changed" appending to the same case; UNKNOWN as a first-class answer; no risk
+language toward the patient (§11 otherwise intact).

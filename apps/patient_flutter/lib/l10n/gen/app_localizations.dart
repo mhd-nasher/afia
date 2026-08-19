@@ -116,24 +116,6 @@ abstract class AppLocalizations {
   /// **'Nurse line — call {number}'**
   String callNurseLine(String number);
 
-  /// No description provided for @entryTitle.
-  ///
-  /// In en, this message translates to:
-  /// **'Tell the nursing team how you are'**
-  String get entryTitle;
-
-  /// No description provided for @entryBody1.
-  ///
-  /// In en, this message translates to:
-  /// **'You answer a few questions and describe how you feel, in your own words. What you send goes to the nursing team for a nurse to read.'**
-  String get entryBody1;
-
-  /// No description provided for @entryBody2.
-  ///
-  /// In en, this message translates to:
-  /// **'It takes a few minutes. You can stop at any point — nothing you enter is lost.'**
-  String get entryBody2;
-
   /// No description provided for @entryNameLabel.
   ///
   /// In en, this message translates to:
@@ -158,35 +140,11 @@ abstract class AppLocalizations {
   /// **'Continue'**
   String get continueLabel;
 
-  /// No description provided for @entryAgreeHint.
-  ///
-  /// In en, this message translates to:
-  /// **'To continue, please agree to both statements above.'**
-  String get entryAgreeHint;
-
-  /// No description provided for @resumeTitle.
-  ///
-  /// In en, this message translates to:
-  /// **'Welcome back'**
-  String get resumeTitle;
-
-  /// No description provided for @resumeBody.
-  ///
-  /// In en, this message translates to:
-  /// **'You have an unfinished description. Your answers are saved on this phone — you can continue where you left off.'**
-  String get resumeBody;
-
   /// No description provided for @resumeContinue.
   ///
   /// In en, this message translates to:
   /// **'Continue where you left off'**
   String get resumeContinue;
-
-  /// No description provided for @startOver.
-  ///
-  /// In en, this message translates to:
-  /// **'Start again from the beginning'**
-  String get startOver;
 
   /// No description provided for @safetyQuestionsEyebrow.
   ///
@@ -524,18 +482,6 @@ abstract class AppLocalizations {
   /// **'Not available right now — your own words stay exactly as they are.'**
   String get aiUnavailable;
 
-  /// No description provided for @authTitle.
-  ///
-  /// In en, this message translates to:
-  /// **'Sign in to send'**
-  String get authTitle;
-
-  /// No description provided for @authLead.
-  ///
-  /// In en, this message translates to:
-  /// **'Your answers are ready. To send them to the nursing team, sign in or create an account. Everything stays saved on this phone while you do.'**
-  String get authLead;
-
   /// No description provided for @emailSignInTitle.
   ///
   /// In en, this message translates to:
@@ -650,12 +596,6 @@ abstract class AppLocalizations {
   /// **'Back'**
   String get backLabel;
 
-  /// No description provided for @statusTitle.
-  ///
-  /// In en, this message translates to:
-  /// **'What you have sent'**
-  String get statusTitle;
-
   /// No description provided for @caseRefLabel.
   ///
   /// In en, this message translates to:
@@ -698,12 +638,6 @@ abstract class AppLocalizations {
   /// **'If anything changes, tap \"My condition has changed\" below. Your update joins this same case — you never start again.'**
   String get statusChangeHint;
 
-  /// No description provided for @yourAccount.
-  ///
-  /// In en, this message translates to:
-  /// **'Your account'**
-  String get yourAccount;
-
   /// No description provided for @offlineStrip.
   ///
   /// In en, this message translates to:
@@ -721,12 +655,6 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Your saved case is no longer available. You can start again.'**
   String get statusCaseGoneBody;
-
-  /// No description provided for @startAgain.
-  ///
-  /// In en, this message translates to:
-  /// **'Start again'**
-  String get startAgain;
 
   /// No description provided for @updateEyebrow.
   ///
@@ -901,6 +829,210 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'SMS to this country is currently blocked by the project\'s SMS region policy / daily quota. For testing: add your number as a TEST phone number in Firebase console (Authentication → Sign-in method → Phone → Phone numbers for testing) and sign in with its fixed code — no SMS needed. For real SMS: enable the country in Authentication → Settings → SMS region policy, and add billing.\n\nإرسال الرسائل لهذه الدولة محجوب حاليًا بسياسة مناطق الرسائل / الحصة اليومية للمشروع. للتجربة: أضف رقمك كرقم اختبار في وحدة تحكم Firebase (Authentication ← Sign-in method ← Phone ← Phone numbers for testing) وادخل بالكود الثابت — بدون رسائل. للرسائل الحقيقية: فعّل الدولة من Authentication ← Settings ← SMS region policy وأضف الفوترة.'**
   String get smsRegionBlocked;
+
+  /// No description provided for @welcomeTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Tell the nursing team how you are'**
+  String get welcomeTitle;
+
+  /// No description provided for @welcomeBody.
+  ///
+  /// In en, this message translates to:
+  /// **'You describe how you feel, from home, and a nurse reads it. Create an account so the team knows who is writing, or sign in if you already have one.'**
+  String get welcomeBody;
+
+  /// No description provided for @registerLead.
+  ///
+  /// In en, this message translates to:
+  /// **'One email and one password — that is all you need.'**
+  String get registerLead;
+
+  /// No description provided for @profileTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'What is your name?'**
+  String get profileTitle;
+
+  /// No description provided for @profileLead.
+  ///
+  /// In en, this message translates to:
+  /// **'Your first name is enough. The nursing team sees it with what you send.'**
+  String get profileLead;
+
+  /// No description provided for @profileHint.
+  ///
+  /// In en, this message translates to:
+  /// **'To continue, write your name and agree to the terms.'**
+  String get profileHint;
+
+  /// No description provided for @tabHome.
+  ///
+  /// In en, this message translates to:
+  /// **'Home'**
+  String get tabHome;
+
+  /// No description provided for @tabReports.
+  ///
+  /// In en, this message translates to:
+  /// **'My reports'**
+  String get tabReports;
+
+  /// No description provided for @tabAccount.
+  ///
+  /// In en, this message translates to:
+  /// **'Account'**
+  String get tabAccount;
+
+  /// No description provided for @homeGreeting.
+  ///
+  /// In en, this message translates to:
+  /// **'Hello, {name}'**
+  String homeGreeting(String name);
+
+  /// No description provided for @homeGreetingNoName.
+  ///
+  /// In en, this message translates to:
+  /// **'Hello'**
+  String get homeGreetingNoName;
+
+  /// No description provided for @homeLead.
+  ///
+  /// In en, this message translates to:
+  /// **'This is your place to tell the nursing team how you are.'**
+  String get homeLead;
+
+  /// No description provided for @reportAction.
+  ///
+  /// In en, this message translates to:
+  /// **'Report my condition'**
+  String get reportAction;
+
+  /// No description provided for @resumeCardTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Finish your report'**
+  String get resumeCardTitle;
+
+  /// No description provided for @resumeCardBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Your report is saved on this phone. You can continue from where you stopped.'**
+  String get resumeCardBody;
+
+  /// No description provided for @discardDraft.
+  ///
+  /// In en, this message translates to:
+  /// **'Delete the draft and start over'**
+  String get discardDraft;
+
+  /// No description provided for @activeCardTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Your current report'**
+  String get activeCardTitle;
+
+  /// No description provided for @viewDetails.
+  ///
+  /// In en, this message translates to:
+  /// **'View details'**
+  String get viewDetails;
+
+  /// No description provided for @reportRowUpdates.
+  ///
+  /// In en, this message translates to:
+  /// **'Updates: {count}'**
+  String reportRowUpdates(int count);
+
+  /// No description provided for @helpCardTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'If you need help now'**
+  String get helpCardTitle;
+
+  /// No description provided for @emergencyInfoLine.
+  ///
+  /// In en, this message translates to:
+  /// **'For an emergency, call {number} or use the Emergency button at the top of the screen.'**
+  String emergencyInfoLine(String number);
+
+  /// No description provided for @reportsEmptyTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'No reports yet'**
+  String get reportsEmptyTitle;
+
+  /// No description provided for @reportsEmptyBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Start from Home — tap “Report my condition”.'**
+  String get reportsEmptyBody;
+
+  /// No description provided for @detailTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Your report'**
+  String get detailTitle;
+
+  /// No description provided for @syncSentShort.
+  ///
+  /// In en, this message translates to:
+  /// **'Sent to the nursing team'**
+  String get syncSentShort;
+
+  /// No description provided for @syncQueuedShort.
+  ///
+  /// In en, this message translates to:
+  /// **'Saved on this phone — not sent yet'**
+  String get syncQueuedShort;
+
+  /// No description provided for @activeGateTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'You already have an open report'**
+  String get activeGateTitle;
+
+  /// No description provided for @activeGateBody.
+  ///
+  /// In en, this message translates to:
+  /// **'The nursing team already has your report. Anything new joins the SAME report as an update — you never start again and nothing is lost.'**
+  String get activeGateBody;
+
+  /// No description provided for @activeGateUpdate.
+  ///
+  /// In en, this message translates to:
+  /// **'Add an update to my report'**
+  String get activeGateUpdate;
+
+  /// No description provided for @activeGateNewLead.
+  ///
+  /// In en, this message translates to:
+  /// **'Is this a completely different, new situation?'**
+  String get activeGateNewLead;
+
+  /// No description provided for @activeGateNew.
+  ///
+  /// In en, this message translates to:
+  /// **'Start a separate new report'**
+  String get activeGateNew;
+
+  /// No description provided for @stepOf.
+  ///
+  /// In en, this message translates to:
+  /// **'Step {current} of {total}'**
+  String stepOf(int current, int total);
+
+  /// No description provided for @accountEmail.
+  ///
+  /// In en, this message translates to:
+  /// **'Email'**
+  String get accountEmail;
+
+  /// No description provided for @consentHint.
+  ///
+  /// In en, this message translates to:
+  /// **'To send, please agree to share your answers with the nursing team.'**
+  String get consentHint;
 }
 
 class _AppLocalizationsDelegate

@@ -20,17 +20,6 @@ class AppLocalizationsEn extends AppLocalizations {
   }
 
   @override
-  String get entryTitle => 'Tell the nursing team how you are';
-
-  @override
-  String get entryBody1 =>
-      'You answer a few questions and describe how you feel, in your own words. What you send goes to the nursing team for a nurse to read.';
-
-  @override
-  String get entryBody2 =>
-      'It takes a few minutes. You can stop at any point — nothing you enter is lost.';
-
-  @override
   String get entryNameLabel => 'Your first name (first name is enough)';
 
   @override
@@ -44,21 +33,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get continueLabel => 'Continue';
 
   @override
-  String get entryAgreeHint =>
-      'To continue, please agree to both statements above.';
-
-  @override
-  String get resumeTitle => 'Welcome back';
-
-  @override
-  String get resumeBody =>
-      'You have an unfinished description. Your answers are saved on this phone — you can continue where you left off.';
-
-  @override
   String get resumeContinue => 'Continue where you left off';
-
-  @override
-  String get startOver => 'Start again from the beginning';
 
   @override
   String get safetyQuestionsEyebrow => 'Safety questions';
@@ -249,13 +224,6 @@ class AppLocalizationsEn extends AppLocalizations {
       'Not available right now — your own words stay exactly as they are.';
 
   @override
-  String get authTitle => 'Sign in to send';
-
-  @override
-  String get authLead =>
-      'Your answers are ready. To send them to the nursing team, sign in or create an account. Everything stays saved on this phone while you do.';
-
-  @override
   String get emailSignInTitle => 'Sign in with email';
 
   @override
@@ -316,9 +284,6 @@ class AppLocalizationsEn extends AppLocalizations {
   String get backLabel => 'Back';
 
   @override
-  String get statusTitle => 'What you have sent';
-
-  @override
   String get caseRefLabel => 'Your case reference:';
 
   @override
@@ -343,9 +308,6 @@ class AppLocalizationsEn extends AppLocalizations {
       'If anything changes, tap \"My condition has changed\" below. Your update joins this same case — you never start again.';
 
   @override
-  String get yourAccount => 'Your account';
-
-  @override
   String get offlineStrip => 'Offline — your answers save on this phone';
 
   @override
@@ -354,9 +316,6 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String get statusCaseGoneBody =>
       'Your saved case is no longer available. You can start again.';
-
-  @override
-  String get startAgain => 'Start again';
 
   @override
   String get updateEyebrow => 'Your update';
@@ -451,4 +410,123 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String get smsRegionBlocked =>
       'SMS to this country is currently blocked by the project\'s SMS region policy / daily quota. For testing: add your number as a TEST phone number in Firebase console (Authentication → Sign-in method → Phone → Phone numbers for testing) and sign in with its fixed code — no SMS needed. For real SMS: enable the country in Authentication → Settings → SMS region policy, and add billing.\n\nإرسال الرسائل لهذه الدولة محجوب حاليًا بسياسة مناطق الرسائل / الحصة اليومية للمشروع. للتجربة: أضف رقمك كرقم اختبار في وحدة تحكم Firebase (Authentication ← Sign-in method ← Phone ← Phone numbers for testing) وادخل بالكود الثابت — بدون رسائل. للرسائل الحقيقية: فعّل الدولة من Authentication ← Settings ← SMS region policy وأضف الفوترة.';
+
+  @override
+  String get welcomeTitle => 'Tell the nursing team how you are';
+
+  @override
+  String get welcomeBody =>
+      'You describe how you feel, from home, and a nurse reads it. Create an account so the team knows who is writing, or sign in if you already have one.';
+
+  @override
+  String get registerLead =>
+      'One email and one password — that is all you need.';
+
+  @override
+  String get profileTitle => 'What is your name?';
+
+  @override
+  String get profileLead =>
+      'Your first name is enough. The nursing team sees it with what you send.';
+
+  @override
+  String get profileHint =>
+      'To continue, write your name and agree to the terms.';
+
+  @override
+  String get tabHome => 'Home';
+
+  @override
+  String get tabReports => 'My reports';
+
+  @override
+  String get tabAccount => 'Account';
+
+  @override
+  String homeGreeting(String name) {
+    return 'Hello, $name';
+  }
+
+  @override
+  String get homeGreetingNoName => 'Hello';
+
+  @override
+  String get homeLead =>
+      'This is your place to tell the nursing team how you are.';
+
+  @override
+  String get reportAction => 'Report my condition';
+
+  @override
+  String get resumeCardTitle => 'Finish your report';
+
+  @override
+  String get resumeCardBody =>
+      'Your report is saved on this phone. You can continue from where you stopped.';
+
+  @override
+  String get discardDraft => 'Delete the draft and start over';
+
+  @override
+  String get activeCardTitle => 'Your current report';
+
+  @override
+  String get viewDetails => 'View details';
+
+  @override
+  String reportRowUpdates(int count) {
+    return 'Updates: $count';
+  }
+
+  @override
+  String get helpCardTitle => 'If you need help now';
+
+  @override
+  String emergencyInfoLine(String number) {
+    return 'For an emergency, call $number or use the Emergency button at the top of the screen.';
+  }
+
+  @override
+  String get reportsEmptyTitle => 'No reports yet';
+
+  @override
+  String get reportsEmptyBody => 'Start from Home — tap “Report my condition”.';
+
+  @override
+  String get detailTitle => 'Your report';
+
+  @override
+  String get syncSentShort => 'Sent to the nursing team';
+
+  @override
+  String get syncQueuedShort => 'Saved on this phone — not sent yet';
+
+  @override
+  String get activeGateTitle => 'You already have an open report';
+
+  @override
+  String get activeGateBody =>
+      'The nursing team already has your report. Anything new joins the SAME report as an update — you never start again and nothing is lost.';
+
+  @override
+  String get activeGateUpdate => 'Add an update to my report';
+
+  @override
+  String get activeGateNewLead =>
+      'Is this a completely different, new situation?';
+
+  @override
+  String get activeGateNew => 'Start a separate new report';
+
+  @override
+  String stepOf(int current, int total) {
+    return 'Step $current of $total';
+  }
+
+  @override
+  String get accountEmail => 'Email';
+
+  @override
+  String get consentHint =>
+      'To send, please agree to share your answers with the nursing team.';
 }

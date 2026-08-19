@@ -172,8 +172,11 @@ credential in history, rotate it and tell Mohammed.
 - Clinician app: email+password account creation in-app, but ACCESS is
   invitation-gated: `invitations/{lowercase-email}` created in the dashboard;
   an email without an invitation reaches only the not-invited screen.
-- Patient app: self-registration (email+password); red flags and the emergency
-  control come BEFORE any auth — safety is never gated behind an account.
+- Patient app (D-015): auth-first (self-registration, email+password), then
+  Home + bottom tabs (Home · My Reports · Account). The EMERGENCY control stays
+  on every screen INCLUDING auth screens — calling for help never needs an
+  account (§2.7). Red flags run at the start of every report: local,
+  deterministic, offline.
 - Dashboard: email+password for managers.
 
 ### W8 — Destructive operations are human-only.

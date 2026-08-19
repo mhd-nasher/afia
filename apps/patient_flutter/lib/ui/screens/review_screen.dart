@@ -21,7 +21,11 @@ import '../../theme/tokens.dart';
 import '../widgets/common.dart';
 
 class ReviewScreen extends StatelessWidget {
-  const ReviewScreen({super.key});
+  /// Called after the report was handed to the repo (the user is already
+  /// signed in — D-015 removed the mid-flow account gate). The flow route
+  /// pops back to Home, which shows the new report's status card.
+  final VoidCallback onSent;
+  const ReviewScreen({super.key, required this.onSent});
 
   String _redFlagLabel(BuildContext context, AnswerState? a) {
     final t = l10n(context);
@@ -152,7 +156,26 @@ class ReviewScreen extends StatelessWidget {
       ],
 
       const SizedBox(height: 18),
-      PrimaryButton(label: t.sendToTeam, onTap: model.requestSend),
+      // §3.3 — sharing consent is its own record, granted knowingly at the
+      // moment of sending, separate from the terms accepted at registration.
+      ToggleRow(
+        checked: e.consentGiven,
+        label: t.entryConsent,
+        onChanged: model.setConsent,
+      ),
+      PrimaryButton(
+        label: t.sendToTeam,
+        onTap: e.consentGiven
+            ? () async {
+                await model.send();
+                onSent();
+              }
+            : null,
+      ),
+      if (!e.consentGiven) ...[
+        const SizedBox(height: 8),
+        BodyText(t.consentHint, color: PatientColors.inkDim),
+      ],
     ]);
   }
 

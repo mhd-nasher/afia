@@ -10,18 +10,11 @@
       }
     }
   },
-  "entryTitle": "Tell the nursing team how you are",
-  "entryBody1": "You answer a few questions and describe how you feel, in your own words. What you send goes to the nursing team for a nurse to read.",
-  "entryBody2": "It takes a few minutes. You can stop at any point — nothing you enter is lost.",
   "entryNameLabel": "Your first name (first name is enough)",
   "entryTerms": "I agree to the terms of use",
   "entryConsent": "I agree that my answers are shared with the nursing team",
   "continueLabel": "Continue",
-  "entryAgreeHint": "To continue, please agree to both statements above.",
-  "resumeTitle": "Welcome back",
-  "resumeBody": "You have an unfinished description. Your answers are saved on this phone — you can continue where you left off.",
   "resumeContinue": "Continue where you left off",
-  "startOver": "Start again from the beginning",
   "safetyQuestionsEyebrow": "Safety questions",
   "safetyQuestionsRepeatEyebrow": "Safety questions — asked again, to be safe",
   "answerYes": "Yes",
@@ -123,8 +116,6 @@
   "translateToArabic": "Show in Arabic",
   "translateToEnglish": "Show in English",
   "aiUnavailable": "Not available right now — your own words stay exactly as they are.",
-  "authTitle": "Sign in to send",
-  "authLead": "Your answers are ready. To send them to the nursing team, sign in or create an account. Everything stays saved on this phone while you do.",
   "emailSignInTitle": "Sign in with email",
   "emailRegisterTitle": "Create your account",
   "emailLabel": "Your email",
@@ -151,7 +142,6 @@
   "emailInUse": "There is already an account with this email. Try signing in.",
   "wrongPassword": "That email and password did not match.",
   "backLabel": "Back",
-  "statusTitle": "What you have sent",
   "caseRefLabel": "Your case reference:",
   "updateInitial": "Your answers and description",
   "updateConditionChanged": "Condition update",
@@ -159,11 +149,9 @@
   "syncQueued": "Saved on this phone. NOT yet sent — it will send when you're back online. The nursing team has NOT seen it.",
   "mandatoryStatusCopy": "No one is watching your condition continuously. If things get worse, use the button below, call the nurse line, or call emergency services.",
   "statusChangeHint": "If anything changes, tap \"My condition has changed\" below. Your update joins this same case — you never start again.",
-  "yourAccount": "Your account",
   "offlineStrip": "Offline — your answers save on this phone",
   "statusCaseGoneTitle": "Your case is no longer available",
   "statusCaseGoneBody": "Your saved case is no longer available. You can start again.",
-  "startAgain": "Start again",
   "updateEyebrow": "Your update",
   "updateTitle": "What has changed since last time?",
   "updateLead": "Talk or type — whichever is easier right now.",
@@ -199,5 +187,70 @@
   "chooseArabic": "المتابعة بالعربية",
   "errorGeneric": "Something went wrong. Your answers are still saved on this phone.",
   "loading": "Loading…",
-  "smsRegionBlocked": "SMS to this country is currently blocked by the project's SMS region policy / daily quota. For testing: add your number as a TEST phone number in Firebase console (Authentication → Sign-in method → Phone → Phone numbers for testing) and sign in with its fixed code — no SMS needed. For real SMS: enable the country in Authentication → Settings → SMS region policy, and add billing.\n\nإرسال الرسائل لهذه الدولة محجوب حاليًا بسياسة مناطق الرسائل / الحصة اليومية للمشروع. للتجربة: أضف رقمك كرقم اختبار في وحدة تحكم Firebase (Authentication ← Sign-in method ← Phone ← Phone numbers for testing) وادخل بالكود الثابت — بدون رسائل. للرسائل الحقيقية: فعّل الدولة من Authentication ← Settings ← SMS region policy وأضف الفوترة."
+  "smsRegionBlocked": "SMS to this country is currently blocked by the project's SMS region policy / daily quota. For testing: add your number as a TEST phone number in Firebase console (Authentication → Sign-in method → Phone → Phone numbers for testing) and sign in with its fixed code — no SMS needed. For real SMS: enable the country in Authentication → Settings → SMS region policy, and add billing.\n\nإرسال الرسائل لهذه الدولة محجوب حاليًا بسياسة مناطق الرسائل / الحصة اليومية للمشروع. للتجربة: أضف رقمك كرقم اختبار في وحدة تحكم Firebase (Authentication ← Sign-in method ← Phone ← Phone numbers for testing) وادخل بالكود الثابت — بدون رسائل. للرسائل الحقيقية: فعّل الدولة من Authentication ← Settings ← SMS region policy وأضف الفوترة.",
+  "welcomeTitle": "Tell the nursing team how you are",
+  "welcomeBody": "You describe how you feel, from home, and a nurse reads it. Create an account so the team knows who is writing, or sign in if you already have one.",
+  "registerLead": "One email and one password — that is all you need.",
+  "profileTitle": "What is your name?",
+  "profileLead": "Your first name is enough. The nursing team sees it with what you send.",
+  "profileHint": "To continue, write your name and agree to the terms.",
+  "tabHome": "Home",
+  "tabReports": "My reports",
+  "tabAccount": "Account",
+  "homeGreeting": "Hello, {name}",
+  "@homeGreeting": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "homeGreetingNoName": "Hello",
+  "homeLead": "This is your place to tell the nursing team how you are.",
+  "reportAction": "Report my condition",
+  "resumeCardTitle": "Finish your report",
+  "resumeCardBody": "Your report is saved on this phone. You can continue from where you stopped.",
+  "discardDraft": "Delete the draft and start over",
+  "activeCardTitle": "Your current report",
+  "viewDetails": "View details",
+  "reportRowUpdates": "Updates: {count}",
+  "@reportRowUpdates": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "helpCardTitle": "If you need help now",
+  "emergencyInfoLine": "For an emergency, call {number} or use the Emergency button at the top of the screen.",
+  "@emergencyInfoLine": {
+    "placeholders": {
+      "number": {
+        "type": "String"
+      }
+    }
+  },
+  "reportsEmptyTitle": "No reports yet",
+  "reportsEmptyBody": "Start from Home — tap “Report my condition”.",
+  "detailTitle": "Your report",
+  "syncSentShort": "Sent to the nursing team",
+  "syncQueuedShort": "Saved on this phone — not sent yet",
+  "activeGateTitle": "You already have an open report",
+  "activeGateBody": "The nursing team already has your report. Anything new joins the SAME report as an update — you never start again and nothing is lost.",
+  "activeGateUpdate": "Add an update to my report",
+  "activeGateNewLead": "Is this a completely different, new situation?",
+  "activeGateNew": "Start a separate new report",
+  "stepOf": "Step {current} of {total}",
+  "@stepOf": {
+    "placeholders": {
+      "current": {
+        "type": "int"
+      },
+      "total": {
+        "type": "int"
+      }
+    }
+  },
+  "accountEmail": "Email",
+  "consentHint": "To send, please agree to share your answers with the nursing team."
 }

@@ -10,19 +10,19 @@ import '../../state/episode_model.dart';
 import '../widgets/common.dart';
 
 class UpdateConfirmScreen extends StatelessWidget {
-  const UpdateConfirmScreen({super.key});
+  final VoidCallback onDone;
+  const UpdateConfirmScreen({super.key, required this.onDone});
 
   @override
   Widget build(BuildContext context) {
     final t = l10n(context);
-    final model = EpisodeModel.instance;
-    final caseId = model.episode.caseId ?? '';
+    final caseId = EpisodeModel.instance.episode.caseId ?? '';
     return StepPage(children: [
       PageTitle(t.updateAddedTitle),
       BodyText(t.updateAddedBody),
       BodyText(t.caseRefStill(shortRef(caseId))),
       const SizedBox(height: 12),
-      PrimaryButton(label: t.backToCase, onTap: model.backToStatus),
+      PrimaryButton(label: t.backToCase, onTap: onDone),
     ]);
   }
 }

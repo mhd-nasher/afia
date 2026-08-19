@@ -1,24 +1,31 @@
-/// Root widget. Structure IS the safety argument (§2.7 / F-051):
+/// Root widget (D-015: a conventional, obvious app — auth first, then Home
+/// with a bottom tab bar). Structure is still the safety argument
+/// (§2.7 / F-051):
 ///
 ///   MaterialApp.builder
 ///     └─ Stack
-///         ├─ Navigator child    ← the ENTIRE step hierarchy lives here
+///         ├─ Navigator child    ← routes: gate → welcome/auth → tabs/flows
 ///         ├─ EmergencyInterrupt ← full-screen overlay when triggered
-///         └─ SafetyLayer        ← fixture + dock, above everything
+///         └─ SafetyLayer        ← the emergency fixture, above EVERYTHING —
+///                                 including the welcome/auth screens: a
+///                                 person in distress at the login wall can
+///                                 still reach 999 with one tap.
 ///
-/// The emergency control is composed OUTSIDE the step view hierarchy, so no
-/// screen, keyboard, overlay or loading state can occlude it — a step cannot
-/// even express covering it. Warm light theme only; AR/EN with full RTL.
+/// Warm light theme only; AR/EN with full RTL.
 library;
 
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 
 import 'l10n/gen/app_localizations.dart';
+import 'services/auth_service.dart';
 import 'state/app_settings.dart';
 import 'state/episode_model.dart';
 import 'theme/app_theme.dart';
-import 'ui/flow_host.dart';
+import 'theme/tokens.dart';
+import 'ui/home_shell.dart';
+import 'ui/screens/auth_screens.dart';
 import 'ui/screens/emergency_interrupt.dart';
 import 'ui/screens/language_screen.dart';
 import 'ui/widgets/safety_layer.dart';
@@ -50,7 +57,7 @@ class AfiaPatientApp extends StatelessWidget {
           builder: (context, child) {
             return Stack(children: [
               child ?? const SizedBox.shrink(),
-              // The interrupt overlays the steps but sits BELOW the
+              // The interrupt overlays every route but sits BELOW the
               // safety layer's decision to yield to it.
               ListenableBuilder(
                 listenable: EpisodeModel.instance,
@@ -80,11 +87,60 @@ class _Root extends StatelessWidget {
       listenable: AppSettings.instance,
       builder: (context, _) {
         // First-run language choice (AR/EN) before anything else. The safety
-        // layer is already present above it — emergency works from screen one.
+        // layer is already present above it — emergency works from screen
+        // one, before any account exists (§2.7).
         if (!AppSettings.instance.localeChosen) {
           return const LanguageScreen();
         }
-        return const FlowHost();
+        return const AuthGate();
+      },
+    );
+  }
+}
+
+/// Auth FIRST (D-015): no session → welcome (register / sign in); an
+/// existing session goes straight to Home. Firebase being unreachable never
+/// blocks the screen (the fixture and 999 work regardless).
+class AuthGate extends StatefulWidget {
+  const AuthGate({super.key});
+
+  @override
+  State<AuthGate> createState() => _AuthGateState();
+}
+
+class _AuthGateState extends State<AuthGate> {
+  late final Stream<User?> _authState = _safeAuthState();
+
+  static Stream<User?> _safeAuthState() {
+    try {
+      return PatientAuthService.instance.authState;
+    } catch (_) {
+      // Firebase failed to initialise (offline first start / tests): show
+      // the welcome door; the emergency fixture works regardless.
+      return Stream<User?>.value(null);
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return StreamBuilder<User?>(
+      stream: _authState,
+      builder: (context, snapshot) {
+        if (snapshot.connectionState == ConnectionState.waiting) {
+          return const Scaffold(
+            backgroundColor: PatientColors.pageBg,
+            body: Center(
+              child: SizedBox(
+                width: 22,
+                height: 22,
+                child: CircularProgressIndicator(
+                    strokeWidth: 2.5, color: PatientColors.action),
+              ),
+            ),
+          );
+        }
+        if (snapshot.data == null) return const WelcomeScreen();
+        return const HomeShell();
       },
     );
   }

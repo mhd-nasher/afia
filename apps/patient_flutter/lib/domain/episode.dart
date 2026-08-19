@@ -10,24 +10,30 @@ import 'answer.dart';
 import 'patient_case.dart';
 import 'red_flags.dart';
 
+/// D-015: the app is a conventional tabbed app; these are the steps of the
+/// REPORT flow (pushed from Home) and the UPDATE flow only. Auth, home,
+/// history and account are ordinary routes/tabs, not steps.
 enum StepKind {
-  entry,
   redflag,
   who,
   voice,
   functional,
   review,
-  auth, // account gate — AFTER the safety questions, by design
-  status,
-  account,
   updateRedflag,
   updateDelta,
   updateConfirm;
 
   static StepKind parse(String name) => StepKind.values.firstWhere(
         (v) => v.name == name,
-        orElse: () => StepKind.entry,
+        // Unknown/legacy step names land on the first safety question —
+        // never past it (§2.7: red flags open every report).
+        orElse: () => StepKind.redflag,
       );
+
+  bool get isUpdateFlow =>
+      this == StepKind.updateRedflag ||
+      this == StepKind.updateDelta ||
+      this == StepKind.updateConfirm;
 }
 
 class Step {
@@ -93,7 +99,10 @@ class EpisodeState {
   /// Set when an Edit button on the review screen jumped back to a question.
   final bool returnToReview;
   final String name;
-  final bool termsAccepted;
+
+  /// True while a report draft is in progress (started, not yet sent) —
+  /// Home shows the "finish your report" card (D-015).
+  final bool draftStarted;
   final bool consentGiven;
   final String? consentId;
   final String? completedBy; // 'self' | 'carer'
@@ -109,10 +118,10 @@ class EpisodeState {
   final UpdateDraft? update;
 
   const EpisodeState({
-    this.step = const Step(StepKind.entry),
+    this.step = const Step(StepKind.redflag),
     this.returnToReview = false,
     this.name = '',
-    this.termsAccepted = false,
+    this.draftStarted = false,
     this.consentGiven = false,
     this.consentId,
     this.completedBy,
@@ -131,7 +140,7 @@ class EpisodeState {
     Step? step,
     bool? returnToReview,
     String? name,
-    bool? termsAccepted,
+    bool? draftStarted,
     bool? consentGiven,
     Object? consentId = _sentinel,
     Object? completedBy = _sentinel,
@@ -147,7 +156,7 @@ class EpisodeState {
         step: step ?? this.step,
         returnToReview: returnToReview ?? this.returnToReview,
         name: name ?? this.name,
-        termsAccepted: termsAccepted ?? this.termsAccepted,
+        draftStarted: draftStarted ?? this.draftStarted,
         consentGiven: consentGiven ?? this.consentGiven,
         consentId:
             identical(consentId, _sentinel) ? this.consentId : consentId as String?,
@@ -171,7 +180,7 @@ class EpisodeState {
         'step': step.toMap(),
         'returnToReview': returnToReview,
         'name': name,
-        'termsAccepted': termsAccepted,
+        'draftStarted': draftStarted,
         'consentGiven': consentGiven,
         'consentId': consentId,
         'completedBy': completedBy,
@@ -189,7 +198,7 @@ class EpisodeState {
         step: Step.fromMap(Map<String, dynamic>.from(m['step'] as Map? ?? {})),
         returnToReview: m['returnToReview'] as bool? ?? false,
         name: m['name'] as String? ?? '',
-        termsAccepted: m['termsAccepted'] as bool? ?? false,
+        draftStarted: m['draftStarted'] as bool? ?? false,
         consentGiven: m['consentGiven'] as bool? ?? false,
         consentId: m['consentId'] as String?,
         completedBy: m['completedBy'] as String?,
@@ -222,10 +231,9 @@ class EpisodeState {
     }
   }
 
-  /// A description is "unfinished" when the person got past entry but has
-  /// not submitted — the entry screen shows its resume variant (§6 entry).
-  bool get hasUnfinishedDescription =>
-      caseId == null && step.kind != StepKind.entry;
+  /// An unfinished report draft exists — Home shows the resume card
+  /// («أكمل تقريرك», D-015). Every keystroke is already on disk (F-055).
+  bool get hasDraft => draftStarted && !step.kind.isUpdateFlow;
 
   List<RedFlagAnswer> redFlagPairs() => redFlagAnswers.entries
       .map((e) => RedFlagAnswer(questionId: e.key, answer: e.value))

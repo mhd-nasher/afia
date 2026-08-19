@@ -20,17 +20,6 @@ class AppLocalizationsAr extends AppLocalizations {
   }
 
   @override
-  String get entryTitle => 'أخبر فريق التمريض كيف حالك';
-
-  @override
-  String get entryBody1 =>
-      'ستجيب عن بضعة أسئلة وتصف شعورك بكلماتك أنت. ما ترسله يذهب إلى فريق التمريض لتقرأه ممرضة.';
-
-  @override
-  String get entryBody2 =>
-      'يستغرق الأمر دقائق قليلة. يمكنك التوقف في أي لحظة — لا يضيع شيء مما تدخله.';
-
-  @override
   String get entryNameLabel => 'اسمك الأول (الاسم الأول يكفي)';
 
   @override
@@ -43,20 +32,7 @@ class AppLocalizationsAr extends AppLocalizations {
   String get continueLabel => 'متابعة';
 
   @override
-  String get entryAgreeHint => 'للمتابعة، الرجاء الموافقة على العبارتين أعلاه.';
-
-  @override
-  String get resumeTitle => 'أهلاً بعودتك';
-
-  @override
-  String get resumeBody =>
-      'لديك وصف غير مكتمل. إجاباتك محفوظة على هذا الهاتف — يمكنك المتابعة من حيث توقفت.';
-
-  @override
   String get resumeContinue => 'المتابعة من حيث توقفت';
-
-  @override
-  String get startOver => 'البدء من جديد';
 
   @override
   String get safetyQuestionsEyebrow => 'أسئلة السلامة';
@@ -246,13 +222,6 @@ class AppLocalizationsAr extends AppLocalizations {
   String get aiUnavailable => 'غير متاح الآن — تبقى كلماتك كما هي تماماً.';
 
   @override
-  String get authTitle => 'سجّل الدخول للإرسال';
-
-  @override
-  String get authLead =>
-      'إجاباتك جاهزة. لإرسالها إلى فريق التمريض، سجّل الدخول أو أنشئ حساباً. يبقى كل شيء محفوظاً على هذا الهاتف في هذه الأثناء.';
-
-  @override
   String get emailSignInTitle => 'تسجيل الدخول بالبريد الإلكتروني';
 
   @override
@@ -313,9 +282,6 @@ class AppLocalizationsAr extends AppLocalizations {
   String get backLabel => 'رجوع';
 
   @override
-  String get statusTitle => 'ما قمت بإرساله';
-
-  @override
   String get caseRefLabel => 'رقم مرجع حالتك:';
 
   @override
@@ -340,9 +306,6 @@ class AppLocalizationsAr extends AppLocalizations {
       'إذا تغيّر أي شيء، اضغط \"حالتي تغيّرت\" أدناه. ينضم تحديثك إلى هذه الحالة نفسها — لن تبدأ من جديد أبداً.';
 
   @override
-  String get yourAccount => 'حسابك';
-
-  @override
   String get offlineStrip => 'غير متصل — تُحفظ إجاباتك على هذا الهاتف';
 
   @override
@@ -351,9 +314,6 @@ class AppLocalizationsAr extends AppLocalizations {
   @override
   String get statusCaseGoneBody =>
       'حالتك المحفوظة لم تعد متوفرة. يمكنك البدء من جديد.';
-
-  @override
-  String get startAgain => 'ابدأ من جديد';
 
   @override
   String get updateEyebrow => 'تحديثك';
@@ -448,4 +408,119 @@ class AppLocalizationsAr extends AppLocalizations {
   @override
   String get smsRegionBlocked =>
       'إرسال الرسائل لهذه الدولة محجوب حاليًا بسياسة مناطق الرسائل / الحصة اليومية للمشروع. للتجربة: أضف رقمك كرقم اختبار في وحدة تحكم Firebase (Authentication ← Sign-in method ← Phone ← Phone numbers for testing) وادخل بالكود الثابت — بدون رسائل. للرسائل الحقيقية: فعّل الدولة من Authentication ← Settings ← SMS region policy وأضف الفوترة.\n\nSMS to this country is currently blocked by the project\'s SMS region policy / daily quota. For testing: add your number as a TEST phone number in Firebase console (Authentication → Sign-in method → Phone → Phone numbers for testing) and sign in with its fixed code — no SMS needed. For real SMS: enable the country in Authentication → Settings → SMS region policy, and add billing.';
+
+  @override
+  String get welcomeTitle => 'أخبر فريق التمريض كيف حالك';
+
+  @override
+  String get welcomeBody =>
+      'تصف شعورك من البيت، وتقرأه ممرضة. أنشئ حساباً حتى يعرف الفريق من يكتب، أو سجّل الدخول إذا كان لديك حساب.';
+
+  @override
+  String get registerLead =>
+      'بريد إلكتروني واحد وكلمة مرور واحدة — هذا كل ما تحتاجه.';
+
+  @override
+  String get profileTitle => 'ما اسمك؟';
+
+  @override
+  String get profileLead => 'اسمك الأول يكفي. يراه فريق التمريض مع ما ترسله.';
+
+  @override
+  String get profileHint => 'للمتابعة، اكتب اسمك ووافق على الشروط.';
+
+  @override
+  String get tabHome => 'الرئيسية';
+
+  @override
+  String get tabReports => 'تقاريري';
+
+  @override
+  String get tabAccount => 'حسابي';
+
+  @override
+  String homeGreeting(String name) {
+    return 'أهلاً $name';
+  }
+
+  @override
+  String get homeGreetingNoName => 'أهلاً بك';
+
+  @override
+  String get homeLead => 'هذا مكانك لتخبر فريق التمريض كيف حالك.';
+
+  @override
+  String get reportAction => 'أبلغ عن حالتي';
+
+  @override
+  String get resumeCardTitle => 'أكمل تقريرك';
+
+  @override
+  String get resumeCardBody =>
+      'تقريرك محفوظ على هذا الهاتف. يمكنك المتابعة من حيث توقفت.';
+
+  @override
+  String get discardDraft => 'احذف المسودة وابدأ من جديد';
+
+  @override
+  String get activeCardTitle => 'تقريرك الحالي';
+
+  @override
+  String get viewDetails => 'عرض التفاصيل';
+
+  @override
+  String reportRowUpdates(int count) {
+    return 'التحديثات: $count';
+  }
+
+  @override
+  String get helpCardTitle => 'إذا احتجت مساعدة الآن';
+
+  @override
+  String emergencyInfoLine(String number) {
+    return 'للطوارئ، اتصل على $number أو استخدم زر الطوارئ أعلى الشاشة.';
+  }
+
+  @override
+  String get reportsEmptyTitle => 'ما عندك تقارير بعد';
+
+  @override
+  String get reportsEmptyBody => 'ابدأ من الرئيسية — اضغط «أبلغ عن حالتي».';
+
+  @override
+  String get detailTitle => 'تقريرك';
+
+  @override
+  String get syncSentShort => 'أُرسل إلى فريق التمريض';
+
+  @override
+  String get syncQueuedShort => 'محفوظ على هذا الهاتف — لم يُرسل بعد';
+
+  @override
+  String get activeGateTitle => 'لديك تقرير مفتوح بالفعل';
+
+  @override
+  String get activeGateBody =>
+      'فريق التمريض لديه تقريرك بالفعل. أي جديد ينضم إلى التقرير نفسه كتحديث — لن تبدأ من جديد ولن يضيع شيء.';
+
+  @override
+  String get activeGateUpdate => 'أضف تحديثاً إلى تقريري';
+
+  @override
+  String get activeGateNewLead => 'هل هذا وضع جديد مختلف تماماً؟';
+
+  @override
+  String get activeGateNew => 'ابدأ تقريراً جديداً منفصلاً';
+
+  @override
+  String stepOf(int current, int total) {
+    return 'خطوة $current من $total';
+  }
+
+  @override
+  String get accountEmail => 'البريد الإلكتروني';
+
+  @override
+  String get consentHint =>
+      'للإرسال، الرجاء الموافقة على مشاركة إجاباتك مع فريق التمريض.';
 }

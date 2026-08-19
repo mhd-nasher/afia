@@ -12,11 +12,19 @@ import '../../theme/tokens.dart';
 
 AppLocalizations l10n(BuildContext context) => AppLocalizations.of(context);
 
-/// The standard step page: scrolling column, warm page background, top
-/// clearance for the emergency fixture, bottom clearance for the dock.
+/// The standard page: scrolling column, warm page background, top clearance
+/// for the emergency fixture (override [topPadding] when a flow header
+/// already provides that clearance).
 class StepPage extends StatelessWidget {
   final List<Widget> children;
-  const StepPage({super.key, required this.children});
+  final double topPadding;
+  final double bottomPadding;
+  const StepPage({
+    super.key,
+    required this.children,
+    this.topPadding = 88, // clears the 64px emergency fixture
+    this.bottomPadding = 140,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -28,11 +36,11 @@ class StepPage extends StatelessWidget {
           child: ConstrainedBox(
             constraints: const BoxConstraints(maxWidth: 560),
             child: ListView(
-              padding: const EdgeInsets.fromLTRB(
+              padding: EdgeInsets.fromLTRB(
                   PatientDimens.pagePadding,
-                  88, // clears the 64px emergency fixture
+                  topPadding,
                   PatientDimens.pagePadding,
-                  200), // clears the safety dock
+                  bottomPadding),
               children: children,
             ),
           ),
