@@ -43,15 +43,14 @@ flutter build apk --debug
 
 ## Console steps the operator still must do
 
-1. **Phone sign-in**: the Phone provider is enabled, but the project's SMS
-   region policy currently blocks +966/+973 — either allow those regions
-   (Authentication → Settings → SMS region policy) or add **test numbers**
-   (Authentication → Sign-in method → Phone → test numbers), e.g.
-   `+966555000001` with code `123456`. Invitations for `+966555000001`,
-   `+966555000002` and `+97333000001` are already seeded
-   (`scripts/seed-invitations.mjs`).
+1. **Email/Password provider** must be enabled (Authentication → Sign-in
+   method → Email/Password). Phone/OTP is removed from the product (D-012);
+   the SMS region policy no longer matters.
 2. **Anonymous auth** must stay enabled (used by the seed scripts and web
    surfaces, not by this app).
+3. **Invitations are keyed by lowercase email** (`invitations/{email}`),
+   created from the dashboard. Old phone-keyed invitation documents are
+   inert — no code path reads them.
 
 Firebase AI Logic (Gemini API) is enabled on the project; no toggle needed.
 
@@ -64,7 +63,7 @@ Firebase AI Logic (Gemini API) is enabled on the project; no toggle needed.
 | **Gemini model id** | `lib/services/ai_config.dart` → `geminiModelId` (one constant, with a fallback chain). The requested "gemini flash 3.7" does not exist; current Flash `gemini-3.5-flash` is used. |
 | Structuring (swappable §4.1) | `lib/services/structurer_service.dart` — `GeminiStructurer` (temperature 0, JSON schema, output validated: known fieldIds only + content traceable to transcript) with deterministic `KeywordStructurer` fallback (`lib/domain/structuring.dart`) used automatically offline/on error |
 | Afia Assistant (مساعد عافية) | `lib/services/assistant/` — tool-calling Gemini agent; tools are reorganisation-only (§4.3 judgements are not expressible); per-user memory at `aiMemory/{uid}` (owner-only rules) + learned drug corrections from the user's own audit events |
-| Phone-OTP + invitation claim | `lib/services/auth_service.dart` (claim writes ONLY `claimedBy`, per rules) |
+| Email auth + invitation claim (D-012) | `lib/services/auth_service.dart` (claim writes ONLY `claimedBy`, per rules) |
 | Export acknowledgement (A1.2) | `lib/services/export_engine.dart` + `Repo.awaitServerPersistence` |
 | FHIR DocumentReference generator | `lib/domain/export.dart` (port of `packages/export`) — viewable + copyable in-app. Wording: **FHIR-ready**, never "integrated". |
 | Emergency numbers (Bahrain) | `lib/domain/emergency.dart` — 999 / 444, bundled, mirrors `packages/rules/src/redFlags.ts` |
@@ -86,17 +85,19 @@ send-completion — is satisfied truthfully:
 - The FHIR generator produces valid `DocumentReference` JSON for a future
   EMR exporter — **FHIR-ready**, displayed and copyable, sent nowhere.
 
-## Auth flow (no login screen ≠ no auth)
+## Auth flow (D-012 — email + password only)
 
-splash → first-run language (AR/EN) → phone entry (+973 default, E.164,
-international allowed) → 6-digit OTP (auto-submit, resend cooldown) →
-invitation check on `invitations/{phoneE164}`:
+splash → first-run language (AR/EN) → email + password (sign in / create
+account with min-8-char password + confirmation / password reset email) →
+invitation check on `invitations/{lowercase-email}`:
 
 - unclaimed → creates `practitioners/{uid}` from the invitation (signature
   identity copied once, immutable — rules enforce), then sets `claimedBy`
+  (the only field a claim may touch)
 - claimed by this uid → proceeds
-- no invitation → "This number has no invitation" gate with sign-out; **no
-  registration path exists anywhere** (§11)
+- no invitation → "This email has no invitation" gate with prominent
+  sign-out. Creating an email account grants NO access — **access exists by
+  dashboard invitation only**; nothing in this app can grant it.
 
 ## Known device caveat
 

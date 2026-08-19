@@ -10,26 +10,17 @@ import {
 
 /**
  * Users — clinician accounts exist by invitation only (§5, §11). The invite
- * flow creates invitations/{phoneE164}; the clinician app claims one on first
- * OTP sign-in. The signature identity is fixed here, permanently (§2.5).
+ * flow creates invitations/{lowercase-email} (D-012); the clinician app claims
+ * one on first email sign-in. The signature identity is fixed here,
+ * permanently (§2.5). Legacy phone-keyed invitations render read-only.
  *
  * Deliberately absent (§2.9): any per-clinician speed, volume, or ranking
  * metric. Nothing here measures performance.
  */
 
-const COUNTRIES = [
-  { code: '+973', label: 'Bahrain +973' },
-  { code: '+966', label: 'Saudi Arabia +966' },
-  { code: '+971', label: 'UAE +971' },
-  { code: '+965', label: 'Kuwait +965' },
-  { code: '+974', label: 'Qatar +974' },
-  { code: '+968', label: 'Oman +968' },
-  { code: '+962', label: 'Jordan +962' },
-  { code: '+20', label: 'Egypt +20' },
-  { code: '+44', label: 'United Kingdom +44' },
-] as const
-
 type InviteRole = 'nurse' | 'charge_nurse' | 'manager'
+
+const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/
 
 const ROLE_PREFIX: Record<InviteRole, string> = {
   nurse: 'RN',
@@ -56,15 +47,14 @@ function InviteForm({
   onDone,
 }: {
   invitations: InvitationDoc[]
-  onDone: (phone: string) => void
+  onDone: (email: string) => void
 }): ReactNode {
   const manager = useManager()
   const wards = store.wards()
   const [name, setName] = useState('')
   const [role, setRole] = useState<InviteRole>('nurse')
   const [wardId, setWardId] = useState(wards[0]?.id ?? '')
-  const [country, setCountry] = useState<string>('+973')
-  const [national, setNational] = useState('')
+  const [emailInput, setEmailInput] = useState('')
   const [regNo, setRegNo] = useState('')
   const [sig, setSig] = useState('')
   const [sigTouched, setSigTouched] = useState(false)
@@ -76,18 +66,17 @@ function InviteForm({
   }`
   const signatureIdentity = sigTouched ? sig : composed
 
-  const digits = national.replace(/[^\d]/g, '').replace(/^0+/, '')
-  const phoneE164 = `${country}${digits}`
+  // Invitations are keyed by LOWERCASE email (D-012) — normalised before write.
+  const email = emailInput.trim().toLowerCase()
 
   const validate = (): string | null => {
     if (name.trim() === '') return 'Enter the clinician’s full name.'
-    if (digits.length < 7 || digits.length > 10)
-      return 'Enter a valid phone number (7–10 digits after the country code).'
+    if (!EMAIL_RE.test(email)) return 'Enter a valid email address.'
     if (wardId === '') return 'Pick a ward.'
     if (signatureIdentity.trim().length < 4)
       return 'Compose the signature identity — it appears on every signed handover.'
-    if (invitations.some((i) => i.phone === phoneE164))
-      return `An invitation already exists for ${phoneE164} — invitations cannot be overwritten.`
+    if (invitations.some((i) => i.id === email))
+      return `An invitation already exists for ${email} — invitations cannot be overwritten.`
     return null
   }
 
@@ -101,7 +90,7 @@ function InviteForm({
     setBusy(true)
     try {
       await createInvitation({
-        phone: phoneE164,
+        email,
         name: name.trim(),
         role,
         wardId,
@@ -110,7 +99,7 @@ function InviteForm({
         createdAt: Date.now(),
         claimedBy: null,
       })
-      onDone(phoneE164)
+      onDone(email)
     } catch (e) {
       setError(
         e instanceof Error
@@ -149,30 +138,17 @@ function InviteForm({
 
       <div className="invite-grid">
         <span>
-          <span className="field-label">Phone — the clinician signs in with this number</span>
-          <span className="phone-row">
-            <select
-              className="input input-sm"
-              value={country}
-              onChange={(e) => setCountry(e.target.value)}
-              aria-label="Country code"
-            >
-              {COUNTRIES.map((c) => (
-                <option key={c.code} value={c.code}>
-                  {c.label}
-                </option>
-              ))}
-            </select>
-            <input
-              className="input input-sm input-mono"
-              value={national}
-              onChange={(e) => setNational(e.target.value)}
-              placeholder="33001122"
-              inputMode="numeric"
-            />
-          </span>
+          <span className="field-label">Email — the clinician signs in with this email</span>
+          <input
+            className="input input-sm input-mono"
+            type="email"
+            value={emailInput}
+            onChange={(e) => setEmailInput(e.target.value)}
+            placeholder="nurse@hospital.example"
+            inputMode="email"
+          />
           <span className="cell-sub">
-            Stored as <span className="mono">{phoneE164}</span>
+            Stored as <span className="mono">{email === '' ? 'lowercase email' : email}</span>
           </span>
         </span>
         <span>
@@ -272,9 +248,9 @@ export function Users(): ReactNode {
       <section className="panel">
         <h2>Invite clinician</h2>
         <p className="panel-caption">
-          Creates an invitation keyed to the clinician&apos;s phone number. Their
-          first sign-in on the clinician app claims it and creates the account with
-          the identity fixed below.
+          Creates an invitation keyed to the clinician&apos;s email. Their first
+          sign-in on the clinician app claims it and creates the account with the
+          identity fixed below — an email without an invitation gets no access.
         </p>
         <button className="btn" onClick={() => setInviting((v) => !v)}>
           {inviting ? 'Hide invitation form' : 'Invite clinician'}
@@ -287,8 +263,8 @@ export function Users(): ReactNode {
         {inviting && (
           <InviteForm
             invitations={invitations}
-            onDone={(phone) => {
-              setCreatedMsg(`Invitation created for ${phone}.`)
+            onDone={(email) => {
+              setCreatedMsg(`Invitation created for ${email}.`)
             }}
           />
         )}
@@ -306,7 +282,7 @@ export function Users(): ReactNode {
           <table className="data">
             <thead>
               <tr>
-                <th>Phone</th>
+                <th>Email</th>
                 <th>Name</th>
                 <th>Role</th>
                 <th>Ward</th>
@@ -318,8 +294,13 @@ export function Users(): ReactNode {
             </thead>
             <tbody>
               {invitations.map((inv) => (
-                <tr key={inv.phone}>
-                  <td className="num">{inv.phone}</td>
+                <tr key={inv.id}>
+                  <td className="mono">
+                    {inv.email ?? inv.phone ?? inv.id}
+                    {inv.email === undefined && (
+                      <div className="cell-sub">legacy — phone-era invitation</div>
+                    )}
+                  </td>
                   <td>{inv.name}</td>
                   <td>{ROLE_LABELS[inv.role] ?? inv.role}</td>
                   <td>{inv.wardId !== undefined ? wardName(inv.wardId) : '—'}</td>

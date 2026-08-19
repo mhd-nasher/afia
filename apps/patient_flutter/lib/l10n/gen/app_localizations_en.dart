@@ -256,51 +256,6 @@ class AppLocalizationsEn extends AppLocalizations {
       'Your answers are ready. To send them to the nursing team, sign in or create an account. Everything stays saved on this phone while you do.';
 
   @override
-  String get authPhone => 'Use my phone number';
-
-  @override
-  String get authEmail => 'Use my email';
-
-  @override
-  String get phoneEntryTitle => 'Your phone number';
-
-  @override
-  String get phoneHint => '3300 0000';
-
-  @override
-  String get sendCode => 'Send me a code';
-
-  @override
-  String get phoneInvalid =>
-      'That phone number does not look complete. Please check it.';
-
-  @override
-  String get phoneAuthUnavailable =>
-      'Phone sign-in is not available right now. You can use email instead.';
-
-  @override
-  String get otpTitle => 'Enter the code';
-
-  @override
-  String otpSentTo(String phone) {
-    return 'We sent a code to $phone';
-  }
-
-  @override
-  String get otpInvalid => 'That code did not match. Please try again.';
-
-  @override
-  String get verifying => 'Checking…';
-
-  @override
-  String resendIn(int seconds) {
-    return 'You can resend in ${seconds}s';
-  }
-
-  @override
-  String get resendCode => 'Resend code';
-
-  @override
   String get emailSignInTitle => 'Sign in with email';
 
   @override

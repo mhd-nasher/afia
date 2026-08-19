@@ -166,11 +166,14 @@ No passwords, API keys (except Firebase's public web config, which is public by
 design), tokens, or `.p8` files. Scripts read credentials from env vars. If you find a
 credential in history, rotate it and tell Mohammed.
 
-### W7 — Auth models per surface (D-007, do not "unify" them):
-- Clinician app: phone+OTP ONLY, invitation-gated (created in the dashboard),
-  no self-registration, NO login screen alternatives.
-- Patient app: self-registration (phone OTP or email+password); red flags and the
-  emergency control come BEFORE any auth — safety is never gated behind an account.
+### W7 — Auth models per surface (D-007 as amended by D-012):
+- **Email + password is the ONLY sign-in method everywhere. Phone/OTP does not
+  exist in this product** — do not reintroduce it.
+- Clinician app: email+password account creation in-app, but ACCESS is
+  invitation-gated: `invitations/{lowercase-email}` created in the dashboard;
+  an email without an invitation reaches only the not-invited screen.
+- Patient app: self-registration (email+password); red flags and the emergency
+  control come BEFORE any auth — safety is never gated behind an account.
 - Dashboard: email+password for managers.
 
 ### W8 — Destructive operations are human-only.

@@ -1,14 +1,13 @@
-/// Sign-in = PHONE NUMBER + OTP ONLY (HANDOFF §5/§11: no email, no password,
-/// no self-registration anywhere). Registration happens from the admin
-/// dashboard via INVITATIONS only: the first OTP sign-in claims
-/// invitations/{phoneE164}, creating practitioners/{uid} with the invited
-/// identity. signatureIdentity is copied once and is immutable (§2.5 — the
-/// rules enforce it; this app never renders an editor for it).
+/// Sign-in = EMAIL + PASSWORD ONLY (D-012 / RULES W7 — phone/OTP does not
+/// exist in this product). Creating an email account grants NO access:
+/// access exists by invitation only. The first sign-in claims
+/// invitations/{lowercase-email}, creating practitioners/{uid} with the
+/// invited identity. signatureIdentity is copied once and is immutable
+/// (§2.5 — the rules enforce it; this app never renders an editor for it).
 library;
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/foundation.dart' show kDebugMode;
 
 import '../domain/entities.dart';
 import 'repo.dart';
@@ -27,56 +26,29 @@ class AuthService {
   Stream<User?> get authState => _auth.authStateChanges();
   User? get currentUser => _auth.currentUser;
 
-  /// Starts the firebase_auth phone flow. Callbacks mirror verifyPhoneNumber.
-  Future<void> startPhoneSignIn({
-    required String phoneE164,
-    required void Function(String verificationId, int? resendToken) onCodeSent,
-    required void Function(FirebaseAuthException e) onFailed,
-    required void Function() onAutoSignedIn,
-    int? resendToken,
-  }) async {
-    if (kDebugMode) {
-      // Simulator/dev: no APNs and console TEST numbers in use — skip app
-      // verification so the flow works without reCAPTCHA. Debug builds only;
-      // release keeps full verification (APNs → reCAPTCHA fallback via the
-      // URL scheme registered in Info.plist).
-      await _auth.setSettings(appVerificationDisabledForTesting: true);
-    }
-    await _auth.verifyPhoneNumber(
-      phoneNumber: phoneE164,
-      forceResendingToken: resendToken,
-      timeout: const Duration(seconds: 60),
-      verificationCompleted: (PhoneAuthCredential credential) async {
-        // Android auto-retrieval — signs in without typing the code.
-        try {
-          await _auth.signInWithCredential(credential);
-          onAutoSignedIn();
-        } on FirebaseAuthException catch (e) {
-          onFailed(e);
-        }
-      },
-      verificationFailed: onFailed,
-      codeSent: onCodeSent,
-      codeAutoRetrievalTimeout: (_) {},
-    );
-  }
+  Future<UserCredential> signIn(String email, String password) =>
+      _auth.signInWithEmailAndPassword(
+          email: email.trim().toLowerCase(), password: password);
 
-  Future<UserCredential> confirmOtp(
-      String verificationId, String smsCode) async {
-    final credential = PhoneAuthProvider.credential(
-        verificationId: verificationId, smsCode: smsCode);
-    return _auth.signInWithCredential(credential);
-  }
+  /// Creates the AUTH account only — access still requires an invitation
+  /// (D-012). The invitation gate runs in [ensurePractitioner].
+  Future<UserCredential> createAccount(String email, String password) =>
+      _auth.createUserWithEmailAndPassword(
+          email: email.trim().toLowerCase(), password: password);
 
-  /// The invitation contract (§5 + firestore.rules):
-  /// - invitations/{phone} exists, claimedBy == null → create
+  Future<void> sendPasswordReset(String email) =>
+      _auth.sendPasswordResetEmail(email: email.trim().toLowerCase());
+
+  /// The invitation contract (D-012 + firestore.rules):
+  /// - invitations/{lowercase(email)} exists, claimedBy == null → create
   ///   practitioners/{uid} copying {name, role, signatureIdentity, invitedBy}
   ///   plus externalIdentifier: null, createdAt, fhirResource — then update
   ///   the invitation setting ONLY claimedBy (the rules forbid touching any
   ///   other field).
   /// - claimedBy == uid already → proceed (recreate the practitioner doc if
   ///   it is somehow missing).
-  /// - anything else → not invited. No registration path exists.
+  /// - anything else → not invited: the auth account exists but has NO
+  ///   access, and no path in this app can grant it.
   Future<ClaimOutcome> ensurePractitioner(User user) async {
     final uid = user.uid;
     final existing = await _db.collection('practitioners').doc(uid).get();
@@ -85,10 +57,10 @@ class AuthService {
       return ClaimOutcome.practitionerReady;
     }
 
-    final phone = user.phoneNumber;
-    if (phone == null || phone.isEmpty) return ClaimOutcome.notInvited;
+    final email = user.email?.trim().toLowerCase();
+    if (email == null || email.isEmpty) return ClaimOutcome.notInvited;
 
-    final invitationRef = _db.collection('invitations').doc(phone);
+    final invitationRef = _db.collection('invitations').doc(email);
     final snapshot = await invitationRef.get();
     if (!snapshot.exists) return ClaimOutcome.notInvited;
 
@@ -118,7 +90,7 @@ class AuthService {
       actor: uid,
       action: 'created',
       entityId: uid,
-      detail: 'practitioner created from invitation $phone',
+      detail: 'practitioner created from invitation $email',
     );
     return ClaimOutcome.practitionerReady;
   }

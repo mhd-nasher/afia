@@ -95,9 +95,11 @@ service cloud.firestore {
       allow update, delete: if false;
     }
 
-    match /invitations/{phone} {
-      // §2.5 + §5 — accounts exist by invitation only. The dashboard creates
-      // invitations; first OTP sign-in claims one. There is no self-registration.
+    match /invitations/{inviteId} {
+      // §2.5 + §5 + D-012 — clinician ACCESS exists by invitation only.
+      // Keyed by LOWERCASE EMAIL. The dashboard creates invitations; the
+      // first email sign-in claims one. An email without an invitation gets
+      // no access (not-invited gate).
       allow read: if authed();
       allow create: if authed();
       // A claim may only fill claimedBy (once) — the invitation's identity
@@ -105,7 +107,7 @@ service cloud.firestore {
       allow update: if authed()
         && resource.data.claimedBy == null
         && request.resource.data.signatureIdentity == resource.data.signatureIdentity
-        && request.resource.data.phone == resource.data.phone
+        && request.resource.data.email == resource.data.email
         && request.resource.data.name == resource.data.name
         && request.resource.data.role == resource.data.role;
       allow delete: if false;

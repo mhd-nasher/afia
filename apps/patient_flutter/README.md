@@ -9,7 +9,8 @@ F-050).
 > **Owner decisions this build carries (deviations from HANDOFF as
 > written):**
 > 1. **Real accounts.** §6 said "no accounts"; the product owner requires
->    real self-registered patient accounts (phone OTP or email+password).
+>    real self-registered patient accounts — email + password only
+>    (owner decision D-012 removed phone/OTP from the product entirely).
 >    See "Why auth comes AFTER the red-flag questions" below.
 > 2. **No demo banner.** The product is moving from demonstration to real
 >    use, so the persistent `SYNTHETIC DEMO DATA` strip (F-090) and all
@@ -60,22 +61,21 @@ flutter build apk --debug
 
 ### Console toggles the operator must do once
 
-1. **Phone provider**: Firebase console → Authentication → Sign-in method →
-   Phone → Enable. For testing without real SMS, add a test number (e.g.
-   `+97333000001` with code `123456`). Patients self-register — no
-   invitation seeding is needed for this app.
-2. **Email/Password provider**: same screen → Email/Password → Enable
-   (registration, sign-in, and password reset all use it).
-3. Firebase AI Logic is already enabled for this app's ids (done via the
+1. **Email/Password provider**: Firebase console → Authentication →
+   Sign-in method → Email/Password → Enable (registration, sign-in, and
+   password reset all use it — the ONLY auth method per owner decision
+   D-012). Patients self-register — no invitation seeding is needed for
+   this app.
+2. Firebase AI Logic is already enabled for this app's ids (done via the
    Firebase MCP `firebase_init {ailogic}` for both the iOS and Android app
    registrations).
 
 ## Why auth comes AFTER the red-flag questions
 
 HANDOFF §6 originally specified no accounts. The product owner requires
-real patient accounts (self-registered, phone OTP with +973 default, or
-email+password with reset). The ordering is the safety-preserving part of
-that decision:
+real patient accounts — self-registered with email + password (register,
+sign in, reset; the only method per D-012). The ordering is the
+safety-preserving part of that decision:
 
 - **Red flags run before any account exists.** Evaluation is a local,
   deterministic, pure-Dart rule (§2.7) with the questions and the emergency
@@ -100,7 +100,7 @@ that decision:
 | The one red screen | `lib/ui/screens/emergency_interrupt.dart` |
 | Flow engine + incremental save | `lib/state/episode_model.dart` + `lib/domain/episode.dart` (SharedPreferences JSON on every change) |
 | Firestore case seam + sync honesty | `lib/services/case_repo.dart` — `cases` collection, shape mirrors `packages/core/src/case.ts` + additive `accountUid` |
-| Auth (phone OTP +973 / email+password, self-registration) | `lib/services/auth_service.dart` → `patientAccounts/{uid}` (owner-only rules) |
+| Auth (email+password only — D-012; self-registration, reset) | `lib/services/auth_service.dart` → `patientAccounts/{uid}` (owner-only rules) |
 | **Gemini model id** | `lib/services/ai_service.dart` → `geminiModelId` (`gemini-3.5-flash`, same constant as the clinician app, with a fallback chain) |
 | AI memory (workflow prefs only) | `lib/services/memory_service.dart` → `aiMemory/{uid}` (owner-only, deletable) |
 | Voice capture / speech-to-text | `lib/services/recorder.dart` (AAC → base64 data URI, <900KB convention) / `lib/services/transcriber.dart` (`ar_SA` / `en_GB`) |
@@ -128,8 +128,8 @@ the model.
 ## What is real vs simulated
 
 - **Real**: Firestore reads/writes against the live `afia-12f38` database
-  (me-central2) with offline persistence; phone OTP and email+password auth
-  (once the providers are enabled); consent records; one-way priority
+  (me-central2) with offline persistence; email+password auth (register /
+  sign in / reset — the only method, D-012); consent records; one-way priority
   escalation enforced by the deployed rules; device speech-to-text; AAC
   audio capture stored as a playable base64 data URI in the case update
   (oversized audio stays on-device with `urlOmittedReason` — same

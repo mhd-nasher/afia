@@ -125,33 +125,6 @@
   "aiUnavailable": "Not available right now — your own words stay exactly as they are.",
   "authTitle": "Sign in to send",
   "authLead": "Your answers are ready. To send them to the nursing team, sign in or create an account. Everything stays saved on this phone while you do.",
-  "authPhone": "Use my phone number",
-  "authEmail": "Use my email",
-  "phoneEntryTitle": "Your phone number",
-  "phoneHint": "3300 0000",
-  "sendCode": "Send me a code",
-  "phoneInvalid": "That phone number does not look complete. Please check it.",
-  "phoneAuthUnavailable": "Phone sign-in is not available right now. You can use email instead.",
-  "otpTitle": "Enter the code",
-  "otpSentTo": "We sent a code to {phone}",
-  "@otpSentTo": {
-    "placeholders": {
-      "phone": {
-        "type": "String"
-      }
-    }
-  },
-  "otpInvalid": "That code did not match. Please try again.",
-  "verifying": "Checking…",
-  "resendIn": "You can resend in {seconds}s",
-  "@resendIn": {
-    "placeholders": {
-      "seconds": {
-        "type": "int"
-      }
-    }
-  },
-  "resendCode": "Resend code",
   "emailSignInTitle": "Sign in with email",
   "emailRegisterTitle": "Create your account",
   "emailLabel": "Your email",

@@ -18,6 +18,8 @@
 | D-010 | 2026-08-19 | Dashboard deployed to Mohammed's Vercel: `afia-dashboard.vercel.app`. Dashboard is NOT in the clinical path (observe/configure only) but IS the only staff-account (invitation) creation path, and carries patient admission (no ADT feed exists). | Mohammed: "انشره على حسابي في vercel"; admission added because real use needs a patient-entry path. |
 | D-011 | 2026-08-19 | No credentials in the repo, ever. Scripts read env vars; test credentials that leaked into transcripts were rotated/disabled. | Team-shared repo; least privilege. |
 
+| D-012 | 2026-08-19 | **Email + password is the ONLY sign-in method in both mobile apps.** Phone/OTP sign-in is REMOVED entirely (screens, services, flows). Clinician invitations are keyed by **lowercase email** (`invitations/{email}`); clinicians create their email+password account in-app, and ACCESS remains invitation-gated (unknown email → not-invited screen; no access without an invitation). Patients self-register with email+password. Supersedes the phone parts of D-007/A1.3. | Mohammed: "شيل فكرة التسجيل عبر التلفون في التطبيقين... خليه ايميل وكلمة سر فقط". Also eliminates the SMS region-policy/quota dependency entirely. |
+
 **How to add a decision:** Mohammed writes (or approves in writing) a new row +, if it
 changes product behaviour, an Amendment section in `docs/HANDOFF.md`. Nothing else
 counts as authority — see RULES.md preamble.

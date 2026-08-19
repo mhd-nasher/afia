@@ -16,9 +16,9 @@ import 'state/app_model.dart';
 import 'state/app_settings.dart';
 import 'theme/app_theme.dart';
 import 'theme/tokens.dart';
+import 'ui/screens/auth/email_auth_screen.dart';
 import 'ui/screens/auth/language_screen.dart';
 import 'ui/screens/auth/not_invited_screen.dart';
-import 'ui/screens/auth/phone_screen.dart';
 import 'ui/shell.dart';
 import 'ui/widgets/common.dart';
 
@@ -124,7 +124,7 @@ class _AuthGateState extends State<AuthGate> {
             AppModel.instance = null;
             WidgetsBinding.instance.addPostFrameCallback((_) => model.dispose());
           }
-          return const PhoneScreen();
+          return const EmailAuthScreen();
         }
         if (_claim == null || _claimForUid != user.uid) {
           _runClaim(user);

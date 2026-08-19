@@ -253,50 +253,6 @@ class AppLocalizationsAr extends AppLocalizations {
       'إجاباتك جاهزة. لإرسالها إلى فريق التمريض، سجّل الدخول أو أنشئ حساباً. يبقى كل شيء محفوظاً على هذا الهاتف في هذه الأثناء.';
 
   @override
-  String get authPhone => 'استخدام رقم هاتفي';
-
-  @override
-  String get authEmail => 'استخدام بريدي الإلكتروني';
-
-  @override
-  String get phoneEntryTitle => 'رقم هاتفك';
-
-  @override
-  String get phoneHint => '3300 0000';
-
-  @override
-  String get sendCode => 'أرسل لي رمزاً';
-
-  @override
-  String get phoneInvalid => 'رقم الهاتف لا يبدو مكتملاً. الرجاء التحقق منه.';
-
-  @override
-  String get phoneAuthUnavailable =>
-      'تسجيل الدخول بالهاتف غير متاح الآن. يمكنك استخدام البريد الإلكتروني بدلاً منه.';
-
-  @override
-  String get otpTitle => 'أدخل الرمز';
-
-  @override
-  String otpSentTo(String phone) {
-    return 'أرسلنا رمزاً إلى $phone';
-  }
-
-  @override
-  String get otpInvalid => 'الرمز غير مطابق. الرجاء المحاولة مرة أخرى.';
-
-  @override
-  String get verifying => 'جارٍ التحقق…';
-
-  @override
-  String resendIn(int seconds) {
-    return 'يمكنك إعادة الإرسال خلال $seconds ث';
-  }
-
-  @override
-  String get resendCode => 'إعادة إرسال الرمز';
-
-  @override
   String get emailSignInTitle => 'تسجيل الدخول بالبريد الإلكتروني';
 
   @override

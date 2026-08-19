@@ -1,7 +1,7 @@
 /// Patient auth — REAL accounts, SELF-registered (product-owner decision;
-/// unlike clinicians, who exist by invitation only). Two paths:
-///   · phone OTP (+973 default country)
-///   · email + password (register, sign in, password reset)
+/// unlike clinicians, who exist by invitation only). Email + password is the
+/// ONLY sign-in method (owner decision D-012, docs/DECISIONS.md): register,
+/// sign in, password reset. Phone/OTP is removed from the product.
 ///
 /// The gate comes AFTER the red-flag questions by design: safety is never
 /// gated behind an account (§2.7 — red flags are local and work before any
@@ -12,12 +12,11 @@ library;
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/foundation.dart' show kDebugMode;
 
 class PatientAccount {
   final String uid;
   final String name;
-  final String contact; // phone E.164 or email
+  final String contact; // email address
   final String locale;
   final int createdAt;
   final String? externalIdentifier;
@@ -62,46 +61,7 @@ class PatientAuthService {
   Stream<User?> get authState => _auth.authStateChanges();
   User? get currentUser => _auth.currentUser;
 
-  // ── phone OTP ────────────────────────────────────────────────────────────
-
-  Future<void> startPhoneSignIn({
-    required String phoneE164,
-    required void Function(String verificationId, int? resendToken) onCodeSent,
-    required void Function(FirebaseAuthException e) onFailed,
-    required void Function() onAutoSignedIn,
-    int? resendToken,
-  }) async {
-    if (kDebugMode) {
-      // Simulator/dev: no APNs + console TEST numbers — skip app verification.
-      // Debug builds only; release keeps full verification (URL scheme in
-      // Info.plist covers the reCAPTCHA fallback).
-      await _auth.setSettings(appVerificationDisabledForTesting: true);
-    }
-    await _auth.verifyPhoneNumber(
-      phoneNumber: phoneE164,
-      forceResendingToken: resendToken,
-      timeout: const Duration(seconds: 60),
-      verificationCompleted: (PhoneAuthCredential credential) async {
-        try {
-          await _auth.signInWithCredential(credential);
-          onAutoSignedIn();
-        } on FirebaseAuthException catch (e) {
-          onFailed(e);
-        }
-      },
-      verificationFailed: onFailed,
-      codeSent: onCodeSent,
-      codeAutoRetrievalTimeout: (_) {},
-    );
-  }
-
-  Future<UserCredential> confirmOtp(String verificationId, String smsCode) {
-    final credential = PhoneAuthProvider.credential(
-        verificationId: verificationId, smsCode: smsCode);
-    return _auth.signInWithCredential(credential);
-  }
-
-  // ── email + password ─────────────────────────────────────────────────────
+  // ── email + password (the only method — D-012) ───────────────────────────
 
   Future<UserCredential> registerWithEmail(String email, String password) =>
       _auth.createUserWithEmailAndPassword(email: email, password: password);
@@ -137,7 +97,7 @@ class PatientAuthService {
     final account = PatientAccount(
       uid: user.uid,
       name: name,
-      contact: user.phoneNumber ?? user.email ?? '',
+      contact: user.email ?? '',
       locale: locale,
       createdAt: DateTime.now().millisecondsSinceEpoch,
       externalIdentifier: null,

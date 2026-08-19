@@ -1,5 +1,5 @@
-/// The not-invited gate. Accounts are created by ward management via
-/// invitations only — there is NO registration path here, by design (§11).
+/// The not-invited gate (D-012). The email account exists, but ACCESS exists
+/// by invitation only — nothing in this app can grant it.
 library;
 
 import 'package:lucide_icons/lucide_icons.dart';
@@ -17,7 +17,8 @@ class NotInvitedScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     final c = context.afia;
     final t = l10n(context);
-    final phone = AuthService.instance.currentUser?.phoneNumber ?? '';
+    final email =
+        AuthService.instance.currentUser?.email?.toLowerCase() ?? '';
     return Scaffold(
       body: SafeArea(
         child: Padding(
@@ -31,12 +32,12 @@ class NotInvitedScreen extends StatelessWidget {
                 textAlign: TextAlign.center,
                 style: sans(context, 22, weight: FontWeight.w500, color: c.text)),
             const SizedBox(height: 8),
-            if (phone.isNotEmpty)
+            if (email.isNotEmpty)
               Directionality(
                 textDirection: TextDirection.ltr,
-                child: Text(phone,
+                child: Text(email,
                     textAlign: TextAlign.center,
-                    style: mono(context, 16, color: c.textDim)),
+                    style: mono(context, 15, color: c.textDim)),
               ),
             const SizedBox(height: 14),
             Text(t.notInvitedBody,

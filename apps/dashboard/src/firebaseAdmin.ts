@@ -123,6 +123,8 @@ export function authErrorMessage(e: unknown): string {
       return 'That email address is not valid.'
     case 'auth/weak-password':
       return 'Password must be at least 6 characters.'
+    case 'auth/user-disabled':
+      return 'This account has been disabled by an administrator.'
     case 'auth/too-many-requests':
       return 'Too many attempts — wait a moment and try again.'
     case 'auth/network-request-failed':
@@ -132,10 +134,15 @@ export function authErrorMessage(e: unknown): string {
   }
 }
 
-// ── invitations (invitations/{phoneE164}) ──────────────────────────────────
+// ── invitations (invitations/{lowercase-email}, D-012) ─────────────────────
 
 export interface InvitationDoc {
-  phone: string
+  /** The Firestore document id — the lowercase email (legacy docs: a phone). */
+  id: string
+  /** Lowercase email the clinician signs in with. Absent on legacy docs. */
+  email?: string
+  /** Legacy identifier from the removed phone/OTP era. Read-only. */
+  phone?: string
   name: string
   role: 'nurse' | 'charge_nurse' | 'manager'
   /** Absent on invitations created before ward assignment existed. */
@@ -151,7 +158,9 @@ export function watchInvitations(cb: (rows: InvitationDoc[]) => void): () => voi
   return onSnapshot(
     collection(db, 'invitations'),
     (snap) => {
-      const rows = snap.docs.map((d) => d.data() as InvitationDoc)
+      const rows = snap.docs.map(
+        (d) => ({ ...(d.data() as Omit<InvitationDoc, 'id'>), id: d.id }) as InvitationDoc,
+      )
       rows.sort((a, b) => (b.createdAt ?? 0) - (a.createdAt ?? 0))
       cb(rows)
     },
@@ -160,16 +169,20 @@ export function watchInvitations(cb: (rows: InvitationDoc[]) => void): () => voi
 }
 
 /**
- * Creates invitations/{phoneE164}. The signature identity written here is
- * permanent (§2.5): the security rules let a claim fill only `claimedBy`,
- * and no update may touch phone, name, role, or signatureIdentity.
+ * Creates invitations/{lowercase-email} (D-012). The signature identity
+ * written here is permanent (§2.5): the deployed rules let a claim fill only
+ * `claimedBy`, and no update may touch email, name, role, or
+ * signatureIdentity.
  */
-export async function createInvitation(inv: InvitationDoc): Promise<void> {
-  await setDoc(doc(db, 'invitations', inv.phone), inv)
+export async function createInvitation(
+  inv: Omit<InvitationDoc, 'id' | 'phone'> & { email: string },
+): Promise<void> {
+  const email = inv.email.trim().toLowerCase()
+  await setDoc(doc(db, 'invitations', email), { ...inv, email })
   await appendAudit(
     inv.invitedBy,
     'invitation_created',
-    inv.phone,
+    email,
     null,
     `invited ${inv.name} (${inv.role}) — signature identity fixed as "${inv.signatureIdentity}"`,
   )

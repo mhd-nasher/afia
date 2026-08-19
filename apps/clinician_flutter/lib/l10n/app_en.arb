@@ -7,42 +7,9 @@
   "arabic": "العربية",
   "continueLabel": "Continue",
   "signInTitle": "Sign in",
-  "phoneEntryTitle": "Phone number",
-  "phoneEntryBody": "Accounts are created by ward management. Sign in with the phone number your invitation was sent to.",
-  "phoneHint": "5X XXX XXXX",
-  "sendCode": "Send code",
-  "phoneInvalid": "Enter a valid phone number.",
-  "phoneAuthUnavailable": "Phone sign-in is not enabled for this project yet. Ask the administrator to enable the Phone provider in the Firebase console.\n\nتسجيل الدخول بالهاتف غير مفعّل بعد. اطلب من المشرف تفعيل مزوّد الهاتف في وحدة تحكم Firebase.",
   "authError": "Could not sign in: {message}",
-  "@authError": {
-    "placeholders": {
-      "message": {
-        "type": "String"
-      }
-    }
-  },
-  "otpTitle": "Enter code",
-  "otpSentTo": "A 6-digit code was sent to {phone}",
-  "@otpSentTo": {
-    "placeholders": {
-      "phone": {
-        "type": "String"
-      }
-    }
-  },
-  "otpInvalid": "That code is not right. Check it and try again.",
-  "resendCode": "Resend code",
-  "resendIn": "Resend in {seconds}s",
-  "@resendIn": {
-    "placeholders": {
-      "seconds": {
-        "type": "int"
-      }
-    }
-  },
-  "verifying": "Verifying…",
-  "notInvitedTitle": "This number has no invitation",
-  "notInvitedBody": "Accounts are created by ward management, not in the app. If you should have access, ask your ward manager to send an invitation to this number, then sign in again.",
+  "notInvitedTitle": "This email has no invitation",
+  "notInvitedBody": "Your account exists but has no access. Access is granted by invitation from ward management — ask your ward manager to send an invitation to this email, then sign in again.",
   "checkingInvitation": "Checking your invitation…",
   "tabPatients": "Patients",
   "tabReceived": "Received",
@@ -393,5 +360,38 @@
   "assistantSend": "Send",
   "assistantThinking": "Working…",
   "assistantMemoryNote": "Remembers your preferences · stored privately to your account",
-  "smsRegionBlocked": "SMS to this country is currently blocked by the project's SMS region policy / daily quota. For testing: add your number as a TEST phone number in Firebase console (Authentication → Sign-in method → Phone → Phone numbers for testing) and sign in with its fixed code — no SMS needed. For real SMS: enable the country in Authentication → Settings → SMS region policy, and add billing.\n\nإرسال الرسائل لهذه الدولة محجوب حاليًا بسياسة مناطق الرسائل / الحصة اليومية للمشروع. للتجربة: أضف رقمك كرقم اختبار في وحدة تحكم Firebase (Authentication ← Sign-in method ← Phone ← Phone numbers for testing) وادخل بالكود الثابت — بدون رسائل. للرسائل الحقيقية: فعّل الدولة من Authentication ← Settings ← SMS region policy وأضف الفوترة."
+  "smsRegionBlocked": "SMS to this country is currently blocked by the project's SMS region policy / daily quota. For testing: add your number as a TEST phone number in Firebase console (Authentication → Sign-in method → Phone → Phone numbers for testing) and sign in with its fixed code — no SMS needed. For real SMS: enable the country in Authentication → Settings → SMS region policy, and add billing.\n\nإرسال الرسائل لهذه الدولة محجوب حاليًا بسياسة مناطق الرسائل / الحصة اليومية للمشروع. للتجربة: أضف رقمك كرقم اختبار في وحدة تحكم Firebase (Authentication ← Sign-in method ← Phone ← Phone numbers for testing) وادخل بالكود الثابت — بدون رسائل. للرسائل الحقيقية: فعّل الدولة من Authentication ← Settings ← SMS region policy وأضف الفوترة.",
+  "emailEntryBody": "Accounts are created by ward management. Sign in with the email your invitation was sent to.",
+  "emailLabel": "Email",
+  "passwordLabel": "Password",
+  "confirmPasswordLabel": "Confirm password",
+  "createAccountAction": "Create account",
+  "createAccountSwitch": "New here? Create an account",
+  "forgotPassword": "Forgot password?",
+  "backToSignIn": "Back to sign in",
+  "resetPasswordTitle": "Reset password",
+  "resetPasswordBody": "Enter your email and we will send a password reset link.",
+  "sendResetLink": "Send reset link",
+  "resetSent": "Reset link sent to {email}. Check your inbox.",
+  "@resetSent": {
+    "placeholders": {
+      "email": {
+        "type": "String"
+      }
+    }
+  },
+  "authBadCredentials": "Email or password is incorrect.",
+  "authEmailInUse": "An account with this email already exists — sign in instead.",
+  "authWeakPassword": "Password must be at least 8 characters.",
+  "authPasswordMismatch": "Passwords do not match.",
+  "authInvalidEmail": "Enter a valid email address.",
+  "authNetwork": "No connection — try again when you are back online.",
+  "authTooManyRequests": "Too many attempts — wait a moment and try again.",
+  "@authError": {
+    "placeholders": {
+      "message": {
+        "type": "String"
+      }
+    }
+  }
 }

@@ -31,58 +31,16 @@ class AppLocalizationsAr extends AppLocalizations {
   String get signInTitle => 'تسجيل الدخول';
 
   @override
-  String get phoneEntryTitle => 'رقم الهاتف';
-
-  @override
-  String get phoneEntryBody =>
-      'تُنشأ الحسابات من إدارة الجناح. سجّل الدخول برقم الهاتف الذي أُرسلت إليه دعوتك.';
-
-  @override
-  String get phoneHint => '5X XXX XXXX';
-
-  @override
-  String get sendCode => 'إرسال الرمز';
-
-  @override
-  String get phoneInvalid => 'أدخل رقم هاتف صحيحًا.';
-
-  @override
-  String get phoneAuthUnavailable =>
-      'تسجيل الدخول بالهاتف غير مفعّل بعد لهذا المشروع. اطلب من المشرف تفعيل مزوّد الهاتف في وحدة تحكم Firebase.\n\nPhone sign-in is not enabled yet. Ask the administrator to enable the Phone provider in the Firebase console.';
-
-  @override
   String authError(String message) {
     return 'تعذّر تسجيل الدخول: $message';
   }
 
   @override
-  String get otpTitle => 'أدخل الرمز';
-
-  @override
-  String otpSentTo(String phone) {
-    return 'أُرسل رمز من 6 أرقام إلى $phone';
-  }
-
-  @override
-  String get otpInvalid => 'الرمز غير صحيح. تحقق منه وحاول مرة أخرى.';
-
-  @override
-  String get resendCode => 'إعادة إرسال الرمز';
-
-  @override
-  String resendIn(int seconds) {
-    return 'إعادة الإرسال بعد $seconds ث';
-  }
-
-  @override
-  String get verifying => 'جارٍ التحقق…';
-
-  @override
-  String get notInvitedTitle => 'هذا الرقم لا يملك دعوة';
+  String get notInvitedTitle => 'هذا البريد الإلكتروني لا يملك دعوة';
 
   @override
   String get notInvitedBody =>
-      'تُنشأ الحسابات من إدارة الجناح وليس من التطبيق. إن كان يحق لك الدخول، فاطلب من مدير الجناح إرسال دعوة إلى هذا الرقم ثم سجّل الدخول مجددًا.';
+      'حسابك موجود لكنه لا يملك صلاحية وصول. تُمنح الصلاحية بدعوة من إدارة الجناح — اطلب من مدير الجناح إرسال دعوة إلى هذا البريد، ثم سجّل الدخول مجددًا.';
 
   @override
   String get checkingInvitation => 'جارٍ التحقق من دعوتك…';
@@ -717,4 +675,67 @@ class AppLocalizationsAr extends AppLocalizations {
   @override
   String get smsRegionBlocked =>
       'إرسال الرسائل لهذه الدولة محجوب حاليًا بسياسة مناطق الرسائل / الحصة اليومية للمشروع. للتجربة: أضف رقمك كرقم اختبار في وحدة تحكم Firebase (Authentication ← Sign-in method ← Phone ← Phone numbers for testing) وادخل بالكود الثابت — بدون رسائل. للرسائل الحقيقية: فعّل الدولة من Authentication ← Settings ← SMS region policy وأضف الفوترة.\n\nSMS to this country is currently blocked by the project\'s SMS region policy / daily quota. For testing: add your number as a TEST phone number in Firebase console (Authentication → Sign-in method → Phone → Phone numbers for testing) and sign in with its fixed code — no SMS needed. For real SMS: enable the country in Authentication → Settings → SMS region policy, and add billing.';
+
+  @override
+  String get emailEntryBody =>
+      'تُنشأ الحسابات من إدارة الجناح. سجّل الدخول بالبريد الإلكتروني الذي أُرسلت إليه دعوتك.';
+
+  @override
+  String get emailLabel => 'البريد الإلكتروني';
+
+  @override
+  String get passwordLabel => 'كلمة السر';
+
+  @override
+  String get confirmPasswordLabel => 'تأكيد كلمة السر';
+
+  @override
+  String get createAccountAction => 'إنشاء حساب';
+
+  @override
+  String get createAccountSwitch => 'جديد هنا؟ أنشئ حسابًا';
+
+  @override
+  String get forgotPassword => 'نسيت كلمة السر؟';
+
+  @override
+  String get backToSignIn => 'العودة لتسجيل الدخول';
+
+  @override
+  String get resetPasswordTitle => 'إعادة تعيين كلمة السر';
+
+  @override
+  String get resetPasswordBody =>
+      'أدخل بريدك الإلكتروني وسنرسل رابط إعادة تعيين كلمة السر.';
+
+  @override
+  String get sendResetLink => 'إرسال رابط إعادة التعيين';
+
+  @override
+  String resetSent(String email) {
+    return 'أُرسل رابط إعادة التعيين إلى $email. تحقق من بريدك الوارد.';
+  }
+
+  @override
+  String get authBadCredentials => 'البريد الإلكتروني أو كلمة السر غير صحيحة.';
+
+  @override
+  String get authEmailInUse =>
+      'يوجد حساب بهذا البريد الإلكتروني — سجّل الدخول بدلًا من ذلك.';
+
+  @override
+  String get authWeakPassword => 'يجب أن تكون كلمة السر 8 أحرف على الأقل.';
+
+  @override
+  String get authPasswordMismatch => 'كلمتا السر غير متطابقتين.';
+
+  @override
+  String get authInvalidEmail => 'أدخل بريدًا إلكترونيًا صحيحًا.';
+
+  @override
+  String get authNetwork => 'لا اتصال — حاول مجددًا عند عودة الاتصال.';
+
+  @override
+  String get authTooManyRequests =>
+      'محاولات كثيرة — انتظر قليلًا ثم حاول مجددًا.';
 }

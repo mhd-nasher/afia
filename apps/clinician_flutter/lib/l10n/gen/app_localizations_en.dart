@@ -31,58 +31,16 @@ class AppLocalizationsEn extends AppLocalizations {
   String get signInTitle => 'Sign in';
 
   @override
-  String get phoneEntryTitle => 'Phone number';
-
-  @override
-  String get phoneEntryBody =>
-      'Accounts are created by ward management. Sign in with the phone number your invitation was sent to.';
-
-  @override
-  String get phoneHint => '5X XXX XXXX';
-
-  @override
-  String get sendCode => 'Send code';
-
-  @override
-  String get phoneInvalid => 'Enter a valid phone number.';
-
-  @override
-  String get phoneAuthUnavailable =>
-      'Phone sign-in is not enabled for this project yet. Ask the administrator to enable the Phone provider in the Firebase console.\n\nتسجيل الدخول بالهاتف غير مفعّل بعد. اطلب من المشرف تفعيل مزوّد الهاتف في وحدة تحكم Firebase.';
-
-  @override
   String authError(String message) {
     return 'Could not sign in: $message';
   }
 
   @override
-  String get otpTitle => 'Enter code';
-
-  @override
-  String otpSentTo(String phone) {
-    return 'A 6-digit code was sent to $phone';
-  }
-
-  @override
-  String get otpInvalid => 'That code is not right. Check it and try again.';
-
-  @override
-  String get resendCode => 'Resend code';
-
-  @override
-  String resendIn(int seconds) {
-    return 'Resend in ${seconds}s';
-  }
-
-  @override
-  String get verifying => 'Verifying…';
-
-  @override
-  String get notInvitedTitle => 'This number has no invitation';
+  String get notInvitedTitle => 'This email has no invitation';
 
   @override
   String get notInvitedBody =>
-      'Accounts are created by ward management, not in the app. If you should have access, ask your ward manager to send an invitation to this number, then sign in again.';
+      'Your account exists but has no access. Access is granted by invitation from ward management — ask your ward manager to send an invitation to this email, then sign in again.';
 
   @override
   String get checkingInvitation => 'Checking your invitation…';
@@ -721,4 +679,68 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String get smsRegionBlocked =>
       'SMS to this country is currently blocked by the project\'s SMS region policy / daily quota. For testing: add your number as a TEST phone number in Firebase console (Authentication → Sign-in method → Phone → Phone numbers for testing) and sign in with its fixed code — no SMS needed. For real SMS: enable the country in Authentication → Settings → SMS region policy, and add billing.\n\nإرسال الرسائل لهذه الدولة محجوب حاليًا بسياسة مناطق الرسائل / الحصة اليومية للمشروع. للتجربة: أضف رقمك كرقم اختبار في وحدة تحكم Firebase (Authentication ← Sign-in method ← Phone ← Phone numbers for testing) وادخل بالكود الثابت — بدون رسائل. للرسائل الحقيقية: فعّل الدولة من Authentication ← Settings ← SMS region policy وأضف الفوترة.';
+
+  @override
+  String get emailEntryBody =>
+      'Accounts are created by ward management. Sign in with the email your invitation was sent to.';
+
+  @override
+  String get emailLabel => 'Email';
+
+  @override
+  String get passwordLabel => 'Password';
+
+  @override
+  String get confirmPasswordLabel => 'Confirm password';
+
+  @override
+  String get createAccountAction => 'Create account';
+
+  @override
+  String get createAccountSwitch => 'New here? Create an account';
+
+  @override
+  String get forgotPassword => 'Forgot password?';
+
+  @override
+  String get backToSignIn => 'Back to sign in';
+
+  @override
+  String get resetPasswordTitle => 'Reset password';
+
+  @override
+  String get resetPasswordBody =>
+      'Enter your email and we will send a password reset link.';
+
+  @override
+  String get sendResetLink => 'Send reset link';
+
+  @override
+  String resetSent(String email) {
+    return 'Reset link sent to $email. Check your inbox.';
+  }
+
+  @override
+  String get authBadCredentials => 'Email or password is incorrect.';
+
+  @override
+  String get authEmailInUse =>
+      'An account with this email already exists — sign in instead.';
+
+  @override
+  String get authWeakPassword => 'Password must be at least 8 characters.';
+
+  @override
+  String get authPasswordMismatch => 'Passwords do not match.';
+
+  @override
+  String get authInvalidEmail => 'Enter a valid email address.';
+
+  @override
+  String get authNetwork =>
+      'No connection — try again when you are back online.';
+
+  @override
+  String get authTooManyRequests =>
+      'Too many attempts — wait a moment and try again.';
 }

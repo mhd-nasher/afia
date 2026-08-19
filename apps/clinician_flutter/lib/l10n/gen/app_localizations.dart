@@ -140,94 +140,22 @@ abstract class AppLocalizations {
   /// **'Sign in'**
   String get signInTitle;
 
-  /// No description provided for @phoneEntryTitle.
-  ///
-  /// In en, this message translates to:
-  /// **'Phone number'**
-  String get phoneEntryTitle;
-
-  /// No description provided for @phoneEntryBody.
-  ///
-  /// In en, this message translates to:
-  /// **'Accounts are created by ward management. Sign in with the phone number your invitation was sent to.'**
-  String get phoneEntryBody;
-
-  /// No description provided for @phoneHint.
-  ///
-  /// In en, this message translates to:
-  /// **'5X XXX XXXX'**
-  String get phoneHint;
-
-  /// No description provided for @sendCode.
-  ///
-  /// In en, this message translates to:
-  /// **'Send code'**
-  String get sendCode;
-
-  /// No description provided for @phoneInvalid.
-  ///
-  /// In en, this message translates to:
-  /// **'Enter a valid phone number.'**
-  String get phoneInvalid;
-
-  /// No description provided for @phoneAuthUnavailable.
-  ///
-  /// In en, this message translates to:
-  /// **'Phone sign-in is not enabled for this project yet. Ask the administrator to enable the Phone provider in the Firebase console.\n\nتسجيل الدخول بالهاتف غير مفعّل بعد. اطلب من المشرف تفعيل مزوّد الهاتف في وحدة تحكم Firebase.'**
-  String get phoneAuthUnavailable;
-
   /// No description provided for @authError.
   ///
   /// In en, this message translates to:
   /// **'Could not sign in: {message}'**
   String authError(String message);
 
-  /// No description provided for @otpTitle.
-  ///
-  /// In en, this message translates to:
-  /// **'Enter code'**
-  String get otpTitle;
-
-  /// No description provided for @otpSentTo.
-  ///
-  /// In en, this message translates to:
-  /// **'A 6-digit code was sent to {phone}'**
-  String otpSentTo(String phone);
-
-  /// No description provided for @otpInvalid.
-  ///
-  /// In en, this message translates to:
-  /// **'That code is not right. Check it and try again.'**
-  String get otpInvalid;
-
-  /// No description provided for @resendCode.
-  ///
-  /// In en, this message translates to:
-  /// **'Resend code'**
-  String get resendCode;
-
-  /// No description provided for @resendIn.
-  ///
-  /// In en, this message translates to:
-  /// **'Resend in {seconds}s'**
-  String resendIn(int seconds);
-
-  /// No description provided for @verifying.
-  ///
-  /// In en, this message translates to:
-  /// **'Verifying…'**
-  String get verifying;
-
   /// No description provided for @notInvitedTitle.
   ///
   /// In en, this message translates to:
-  /// **'This number has no invitation'**
+  /// **'This email has no invitation'**
   String get notInvitedTitle;
 
   /// No description provided for @notInvitedBody.
   ///
   /// In en, this message translates to:
-  /// **'Accounts are created by ward management, not in the app. If you should have access, ask your ward manager to send an invitation to this number, then sign in again.'**
+  /// **'Your account exists but has no access. Access is granted by invitation from ward management — ask your ward manager to send an invitation to this email, then sign in again.'**
   String get notInvitedBody;
 
   /// No description provided for @checkingInvitation.
@@ -1381,6 +1309,120 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'SMS to this country is currently blocked by the project\'s SMS region policy / daily quota. For testing: add your number as a TEST phone number in Firebase console (Authentication → Sign-in method → Phone → Phone numbers for testing) and sign in with its fixed code — no SMS needed. For real SMS: enable the country in Authentication → Settings → SMS region policy, and add billing.\n\nإرسال الرسائل لهذه الدولة محجوب حاليًا بسياسة مناطق الرسائل / الحصة اليومية للمشروع. للتجربة: أضف رقمك كرقم اختبار في وحدة تحكم Firebase (Authentication ← Sign-in method ← Phone ← Phone numbers for testing) وادخل بالكود الثابت — بدون رسائل. للرسائل الحقيقية: فعّل الدولة من Authentication ← Settings ← SMS region policy وأضف الفوترة.'**
   String get smsRegionBlocked;
+
+  /// No description provided for @emailEntryBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Accounts are created by ward management. Sign in with the email your invitation was sent to.'**
+  String get emailEntryBody;
+
+  /// No description provided for @emailLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Email'**
+  String get emailLabel;
+
+  /// No description provided for @passwordLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Password'**
+  String get passwordLabel;
+
+  /// No description provided for @confirmPasswordLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Confirm password'**
+  String get confirmPasswordLabel;
+
+  /// No description provided for @createAccountAction.
+  ///
+  /// In en, this message translates to:
+  /// **'Create account'**
+  String get createAccountAction;
+
+  /// No description provided for @createAccountSwitch.
+  ///
+  /// In en, this message translates to:
+  /// **'New here? Create an account'**
+  String get createAccountSwitch;
+
+  /// No description provided for @forgotPassword.
+  ///
+  /// In en, this message translates to:
+  /// **'Forgot password?'**
+  String get forgotPassword;
+
+  /// No description provided for @backToSignIn.
+  ///
+  /// In en, this message translates to:
+  /// **'Back to sign in'**
+  String get backToSignIn;
+
+  /// No description provided for @resetPasswordTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Reset password'**
+  String get resetPasswordTitle;
+
+  /// No description provided for @resetPasswordBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter your email and we will send a password reset link.'**
+  String get resetPasswordBody;
+
+  /// No description provided for @sendResetLink.
+  ///
+  /// In en, this message translates to:
+  /// **'Send reset link'**
+  String get sendResetLink;
+
+  /// No description provided for @resetSent.
+  ///
+  /// In en, this message translates to:
+  /// **'Reset link sent to {email}. Check your inbox.'**
+  String resetSent(String email);
+
+  /// No description provided for @authBadCredentials.
+  ///
+  /// In en, this message translates to:
+  /// **'Email or password is incorrect.'**
+  String get authBadCredentials;
+
+  /// No description provided for @authEmailInUse.
+  ///
+  /// In en, this message translates to:
+  /// **'An account with this email already exists — sign in instead.'**
+  String get authEmailInUse;
+
+  /// No description provided for @authWeakPassword.
+  ///
+  /// In en, this message translates to:
+  /// **'Password must be at least 8 characters.'**
+  String get authWeakPassword;
+
+  /// No description provided for @authPasswordMismatch.
+  ///
+  /// In en, this message translates to:
+  /// **'Passwords do not match.'**
+  String get authPasswordMismatch;
+
+  /// No description provided for @authInvalidEmail.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter a valid email address.'**
+  String get authInvalidEmail;
+
+  /// No description provided for @authNetwork.
+  ///
+  /// In en, this message translates to:
+  /// **'No connection — try again when you are back online.'**
+  String get authNetwork;
+
+  /// No description provided for @authTooManyRequests.
+  ///
+  /// In en, this message translates to:
+  /// **'Too many attempts — wait a moment and try again.'**
+  String get authTooManyRequests;
 }
 
 class _AppLocalizationsDelegate

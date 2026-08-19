@@ -151,8 +151,8 @@ void main() {
       }
     }
     if (sawGate) {
-      await tapText(tester, 'Use my email');
-      await waitForText(tester, 'Create your account');
+      // D-012: the gate goes straight to the email form (register variant);
+      // switch to sign-in for the pre-created verification account.
       await tapText(tester, 'I already have an account');
       await waitForText(tester, 'Sign in with email');
       final fields = find.byType(TextField);

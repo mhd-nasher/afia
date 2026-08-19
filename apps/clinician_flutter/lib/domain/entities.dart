@@ -139,30 +139,34 @@ class Ward {
       );
 }
 
-/// invitations/{phoneE164} — accounts exist by invitation only (§5, §11).
-/// The dashboard creates these; the first OTP sign-in claims one. The rules
-/// let a claim fill ONLY `claimedBy`, once.
+/// invitations/{lowercase-email} — ACCESS exists by invitation only
+/// (D-012 / RULES W7). The dashboard creates these; the first email sign-in
+/// claims one. The rules let a claim fill ONLY `claimedBy`, once — every
+/// identity field, including signatureIdentity, is immutable.
 class Invitation {
-  final String phone;
+  final String email;
   final String name;
   final String role;
+  final String? wardId;
   final String signatureIdentity;
   final String invitedBy;
   final String? claimedBy;
 
   const Invitation({
-    required this.phone,
+    required this.email,
     required this.name,
     required this.role,
+    required this.wardId,
     required this.signatureIdentity,
     required this.invitedBy,
     required this.claimedBy,
   });
 
   factory Invitation.fromMap(Map<String, dynamic> m) => Invitation(
-        phone: m['phone'] as String? ?? '',
+        email: m['email'] as String? ?? '',
         name: m['name'] as String? ?? '',
         role: m['role'] as String? ?? 'nurse',
+        wardId: m['wardId'] as String?,
         signatureIdentity: m['signatureIdentity'] as String? ?? '',
         invitedBy: m['invitedBy'] as String? ?? '',
         claimedBy: m['claimedBy'] as String?,
