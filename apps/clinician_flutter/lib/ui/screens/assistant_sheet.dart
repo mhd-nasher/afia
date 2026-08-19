@@ -1,18 +1,23 @@
 /// Afia Assistant (مساعد عافية) — full-screen chat behind the sparkle icon.
-/// Tool results render as proper widgets: summary card, diff card, fields
-/// card. Fully usable in Arabic. Needs connectivity; says so honestly when
-/// offline.
+/// One question → one answer: the model's structured final_answer renders
+/// natively (stat tiles, bordered sections, status lines, tappable patient
+/// rows); intermediate tool rounds show only a quiet activity line. Latin
+/// spans are BiDi-isolated so Arabic text never scrambles; numbers render
+/// mono LTR. Fully usable in Arabic.
 library;
 
 import 'package:flutter/material.dart';
 import 'package:lucide_icons/lucide_icons.dart';
 
-import '../../domain/structuring.dart';
+import '../../domain/handover.dart';
+import '../../domain/teamwork.dart';
 import '../../services/assistant/assistant_service.dart';
+import '../widgets/request_kit.dart';
 import '../../state/app_model.dart';
 import '../../theme/app_theme.dart';
 import '../../theme/tokens.dart';
 import '../widgets/common.dart';
+import 'patient_detail_screen.dart';
 
 void showAssistantSheet(BuildContext context) {
   Navigator.of(context).push(MaterialPageRoute(
@@ -20,6 +25,11 @@ void showAssistantSheet(BuildContext context) {
     builder: (_) => const AssistantScreen(),
   ));
 }
+
+/// First-Strong-Isolate wrap (U+2068/U+2069, escaped so the analyzer can see
+/// them): mixed Latin/Arabic runs resolve their own direction and never
+/// scramble the surrounding line.
+String bidi(String s) => '\u2068$s\u2069';
 
 class AssistantScreen extends StatefulWidget {
   const AssistantScreen({super.key});
@@ -43,6 +53,10 @@ class _AssistantScreenState extends State<AssistantScreen> {
       template: model.template,
       patients: model.patients,
       handovers: model.handovers,
+      ward: model.ward,
+      formulary: model.formulary,
+      presenceProvider: () => model.colleaguesPresent,
+      wardOrderSetter: model.setWardOrder,
     );
     _assistant.onChanged = () {
       if (!mounted) return;
@@ -94,7 +108,6 @@ class _AssistantScreenState extends State<AssistantScreen> {
               controller: _scroll,
               padding: const EdgeInsetsDirectional.all(16),
               children: [
-                // Intro + memory note.
                 Container(
                   padding: const EdgeInsetsDirectional.all(14),
                   decoration: BoxDecoration(
@@ -109,7 +122,8 @@ class _AssistantScreenState extends State<AssistantScreen> {
                                 color: c.textDim, height: 1.5)),
                         const SizedBox(height: 8),
                         Row(children: [
-                          Icon(LucideIcons.brain, size: 12, color: c.textFaint),
+                          Icon(LucideIcons.brain,
+                              size: 12, color: c.textFaint),
                           const SizedBox(width: 6),
                           Expanded(
                             child: Text(t.assistantMemoryNote,
@@ -120,13 +134,47 @@ class _AssistantScreenState extends State<AssistantScreen> {
                       ]),
                 ),
                 const SizedBox(height: 12),
+                // D-013 — suggested questions on the empty chat state.
+                // Wait-time phrasing, never risk phrasing.
+                if (_assistant.entries.isEmpty)
+                  Wrap(spacing: 8, runSpacing: 8, children: [
+                    for (final q in const [
+                      'كم حالة عندي اليوم؟',
+                      "What's left this shift?",
+                      'من ينتظر أطول؟',
+                    ])
+                      InkWell(
+                        onTap: _busy
+                            ? null
+                            : () {
+                                _input.text = q;
+                                _send();
+                              },
+                        borderRadius: BorderRadius.circular(20),
+                        child: Container(
+                          height: 36,
+                          padding: const EdgeInsetsDirectional.symmetric(
+                              horizontal: 13),
+                          alignment: Alignment.center,
+                          decoration: BoxDecoration(
+                            border: Border.all(color: c.machine),
+                            borderRadius: BorderRadius.circular(20),
+                          ),
+                          child: Text(q,
+                              style: sans(context, 13, color: c.machine)),
+                        ),
+                      ),
+                  ]),
                 for (final entry in _assistant.entries) ...[
                   _entryWidget(entry),
                   const SizedBox(height: 10),
                 ],
+                // The single lightweight working indicator — intermediate
+                // tool rounds never become bubbles (field feedback).
                 if (_busy)
                   Padding(
-                    padding: const EdgeInsetsDirectional.only(start: 4, top: 4),
+                    padding:
+                        const EdgeInsetsDirectional.only(start: 4, top: 4),
                     child: Row(children: [
                       SizedBox(
                           width: 12,
@@ -134,8 +182,16 @@ class _AssistantScreenState extends State<AssistantScreen> {
                           child: CircularProgressIndicator(
                               strokeWidth: 1.5, color: c.machine)),
                       const SizedBox(width: 8),
-                      Text(t.assistantThinking,
+                      Text(
+                          _assistant.activity != null
+                              ? t.assistantWorkingData
+                              : t.assistantThinking,
                           style: sans(context, 12, color: c.textFaint)),
+                      if (_assistant.activity != null) ...[
+                        const SizedBox(width: 6),
+                        Text(bidi(_assistant.activity!),
+                            style: mono(context, 11, color: c.textFaint)),
+                      ],
                     ]),
                   ),
               ],
@@ -200,86 +256,14 @@ class _AssistantScreenState extends State<AssistantScreen> {
 
   Widget _entryWidget(AssistantEntry entry) {
     final c = context.afia;
-    final t = l10n(context);
 
-    if (entry.summary != null) {
-      return _card(
-        icon: LucideIcons.timer,
-        title: '${t.tenSecondSummary} · ${entry.patientLabel}',
-        child: Text(entry.summary!,
-            style: sans(context, 14, color: c.text, height: 1.5)),
-      );
-    }
-    if (entry.diff != null) {
-      final changed =
-          entry.diff!.where((d) => d.kind != DiffKind.unchanged).toList();
-      return _card(
-        icon: LucideIcons.gitCompare,
-        title: '${t.whatChanged} · ${entry.patientLabel}',
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            for (final d in changed)
-              Padding(
-                padding: const EdgeInsetsDirectional.only(bottom: 6),
-                child: Row(crossAxisAlignment: CrossAxisAlignment.start, children: [
-                  SizedBox(
-                    width: 80,
-                    child: Text(
-                      switch (d.kind) {
-                        DiffKind.added => t.diffAdded,
-                        DiffKind.changed => t.diffChanged,
-                        DiffKind.nowEmpty => t.diffNowEmpty,
-                        DiffKind.unchanged => '',
-                      },
-                      style: sans(context, 11, color: c.machine),
-                    ),
-                  ),
-                  Expanded(
-                    child: Text(
-                        '${fieldLabel(context, d.fieldId, d.label)}${d.text.isEmpty ? '' : ' — ${d.text}'}',
-                        style: sans(context, 13, color: c.text, height: 1.4)),
-                  ),
-                ]),
-              ),
-            if (changed.isEmpty)
-              Text('—', style: sans(context, 13, color: c.textFaint)),
-          ],
-        ),
-      );
-    }
-    if (entry.fields != null) {
-      return _card(
-        icon: LucideIcons.layoutList,
-        title: t.structuring,
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            for (final f in entry.fields!)
-              Padding(
-                padding: const EdgeInsetsDirectional.only(bottom: 8),
-                child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(fieldLabel(context, f.fieldId, f.fieldId)
-                              .toUpperCase(),
-                          style: sectionLabel(context)),
-                      const SizedBox(height: 3),
-                      Text(f.text,
-                          style: sans(context, 13,
-                              color: c.text, height: 1.4)),
-                    ]),
-              ),
-          ],
-        ),
-      );
-    }
+    if (entry.answer != null) return _answerCard(entry.answer!);
 
-    // Plain bubbles.
     final fromUser = entry.fromUser;
     return Align(
-      alignment:
-          fromUser ? AlignmentDirectional.centerEnd : AlignmentDirectional.centerStart,
+      alignment: fromUser
+          ? AlignmentDirectional.centerEnd
+          : AlignmentDirectional.centerStart,
       child: Container(
         constraints: BoxConstraints(
             maxWidth: MediaQuery.of(context).size.width * 0.82),
@@ -290,36 +274,213 @@ class _AssistantScreenState extends State<AssistantScreen> {
           border: fromUser ? null : Border.all(color: c.border),
           borderRadius: BorderRadius.circular(12),
         ),
-        child: Text(entry.text,
+        child: Text(bidi(entry.text),
             style: sans(context, 14, color: c.text, height: 1.5)),
       ),
     );
   }
 
-  Widget _card(
-      {required IconData icon, required String title, required Widget child}) {
+  /// The structured answer, in the app's design language: borders not cards,
+  /// stat tiles with mono numbers, quiet section titles, standard status
+  /// lines, tappable patient rows.
+  Widget _answerCard(AssistantAnswer answer) {
     final c = context.afia;
     return Container(
-      padding: const EdgeInsetsDirectional.all(14),
       decoration: BoxDecoration(
-        color: c.raised,
         border: Border.all(color: c.border),
+        borderRadius: BorderRadius.circular(8),
+      ),
+      clipBehavior: Clip.antiAlias,
+      child: Column(crossAxisAlignment: CrossAxisAlignment.stretch, children: [
+        if (answer.intro != null)
+          Padding(
+            padding: const EdgeInsetsDirectional.fromSTEB(14, 12, 14, 4),
+            child: Text(bidi(answer.intro!),
+                style: sans(context, 14, color: c.text, height: 1.5)),
+          ),
+        if (answer.stats.isNotEmpty)
+          Padding(
+            padding: const EdgeInsetsDirectional.fromSTEB(14, 10, 14, 4),
+            child: Row(children: [
+              for (var i = 0; i < answer.stats.length; i++) ...[
+                if (i > 0) Container(width: 1, height: 40, color: c.hairline),
+                Expanded(
+                  child: Column(children: [
+                    Text(answer.stats[i].$2,
+                        textDirection: TextDirection.ltr,
+                        style: mono(context, 20,
+                            weight: FontWeight.w500, color: c.text)),
+                    const SizedBox(height: 3),
+                    Text(bidi(answer.stats[i].$1),
+                        textAlign: TextAlign.center,
+                        style: sans(context, 11, color: c.textFaint)),
+                  ]),
+                ),
+              ],
+            ]),
+          ),
+        for (final section in answer.sections) ...[
+          if (section.title.isNotEmpty)
+            Padding(
+              padding: const EdgeInsetsDirectional.fromSTEB(14, 12, 14, 2),
+              child: Text(bidi(section.title).toUpperCase(),
+                  style: sectionLabel(context)),
+            ),
+          for (final row in section.rows)
+            InkWell(
+              onTap: row.patientId == null
+                  ? null
+                  : () => Navigator.of(context).push(MaterialPageRoute(
+                      builder: (_) =>
+                          PatientDetailScreen(patientId: row.patientId!))),
+              child: Container(
+                constraints: const BoxConstraints(minHeight: 48),
+                padding: const EdgeInsetsDirectional.symmetric(
+                    horizontal: 14, vertical: 7),
+                decoration: BoxDecoration(
+                    border: Border(top: BorderSide(color: c.hairline))),
+                child: Row(children: [
+                  Expanded(
+                    child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Text(bidi(row.title),
+                              style: sans(context, 14, color: c.text)),
+                          if (row.state != null)
+                            StatusLine(
+                                status:
+                                    HandoverStatusWire.parse(row.state!))
+                          else if (row.subtitle != null)
+                            Text(bidi(row.subtitle!),
+                                style:
+                                    sans(context, 12, color: c.textFaint)),
+                        ]),
+                  ),
+                  if (row.trailingMono != null)
+                    Text(row.trailingMono!,
+                        textDirection: TextDirection.ltr,
+                        style: mono(context, 13, color: c.textDim)),
+                  if (row.patientId != null) ...[
+                    const SizedBox(width: 6),
+                    Icon(
+                        Directionality.of(context) == TextDirection.rtl
+                            ? LucideIcons.chevronLeft
+                            : LucideIcons.chevronRight,
+                        size: 14,
+                        color: c.textFaint),
+                  ],
+                ]),
+              ),
+            ),
+        ],
+        // D-014 — the drafted request: assistant drafts, HUMAN sends.
+        if (answer.requestDraft != null)
+          _RequestDraftCard(draft: answer.requestDraft!),
+        if (answer.note != null)
+          Container(
+            padding: const EdgeInsetsDirectional.fromSTEB(14, 8, 14, 10),
+            decoration: BoxDecoration(
+                border: Border(top: BorderSide(color: c.hairline))),
+            child: Text(bidi(answer.note!),
+                style: sans(context, 11, color: c.textFaint, height: 1.4)),
+          )
+        else
+          const SizedBox(height: 10),
+      ]),
+    );
+  }
+}
+
+/// The one-tap confirm card for an assistant-drafted request. Sending is
+/// always this explicit human tap — the assistant never sends (D-014).
+class _RequestDraftCard extends StatefulWidget {
+  final RequestDraft draft;
+  const _RequestDraftCard({required this.draft});
+
+  @override
+  State<_RequestDraftCard> createState() => _RequestDraftCardState();
+}
+
+class _RequestDraftCardState extends State<_RequestDraftCard> {
+  bool _sending = false;
+  bool _sent = false;
+
+  Future<void> _send() async {
+    if (_sending || _sent) return;
+    final model = AppModel.instance!;
+    setState(() => _sending = true);
+    try {
+      await model.teamwork.sendRequest(
+        from: RequestParty(uid: model.me.id, name: model.me.name),
+        to: RequestParty(
+            uid: widget.draft.toUid, name: widget.draft.toName),
+        wardId: model.ward?.id ?? '',
+        kind: widget.draft.kind,
+        bed: widget.draft.bed,
+        note: widget.draft.note,
+      );
+      if (mounted) setState(() => _sent = true);
+    } catch (_) {
+      if (mounted) {
+        setState(() => _sending = false);
+        ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(content: Text(l10n(context).errorGeneric)));
+      }
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final c = context.afia;
+    final t = l10n(context);
+    final draft = widget.draft;
+    return Container(
+      margin: const EdgeInsetsDirectional.fromSTEB(14, 10, 14, 4),
+      padding: const EdgeInsetsDirectional.all(12),
+      decoration: BoxDecoration(
+        border: Border.all(color: c.machine),
         borderRadius: BorderRadius.circular(8),
       ),
       child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
         Row(children: [
-          Icon(icon, size: 14, color: c.machine),
-          const SizedBox(width: 7),
+          Icon(kindIcon(draft.kind), size: 18, color: c.machine),
+          const SizedBox(width: 10),
           Expanded(
-            child: Text(title,
-                maxLines: 1,
-                overflow: TextOverflow.ellipsis,
-                style: sans(context, 12,
-                    weight: FontWeight.w500, color: c.textDim)),
+            child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(kindLabel(context, draft.kind),
+                      style: sans(context, 15,
+                          weight: FontWeight.w500, color: c.text)),
+                  Text(
+                    '${t.toLabel(draft.toName)}'
+                    '${draft.bed != null ? ' · ${t.bed(draft.bed!)}' : ''}'
+                    '${draft.note != null ? ' · ${bidi(draft.note!)}' : ''}',
+                    maxLines: 2,
+                    overflow: TextOverflow.ellipsis,
+                    style: sans(context, 12, color: c.textFaint),
+                  ),
+                ]),
           ),
         ]),
         const SizedBox(height: 10),
-        child,
+        PrimaryButton(
+          height: 48,
+          onTap: _sent || _sending ? null : _send,
+          child: _sending
+              ? SizedBox(
+                  width: 16,
+                  height: 16,
+                  child: CircularProgressIndicator(
+                      strokeWidth: 2, color: c.onAccent))
+              : Row(mainAxisSize: MainAxisSize.min, children: [
+                  Icon(_sent ? LucideIcons.check : LucideIcons.send,
+                      size: 16),
+                  const SizedBox(width: 8),
+                  Text(_sent ? t.requestSent : t.sendRequest),
+                ]),
+        ),
       ]),
     );
   }

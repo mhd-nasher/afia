@@ -743,4 +743,144 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String get authTooManyRequests =>
       'Too many attempts — wait a moment and try again.';
+
+  @override
+  String get assistantOverviewTitle => 'Shift overview';
+
+  @override
+  String get assistantStillToDo => 'Still to do';
+
+  @override
+  String get assistantIncomingTitle => 'Incoming cases';
+
+  @override
+  String get sortStatement =>
+      'Sorted by wait time, then file completeness. Never by clinical risk.';
+
+  @override
+  String get completenessLabel => 'completeness';
+
+  @override
+  String get conditionChangedLabel => 'condition changed';
+
+  @override
+  String get committedReviewLabel => 'Committed review';
+
+  @override
+  String get reviewOwnerLabel => 'Review owner';
+
+  @override
+  String chipsToConfirm(int n) {
+    return '$n to confirm';
+  }
+
+  @override
+  String incomingSubmittedCount(int n) {
+    return '$n incoming submitted cases';
+  }
+
+  @override
+  String get assistantWorkingData => 'Checking the data…';
+
+  @override
+  String get segHandovers => 'Handovers';
+
+  @override
+  String get segRequests => 'Requests';
+
+  @override
+  String get onShiftNow => 'On shift now';
+
+  @override
+  String get noColleagues => 'No colleagues present right now.';
+
+  @override
+  String get kindBreakCover => 'Break cover';
+
+  @override
+  String get kindLiftTurn => 'Lift / turn help';
+
+  @override
+  String get kindMedWitness => 'Medication witness';
+
+  @override
+  String get kindTakeOver => 'Take over patient';
+
+  @override
+  String get kindIvHelp => 'IV / cannula help';
+
+  @override
+  String get kindUrgentReview => 'Urgent review request';
+
+  @override
+  String get kindSupplies => 'Bring supplies';
+
+  @override
+  String get kindFamilyTalk => 'Family conversation help';
+
+  @override
+  String requestTo(String name) {
+    return 'Request to $name';
+  }
+
+  @override
+  String get pickBed => 'Bed — optional';
+
+  @override
+  String get noteOptional => 'Short note — optional';
+
+  @override
+  String get sendRequest => 'Send request';
+
+  @override
+  String get requestSent => 'Request sent';
+
+  @override
+  String get accept => 'Accept';
+
+  @override
+  String get decline => 'Decline';
+
+  @override
+  String get markDone => 'Done';
+
+  @override
+  String get statusPending => 'Pending';
+
+  @override
+  String get statusAccepted => 'Accepted';
+
+  @override
+  String get statusDeclined => 'Declined';
+
+  @override
+  String get statusDone => 'Done';
+
+  @override
+  String fromLabel(String name) {
+    return 'From $name';
+  }
+
+  @override
+  String toLabel(String name) {
+    return 'To $name';
+  }
+
+  @override
+  String get noRequests => 'No requests right now.';
+
+  @override
+  String get noRequestsBody =>
+      'One-tap requests from colleagues on shift appear here.';
+
+  @override
+  String get customOrderActive => 'Your custom order';
+
+  @override
+  String get resetToDefault => 'Reset to default';
+
+  @override
+  String minutesShort(int n) {
+    return '${n}m';
+  }
 }

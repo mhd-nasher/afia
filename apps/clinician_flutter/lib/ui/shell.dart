@@ -84,6 +84,7 @@ class _ShellState extends State<Shell> {
               _TabBar(
                 current: _tab,
                 onSelect: (i) => setState(() => _tab = i),
+                receivedBadge: model.pendingRequestCount,
               ),
             ]),
           ),
@@ -96,7 +97,13 @@ class _ShellState extends State<Shell> {
 class _TabBar extends StatelessWidget {
   final int current;
   final ValueChanged<int> onSelect;
-  const _TabBar({required this.current, required this.onSelect});
+
+  /// D-014 — pending colleague requests awaiting my response.
+  final int receivedBadge;
+  const _TabBar(
+      {required this.current,
+      required this.onSelect,
+      this.receivedBadge = 0});
 
   @override
   Widget build(BuildContext context) {
@@ -124,9 +131,30 @@ class _TabBar extends StatelessWidget {
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      Icon(items[i].$1,
-                          size: 20,
-                          color: i == current ? c.machine : c.textFaint),
+                      Stack(clipBehavior: Clip.none, children: [
+                        Icon(items[i].$1,
+                            size: 20,
+                            color: i == current ? c.machine : c.textFaint),
+                        if (i == 1 && receivedBadge > 0)
+                          PositionedDirectional(
+                            end: -7,
+                            top: -4,
+                            child: Container(
+                              padding: const EdgeInsets.symmetric(
+                                  horizontal: 4, vertical: 1),
+                              decoration: BoxDecoration(
+                                color: c.machine,
+                                borderRadius: BorderRadius.circular(8),
+                              ),
+                              child: Text('$receivedBadge',
+                                  textDirection: TextDirection.ltr,
+                                  style: TextStyle(
+                                      fontSize: 9,
+                                      fontWeight: FontWeight.w600,
+                                      color: c.onAccent)),
+                            ),
+                          ),
+                      ]),
                       const SizedBox(height: 4),
                       Text(
                         items[i].$2,

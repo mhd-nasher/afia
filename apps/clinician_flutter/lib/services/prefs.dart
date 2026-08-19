@@ -43,4 +43,10 @@ class Prefs {
   String? get shiftCompleteShownFor => _sp.getString('shiftCompleteShownFor');
   Future<void> setShiftCompleteShownFor(String dayKey) =>
       _sp.setString('shiftCompleteShownFor', dayKey);
+
+  /// D-014 — the nurse's own ward-list order (serialized WardOrder), cached
+  /// on-device; the account copy lives in aiMemory/{uid} preferences.
+  String? get wardOrder => _sp.getString('wardOrder');
+  Future<void> setWardOrder(String serialized) =>
+      _sp.setString('wardOrder', serialized);
 }

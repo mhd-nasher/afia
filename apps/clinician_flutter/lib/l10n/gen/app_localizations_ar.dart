@@ -738,4 +738,143 @@ class AppLocalizationsAr extends AppLocalizations {
   @override
   String get authTooManyRequests =>
       'محاولات كثيرة — انتظر قليلًا ثم حاول مجددًا.';
+
+  @override
+  String get assistantOverviewTitle => 'نظرة على الوردية';
+
+  @override
+  String get assistantStillToDo => 'المتبقي';
+
+  @override
+  String get assistantIncomingTitle => 'الحالات الواردة';
+
+  @override
+  String get sortStatement =>
+      'مرتَّبة حسب مدة الانتظار ثم اكتمال الملف — أبدًا ليس حسب الخطورة السريرية.';
+
+  @override
+  String get completenessLabel => 'الاكتمال';
+
+  @override
+  String get conditionChangedLabel => 'تغيّرت الحالة';
+
+  @override
+  String get committedReviewLabel => 'زمن المراجعة الملتزم به';
+
+  @override
+  String get reviewOwnerLabel => 'مسؤول المراجعة';
+
+  @override
+  String chipsToConfirm(int n) {
+    return '$n بانتظار التأكيد';
+  }
+
+  @override
+  String incomingSubmittedCount(int n) {
+    return '$n حالة واردة مُرسلة';
+  }
+
+  @override
+  String get assistantWorkingData => 'يبحث في البيانات…';
+
+  @override
+  String get segHandovers => 'التسليم';
+
+  @override
+  String get segRequests => 'الطلبات';
+
+  @override
+  String get onShiftNow => 'في الوردية الآن';
+
+  @override
+  String get noColleagues => 'لا زملاء حاضرين الآن.';
+
+  @override
+  String get kindBreakCover => 'تغطية استراحة';
+
+  @override
+  String get kindLiftTurn => 'مساعدة رفع/تقليب';
+
+  @override
+  String get kindMedWitness => 'شاهد على دواء';
+
+  @override
+  String get kindTakeOver => 'استلام مريض مؤقتًا';
+
+  @override
+  String get kindIvHelp => 'مساعدة كانيولا/وريد';
+
+  @override
+  String get kindUrgentReview => 'طلب مراجعة عاجلة';
+
+  @override
+  String get kindSupplies => 'إحضار مستلزمات';
+
+  @override
+  String get kindFamilyTalk => 'مساعدة بمحادثة أهل';
+
+  @override
+  String requestTo(String name) {
+    return 'طلب إلى $name';
+  }
+
+  @override
+  String get pickBed => 'السرير — اختياري';
+
+  @override
+  String get noteOptional => 'ملاحظة قصيرة — اختياري';
+
+  @override
+  String get sendRequest => 'إرسال الطلب';
+
+  @override
+  String get requestSent => 'أُرسل الطلب';
+
+  @override
+  String get accept => 'قبول';
+
+  @override
+  String get decline => 'رفض';
+
+  @override
+  String get markDone => 'تم';
+
+  @override
+  String get statusPending => 'قيد الانتظار';
+
+  @override
+  String get statusAccepted => 'مقبول';
+
+  @override
+  String get statusDeclined => 'مرفوض';
+
+  @override
+  String get statusDone => 'منجز';
+
+  @override
+  String fromLabel(String name) {
+    return 'من $name';
+  }
+
+  @override
+  String toLabel(String name) {
+    return 'إلى $name';
+  }
+
+  @override
+  String get noRequests => 'لا طلبات حاليًا.';
+
+  @override
+  String get noRequestsBody => 'تظهر هنا طلبات الزملاء في الوردية بلمسة واحدة.';
+
+  @override
+  String get customOrderActive => 'ترتيبك المخصص';
+
+  @override
+  String get resetToDefault => 'إعادة للافتراضي';
+
+  @override
+  String minutesShort(int n) {
+    return '$n د';
+  }
 }

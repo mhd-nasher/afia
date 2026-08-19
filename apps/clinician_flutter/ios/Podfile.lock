@@ -1215,6 +1215,9 @@ PODS:
     - FirebaseAuth (~> 12.17.0)
   - Firebase/CoreOnly (12.17.0):
     - FirebaseCore (~> 12.17.0)
+  - Firebase/Database (12.17.0):
+    - Firebase/CoreOnly
+    - FirebaseDatabase (~> 12.17.0)
   - Firebase/Firestore (12.17.0):
     - Firebase/CoreOnly
     - FirebaseFirestore (~> 12.17.0)
@@ -1231,6 +1234,10 @@ PODS:
     - Flutter
   - firebase_core (4.13.0):
     - Firebase/CoreOnly (= 12.17.0)
+    - Flutter
+  - firebase_database (12.4.7):
+    - Firebase/Database (= 12.17.0)
+    - firebase_core
     - Flutter
   - FirebaseAppCheck (12.17.0):
     - AppCheckCore (~> 11.3)
@@ -1257,6 +1264,12 @@ PODS:
     - FirebaseCore (~> 12.17.0)
   - FirebaseCoreInternal (12.17.0):
     - "GoogleUtilities/NSData+zlib (~> 8.1)"
+  - FirebaseDatabase (12.17.0):
+    - FirebaseAppCheckInterop (~> 12.17.0)
+    - FirebaseCore (~> 12.17.0)
+    - FirebaseSharedSwift (~> 12.17.0)
+    - GoogleUtilities/UserDefaults (~> 8.1)
+    - leveldb-library (~> 1.22)
   - FirebaseFirestore (12.17.0):
     - FirebaseCore (~> 12.17.0)
     - FirebaseCoreExtension (~> 12.17.0)
@@ -1428,6 +1441,7 @@ DEPENDENCIES:
   - firebase_app_check (from `.symlinks/plugins/firebase_app_check/ios`)
   - firebase_auth (from `.symlinks/plugins/firebase_auth/ios`)
   - firebase_core (from `.symlinks/plugins/firebase_core/ios`)
+  - firebase_database (from `.symlinks/plugins/firebase_database/ios`)
   - Flutter (from `Flutter`)
   - integration_test (from `.symlinks/plugins/integration_test/ios`)
   - path_provider_foundation (from `.symlinks/plugins/path_provider_foundation/darwin`)
@@ -1450,6 +1464,7 @@ SPEC REPOS:
     - FirebaseCore
     - FirebaseCoreExtension
     - FirebaseCoreInternal
+    - FirebaseDatabase
     - FirebaseFirestore
     - FirebaseFirestoreInternal
     - FirebaseSharedSwift
@@ -1476,6 +1491,8 @@ EXTERNAL SOURCES:
     :path: ".symlinks/plugins/firebase_auth/ios"
   firebase_core:
     :path: ".symlinks/plugins/firebase_core/ios"
+  firebase_database:
+    :path: ".symlinks/plugins/firebase_database/ios"
   Flutter:
     :path: Flutter
   integration_test:
@@ -1502,6 +1519,7 @@ SPEC CHECKSUMS:
   firebase_app_check: 5da86a4ec92047b87f16009122e2c0e23864516e
   firebase_auth: 3e82fa3e632856cd5a8e2bedf458d682740c8168
   firebase_core: c94f9efeed0ded590b7eecaf6110a374eb865d7a
+  firebase_database: 77bea7311951e20af46a508419047d9fa8c5d29b
   FirebaseAppCheck: 64d364d08ad1f6e8e084f7183c802df0a69eba3c
   FirebaseAppCheckInterop: 6d4cd7b9df8047da8cfc98c3fef4618bab2a8e0d
   FirebaseAuth: d27d2fc54508c3af9db2f617300fcf3042328d80
@@ -1509,6 +1527,7 @@ SPEC CHECKSUMS:
   FirebaseCore: 52d4512296984a44a8c8870c6494870fc7aeee2f
   FirebaseCoreExtension: be2d62bfcf339c7dd94646d43d910aaf37fe17c1
   FirebaseCoreInternal: 3b310521b34a51ce3a6c605e4618b9aef8f6c112
+  FirebaseDatabase: 9b8c0e705a35612c2154c173cf4542e7c85462f5
   FirebaseFirestore: dfebd53ce603c93a8514102c9a0b688d2be2bfc2
   FirebaseFirestoreInternal: 99cccc955349efee1652cbe132cf206915e6923d
   FirebaseSharedSwift: 983820e9aa55d2acd6af77f9a1f252ba0afb3150

@@ -1423,6 +1423,258 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Too many attempts — wait a moment and try again.'**
   String get authTooManyRequests;
+
+  /// No description provided for @assistantOverviewTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Shift overview'**
+  String get assistantOverviewTitle;
+
+  /// No description provided for @assistantStillToDo.
+  ///
+  /// In en, this message translates to:
+  /// **'Still to do'**
+  String get assistantStillToDo;
+
+  /// No description provided for @assistantIncomingTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Incoming cases'**
+  String get assistantIncomingTitle;
+
+  /// No description provided for @sortStatement.
+  ///
+  /// In en, this message translates to:
+  /// **'Sorted by wait time, then file completeness. Never by clinical risk.'**
+  String get sortStatement;
+
+  /// No description provided for @completenessLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'completeness'**
+  String get completenessLabel;
+
+  /// No description provided for @conditionChangedLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'condition changed'**
+  String get conditionChangedLabel;
+
+  /// No description provided for @committedReviewLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Committed review'**
+  String get committedReviewLabel;
+
+  /// No description provided for @reviewOwnerLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Review owner'**
+  String get reviewOwnerLabel;
+
+  /// No description provided for @chipsToConfirm.
+  ///
+  /// In en, this message translates to:
+  /// **'{n} to confirm'**
+  String chipsToConfirm(int n);
+
+  /// No description provided for @incomingSubmittedCount.
+  ///
+  /// In en, this message translates to:
+  /// **'{n} incoming submitted cases'**
+  String incomingSubmittedCount(int n);
+
+  /// No description provided for @assistantWorkingData.
+  ///
+  /// In en, this message translates to:
+  /// **'Checking the data…'**
+  String get assistantWorkingData;
+
+  /// No description provided for @segHandovers.
+  ///
+  /// In en, this message translates to:
+  /// **'Handovers'**
+  String get segHandovers;
+
+  /// No description provided for @segRequests.
+  ///
+  /// In en, this message translates to:
+  /// **'Requests'**
+  String get segRequests;
+
+  /// No description provided for @onShiftNow.
+  ///
+  /// In en, this message translates to:
+  /// **'On shift now'**
+  String get onShiftNow;
+
+  /// No description provided for @noColleagues.
+  ///
+  /// In en, this message translates to:
+  /// **'No colleagues present right now.'**
+  String get noColleagues;
+
+  /// No description provided for @kindBreakCover.
+  ///
+  /// In en, this message translates to:
+  /// **'Break cover'**
+  String get kindBreakCover;
+
+  /// No description provided for @kindLiftTurn.
+  ///
+  /// In en, this message translates to:
+  /// **'Lift / turn help'**
+  String get kindLiftTurn;
+
+  /// No description provided for @kindMedWitness.
+  ///
+  /// In en, this message translates to:
+  /// **'Medication witness'**
+  String get kindMedWitness;
+
+  /// No description provided for @kindTakeOver.
+  ///
+  /// In en, this message translates to:
+  /// **'Take over patient'**
+  String get kindTakeOver;
+
+  /// No description provided for @kindIvHelp.
+  ///
+  /// In en, this message translates to:
+  /// **'IV / cannula help'**
+  String get kindIvHelp;
+
+  /// No description provided for @kindUrgentReview.
+  ///
+  /// In en, this message translates to:
+  /// **'Urgent review request'**
+  String get kindUrgentReview;
+
+  /// No description provided for @kindSupplies.
+  ///
+  /// In en, this message translates to:
+  /// **'Bring supplies'**
+  String get kindSupplies;
+
+  /// No description provided for @kindFamilyTalk.
+  ///
+  /// In en, this message translates to:
+  /// **'Family conversation help'**
+  String get kindFamilyTalk;
+
+  /// No description provided for @requestTo.
+  ///
+  /// In en, this message translates to:
+  /// **'Request to {name}'**
+  String requestTo(String name);
+
+  /// No description provided for @pickBed.
+  ///
+  /// In en, this message translates to:
+  /// **'Bed — optional'**
+  String get pickBed;
+
+  /// No description provided for @noteOptional.
+  ///
+  /// In en, this message translates to:
+  /// **'Short note — optional'**
+  String get noteOptional;
+
+  /// No description provided for @sendRequest.
+  ///
+  /// In en, this message translates to:
+  /// **'Send request'**
+  String get sendRequest;
+
+  /// No description provided for @requestSent.
+  ///
+  /// In en, this message translates to:
+  /// **'Request sent'**
+  String get requestSent;
+
+  /// No description provided for @accept.
+  ///
+  /// In en, this message translates to:
+  /// **'Accept'**
+  String get accept;
+
+  /// No description provided for @decline.
+  ///
+  /// In en, this message translates to:
+  /// **'Decline'**
+  String get decline;
+
+  /// No description provided for @markDone.
+  ///
+  /// In en, this message translates to:
+  /// **'Done'**
+  String get markDone;
+
+  /// No description provided for @statusPending.
+  ///
+  /// In en, this message translates to:
+  /// **'Pending'**
+  String get statusPending;
+
+  /// No description provided for @statusAccepted.
+  ///
+  /// In en, this message translates to:
+  /// **'Accepted'**
+  String get statusAccepted;
+
+  /// No description provided for @statusDeclined.
+  ///
+  /// In en, this message translates to:
+  /// **'Declined'**
+  String get statusDeclined;
+
+  /// No description provided for @statusDone.
+  ///
+  /// In en, this message translates to:
+  /// **'Done'**
+  String get statusDone;
+
+  /// No description provided for @fromLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'From {name}'**
+  String fromLabel(String name);
+
+  /// No description provided for @toLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'To {name}'**
+  String toLabel(String name);
+
+  /// No description provided for @noRequests.
+  ///
+  /// In en, this message translates to:
+  /// **'No requests right now.'**
+  String get noRequests;
+
+  /// No description provided for @noRequestsBody.
+  ///
+  /// In en, this message translates to:
+  /// **'One-tap requests from colleagues on shift appear here.'**
+  String get noRequestsBody;
+
+  /// No description provided for @customOrderActive.
+  ///
+  /// In en, this message translates to:
+  /// **'Your custom order'**
+  String get customOrderActive;
+
+  /// No description provided for @resetToDefault.
+  ///
+  /// In en, this message translates to:
+  /// **'Reset to default'**
+  String get resetToDefault;
+
+  /// No description provided for @minutesShort.
+  ///
+  /// In en, this message translates to:
+  /// **'{n}m'**
+  String minutesShort(int n);
 }
 
 class _AppLocalizationsDelegate

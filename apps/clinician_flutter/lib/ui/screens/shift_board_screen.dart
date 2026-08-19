@@ -14,8 +14,10 @@ import '../../state/app_model.dart';
 import '../../theme/app_theme.dart';
 import '../../theme/tokens.dart';
 import '../widgets/common.dart';
+import '../widgets/request_kit.dart';
 import 'assistant_sheet.dart';
 import 'draft_review_screen.dart';
+import 'request_sheet.dart';
 import 'shift_complete_screen.dart';
 
 class ShiftBoardScreen extends StatelessWidget {
@@ -120,6 +122,49 @@ class ShiftBoardScreen extends StatelessWidget {
               _stat(context, confirmed, t.confirmedStat),
             ]),
           ),
+          // D-014 — who is here NOW (live RTDB presence, my ward only).
+          // Only currently-present people; tap a colleague to send a
+          // one-tap preset request.
+          SectionHeader(t.onShiftNow, height: 30),
+          if (model.colleaguesPresent.isEmpty)
+            Container(
+              height: 40,
+              width: double.infinity,
+              padding: const EdgeInsetsDirectional.symmetric(horizontal: 16),
+              alignment: AlignmentDirectional.centerStart,
+              decoration: BoxDecoration(
+                  border: Border(bottom: BorderSide(color: c.hairline))),
+              child: Text(t.noColleagues,
+                  style: sans(context, 13, color: c.textFaint)),
+            )
+          else
+            for (final colleague in model.colleaguesPresent.take(4))
+              InkWell(
+                onTap: () => showRequestSheet(context, colleague),
+                child: Container(
+                  height: 48,
+                  padding:
+                      const EdgeInsetsDirectional.symmetric(horizontal: 16),
+                  decoration: BoxDecoration(
+                      border: Border(
+                          bottom: BorderSide(color: c.hairline))),
+                  child: Row(children: [
+                    const PresenceDot(),
+                    const SizedBox(width: 10),
+                    Expanded(
+                      child: Text(colleague.name,
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                          style: sans(context, 14, color: c.text)),
+                    ),
+                    Text(colleague.role,
+                        style: sans(context, 12, color: c.textFaint)),
+                    const SizedBox(width: 8),
+                    Icon(LucideIcons.helpingHand,
+                        size: 16, color: c.machine),
+                  ]),
+                ),
+              ),
           // Column headers.
           Container(
             height: 28,

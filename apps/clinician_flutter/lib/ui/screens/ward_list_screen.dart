@@ -8,6 +8,7 @@ import 'package:lucide_icons/lucide_icons.dart';
 
 import '../../domain/entities.dart';
 import '../../domain/handover.dart';
+import '../../domain/ward_order.dart';
 import '../../services/export_engine.dart';
 import '../../state/app_model.dart';
 import '../../theme/app_theme.dart';
@@ -28,7 +29,9 @@ class WardListScreen extends StatelessWidget {
       builder: (context, _) {
         final c = context.afia;
         final t = l10n(context);
-        final patients = model.patients;
+        // D-014 — the nurse's own saved order (bed default; §2.10 intact:
+        // no risk mode exists in the enum).
+        final patients = model.orderedPatients;
         final confirmed = patients
             .where((p) =>
                 model.latestFor(p.id)?.status ==
@@ -83,6 +86,29 @@ class WardListScreen extends StatelessWidget {
               ),
             ]),
           ),
+          // Custom-order indicator — quiet, with a one-tap reset.
+          if (!model.wardOrder.isDefault)
+            Container(
+              height: 26,
+              padding: const EdgeInsetsDirectional.symmetric(horizontal: 16),
+              decoration: BoxDecoration(
+                color: c.raised,
+                border: Border(bottom: BorderSide(color: c.hairline)),
+              ),
+              child: Row(children: [
+                Icon(LucideIcons.arrowUpDown, size: 11, color: c.textFaint),
+                const SizedBox(width: 6),
+                Expanded(
+                  child: Text(t.customOrderActive,
+                      style: sans(context, 11, color: c.textFaint)),
+                ),
+                InkWell(
+                  onTap: () => model.setWardOrder(WardOrder.defaultOrder),
+                  child: Text(t.resetToDefault,
+                      style: sans(context, 11, color: c.machine)),
+                ),
+              ]),
+            ),
           // The 12 rows — Expanded shares height exactly: no scroll, ever.
           Expanded(
             child: patients.isEmpty

@@ -393,5 +393,89 @@
         "type": "String"
       }
     }
+  },
+  "assistantOverviewTitle": "Shift overview",
+  "assistantStillToDo": "Still to do",
+  "assistantIncomingTitle": "Incoming cases",
+  "sortStatement": "Sorted by wait time, then file completeness. Never by clinical risk.",
+  "completenessLabel": "completeness",
+  "conditionChangedLabel": "condition changed",
+  "committedReviewLabel": "Committed review",
+  "reviewOwnerLabel": "Review owner",
+  "chipsToConfirm": "{n} to confirm",
+  "@chipsToConfirm": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
+  "incomingSubmittedCount": "{n} incoming submitted cases",
+  "@incomingSubmittedCount": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
+  "assistantWorkingData": "Checking the data…",
+  "segHandovers": "Handovers",
+  "segRequests": "Requests",
+  "onShiftNow": "On shift now",
+  "noColleagues": "No colleagues present right now.",
+  "kindBreakCover": "Break cover",
+  "kindLiftTurn": "Lift / turn help",
+  "kindMedWitness": "Medication witness",
+  "kindTakeOver": "Take over patient",
+  "kindIvHelp": "IV / cannula help",
+  "kindUrgentReview": "Urgent review request",
+  "kindSupplies": "Bring supplies",
+  "kindFamilyTalk": "Family conversation help",
+  "requestTo": "Request to {name}",
+  "@requestTo": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "pickBed": "Bed — optional",
+  "noteOptional": "Short note — optional",
+  "sendRequest": "Send request",
+  "requestSent": "Request sent",
+  "accept": "Accept",
+  "decline": "Decline",
+  "markDone": "Done",
+  "statusPending": "Pending",
+  "statusAccepted": "Accepted",
+  "statusDeclined": "Declined",
+  "statusDone": "Done",
+  "fromLabel": "From {name}",
+  "@fromLabel": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "toLabel": "To {name}",
+  "@toLabel": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "noRequests": "No requests right now.",
+  "noRequestsBody": "One-tap requests from colleagues on shift appear here.",
+  "customOrderActive": "Your custom order",
+  "resetToDefault": "Reset to default",
+  "minutesShort": "{n}m",
+  "@minutesShort": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
   }
 }

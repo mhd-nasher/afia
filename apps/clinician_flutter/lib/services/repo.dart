@@ -16,6 +16,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/foundation.dart';
 
 import '../domain/audit.dart';
+import '../domain/case_data.dart';
 import '../domain/draft.dart';
 import '../domain/entities.dart';
 import '../domain/formulary.dart';
@@ -86,6 +87,14 @@ class Repo {
       _db.collection('templateVersions').snapshots().map((s) =>
           s.docs.map((d) => TemplateVersionData.fromMap(d.data())).toList()
             ..sort((a, b) => a.version.compareTo(b.version)));
+
+  /// D-013 — incoming patient-app cases, read under the signed-in
+  /// practitioner's own rules-scoped access. One-shot read; the assistant
+  /// fetches fresh data per question.
+  Future<List<CaseData>> fetchCases() async {
+    final snap = await _db.collection('cases').get();
+    return snap.docs.map((d) => CaseData.fromMap(d.data())).toList();
+  }
 
   Stream<Practitioner?> watchPractitioner(String uid) =>
       _db.collection('practitioners').doc(uid).snapshots().map(
