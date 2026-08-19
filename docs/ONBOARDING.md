@@ -42,6 +42,9 @@ does not exist in this product).
 - **Patient app**: self-register in the app (email+password).
 - **Dashboard**: https://afia-dashboard.vercel.app — register a manager account, or ask
   Mohammed for the admin account.
+- **Ready-made team test accounts** exist for all roles (`nurse1@`/`nurse2@`/`admin@`/
+  `patient@afia-test.dev` — nurse invitations already seeded to ward-a). Passwords are
+  held by Mohammed (never in this repo — RULES.md W6): ask him.
 
 ## 5. Firebase
 Project `afia-12f38` · Firestore `(default)` in me-central2 · rules in

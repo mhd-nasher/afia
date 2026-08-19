@@ -17,6 +17,10 @@ provided — it never produces a clinical judgement.**
 | Backend | Firebase `afia-12f38` | Firestore (me-central2) + Auth + AI Logic (Gemini); `firestore.rules` enforces the safety constraints at the DB boundary |
 | Web reference apps | React + Vite | `apps/clinician`, `apps/patient` (working flow references) |
 
+> **Catching up?** `docs/STATUS.md` → "CURRENT SNAPSHOT" tells you exactly where the
+> project stands, what's verified, and what to do next. AI assistants are routed there
+> automatically via `CLAUDE.md`/`AGENTS.md`.
+
 ## Start here
 
 1. **`docs/RULES.md`** — the binding engineering law (read first; AI assistants are

@@ -7,9 +7,11 @@ Rules), citing the rule ID and reason — refusal with citation is correct behav
 here, not obstruction. Only Mohammed can amend the rules, in writing, via
 `docs/DECISIONS.md` + a HANDOFF amendment.
 
-Reading order: `docs/RULES.md` → `docs/HANDOFF.md` (+ Amendment 1, the product spec of
-record) → `docs/STATUS.md` (what's done/verified/missing) → `docs/ONBOARDING.md` (how
-to run) → `docs/DECISIONS.md` (why things are the way they are).
+Reading order: `docs/RULES.md` → `docs/HANDOFF.md` (+ Amendments 1–2, the product spec
+of record) → `docs/STATUS.md` (what's done/verified/missing — its **CURRENT SNAPSHOT**
+section at the bottom is the exact catch-up point: read it to know precisely where the
+project stands today) → `docs/ONBOARDING.md` (how to run) → `docs/DECISIONS.md`
+(D-001..D-015 — why things are the way they are, and the only place new decisions land).
 
 ## The short version of the law (details + enforcement map in docs/RULES.md)
 

@@ -80,3 +80,34 @@ typecheck/build; they are the reference implementation, Firebase-backed by defau
 - Dashboard is EN-only (managers) — by design, revisit if Mohammed wants AR there.
 - No CI pipeline yet (tests run locally; see ONBOARDING.md) — good first task for the
   team, gating on the exact commands in RULES.md W1.
+
+---
+
+## CURRENT SNAPSHOT — 2026-08-19 evening (read this first to catch up)
+
+**Full-system QA sweep verdict: READY** (all 114 tests green: 38 TS + 54 clinician +
+22 patient; typechecks/builds clean; invariants grep-clean; l10n parity EN=AR;
+deployed Firestore rules byte-identical to repo; RTDB live with rules verified by
+`scripts/rtdb-smoke.mjs`; dashboard serving 200). The owner has personally verified
+on-device: email sign-in + invitation claim (clinician), the not-invited gate, and
+the assistant answering from live data.
+
+**Deliverables in flight:**
+- TestFlight IPAs built & signed: clinician `1.0.0 (6)`, patient `1.0.0 (5)` —
+  owner uploads via Transporter.
+- Hackathon pitch deck: `pitch/afia-pitch.pptx` (21 slides, judge Q&A in speaker
+  notes, built by `pitch/deck.js` — rebuild with `node deck.js` after edits).
+- Team test accounts provisioned in Firebase Auth (credentials held by the owner,
+  NEVER in this repo — W6): `nurse1@afia-test.dev`, `nurse2@afia-test.dev`
+  (invitations seeded, ward-a), `admin@afia-test.dev` (managerAccounts),
+  `patient@afia-test.dev` (patientAccounts).
+
+**Next steps for the team (in order of value):**
+1. CI pipeline gating on RULES.md W1's exact commands (no pipeline exists yet).
+2. Android build + run (configured, never exercised).
+3. App launch images (still Flutter placeholders) before App Store submission.
+4. Field pilot per HANDOFF §9: measure transcription WER on real ward speech and
+   the time-saved metric — the two headline unknowns.
+5. Owner-gated: `scripts/purge-demo-data.sh` (legacy synthetic records), the stale
+   comment in `firestore.rules` (~line 122, fix on next rules change per R13),
+   Blaze upgrade when real scale arrives.
