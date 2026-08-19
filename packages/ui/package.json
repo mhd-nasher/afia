@@ -1,0 +1,13 @@
+{
+  "name": "@afia/ui",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "main": "./src/index.tsx",
+  "types": "./src/index.tsx",
+  "description": "Shared design tokens + tiny shared components (SyntheticBanner, chips) so three apps render one design language.",
+  "dependencies": {},
+  "peerDependencies": {
+    "react": "^18.3.0"
+  }
+}

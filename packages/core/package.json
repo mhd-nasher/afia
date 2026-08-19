@@ -1,0 +1,13 @@
+{
+  "name": "@afia/core",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "main": "./src/index.ts",
+  "types": "./src/index.ts",
+  "description": "Domain model, state machines, store, audit trail, synthetic seed data. FHIR-shaped.",
+  "dependencies": {
+    "@afia/rules": "*",
+    "firebase": "^12.17.1"
+  }
+}

@@ -1,0 +1,441 @@
+/* Patient app — calm, high-contrast, plain language. Frightened, possibly
+   elderly users: body text ≥17px, headings larger, every interactive target
+   at least var(--touch-patient) = 64px (F-054). Plain CSS, no framework. */
+
+body {
+  font-size: 17px;
+  line-height: 1.55;
+}
+
+/* Content column. Top padding clears the synthetic-data banner; bottom
+   padding clears the fixed safety dock so nothing hides behind it. */
+.app {
+  max-width: 560px;
+  margin: 0 auto;
+  padding: calc(var(--banner-h) + 20px) 20px 300px;
+}
+
+h1 {
+  font-size: 28px;
+  line-height: 1.25;
+  margin: 6px 0 12px;
+  color: var(--ink);
+}
+
+h2.review-heading {
+  font-size: 21px;
+  margin: 18px 0 4px;
+  color: var(--ink);
+}
+
+p {
+  font-size: 18px;
+  margin: 0 0 6px;
+  color: var(--ink);
+}
+
+.eyebrow {
+  font-size: 17px;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin: 8px 0 0;
+}
+
+.hint {
+  color: var(--muted);
+  font-size: 17px;
+}
+
+.stack {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+/* ── primary action ──────────────────────────────────────────────────────── */
+
+.btn-primary {
+  min-height: var(--touch-patient);
+  min-width: var(--touch-patient);
+  width: 100%;
+  font-size: 21px;
+  font-weight: 700;
+  border-radius: var(--radius);
+  background: var(--indigo);
+  color: #ffffff;
+  padding: 12px 18px;
+}
+.btn-primary:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+.btn-ghost {
+  min-height: var(--touch-patient);
+  min-width: var(--touch-patient);
+  width: 100%;
+  font-size: 19px;
+  font-weight: 700;
+  border-radius: var(--radius);
+  border: 2px solid var(--ink);
+  background: var(--surface);
+  color: var(--ink);
+  padding: 12px 18px;
+}
+
+/* ── answer options: styled IDENTICALLY — same size, weight, shape (F-053) ── */
+
+.answer-btn {
+  min-height: var(--touch-patient);
+  min-width: var(--touch-patient);
+  width: 100%;
+  font-size: 20px;
+  font-weight: 600;
+  text-align: center;
+  border: 2px solid var(--ink);
+  border-radius: var(--radius);
+  background: var(--surface);
+  color: var(--ink);
+  padding: 12px 18px;
+}
+.answer-btn--selected {
+  outline: 4px solid var(--indigo);
+  outline-offset: 2px;
+}
+
+/* ── entry ───────────────────────────────────────────────────────────────── */
+
+.field-label {
+  display: block;
+  font-size: 18px;
+  font-weight: 600;
+  margin-bottom: 6px;
+  color: var(--ink);
+}
+
+input[type='text'],
+textarea {
+  width: 100%;
+  min-height: var(--touch-patient);
+  font-size: 19px;
+  font-family: inherit;
+  color: var(--ink);
+  background: var(--surface);
+  border: 2px solid var(--muted);
+  border-radius: var(--radius);
+  padding: 14px;
+}
+textarea {
+  min-height: 150px;
+  resize: vertical;
+  line-height: 1.5;
+}
+input[type='text']:focus,
+textarea:focus {
+  outline: 3px solid var(--indigo);
+  outline-offset: 1px;
+}
+
+.toggle-row {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  min-height: var(--touch-patient);
+  width: 100%;
+  text-align: left;
+  font-size: 18px;
+  font-weight: 600;
+  color: var(--ink);
+  background: var(--surface);
+  border: 2px solid var(--muted);
+  border-radius: var(--radius);
+  padding: 12px 14px;
+}
+.toggle-box {
+  width: 34px;
+  height: 34px;
+  flex: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 22px;
+  font-weight: 800;
+  color: #ffffff;
+  border: 3px solid var(--ink);
+  border-radius: 8px;
+  background: var(--surface);
+}
+.toggle-row[aria-checked='true'] {
+  border-color: var(--indigo);
+}
+.toggle-row[aria-checked='true'] .toggle-box {
+  background: var(--indigo);
+  border-color: var(--indigo);
+}
+
+.entry-footer {
+  margin-top: 28px;
+  display: flex;
+  justify-content: center;
+}
+.reset-link {
+  min-height: var(--touch-patient);
+  min-width: var(--touch-patient);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 17px;
+  color: var(--muted);
+  text-decoration: underline;
+  padding: 0 20px;
+}
+
+/* ── voice capture ───────────────────────────────────────────────────────── */
+
+.voice-box {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+.record-btn {
+  min-height: 80px;
+  min-width: var(--touch-patient);
+  width: 100%;
+  font-size: 22px;
+  font-weight: 700;
+  border-radius: var(--radius);
+  border: 3px solid var(--indigo);
+  background: var(--indigo-bg);
+  color: var(--indigo);
+  padding: 12px 18px;
+}
+.record-btn--stop {
+  border-color: var(--danger);
+  background: var(--danger-bg);
+  color: var(--danger);
+}
+.voice-audio {
+  width: 100%;
+  min-height: var(--touch-patient);
+}
+
+/* ── review ──────────────────────────────────────────────────────────────── */
+
+.review-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  background: var(--surface);
+  border: 1.5px solid var(--line);
+  border-radius: var(--radius);
+  padding: 14px;
+}
+.review-text {
+  min-width: 0;
+}
+.review-q {
+  font-size: 17px;
+  color: var(--muted);
+}
+.review-a {
+  font-size: 19px;
+  font-weight: 700;
+  color: var(--ink);
+  overflow-wrap: break-word;
+}
+.review-a--missing {
+  font-weight: 600;
+  color: var(--muted);
+}
+.review-a--body {
+  font-weight: 500;
+  white-space: pre-wrap;
+}
+.edit-btn {
+  flex: none;
+  min-height: var(--touch-patient);
+  min-width: var(--touch-patient);
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--indigo);
+  background: var(--surface);
+  border: 2px solid var(--indigo);
+  border-radius: var(--radius);
+  padding: 0 18px;
+}
+
+/* ── status ──────────────────────────────────────────────────────────────── */
+
+.case-ref {
+  font-size: 19px;
+}
+.case-ref strong {
+  font-family: var(--mono);
+  letter-spacing: 0.08em;
+}
+.update-row {
+  background: var(--surface);
+  border: 1.5px solid var(--line);
+  border-radius: var(--radius);
+  padding: 14px;
+}
+.update-kind {
+  font-size: 19px;
+  font-weight: 700;
+  color: var(--ink);
+}
+.update-time {
+  font-size: 17px;
+  color: var(--muted);
+  margin: 2px 0 8px;
+}
+.sync {
+  font-size: 18px;
+}
+.sync--sent {
+  color: var(--green);
+  font-weight: 600;
+}
+.sync--queued {
+  color: var(--amber);
+  font-weight: 700;
+}
+
+/* Mandatory honesty copy (F-058) — prominent, verbatim. */
+.mandatory {
+  border: 3px solid var(--ink);
+  background: var(--surface);
+  border-radius: var(--radius);
+  padding: 18px;
+  font-size: 19px;
+  font-weight: 600;
+  color: var(--ink);
+  margin: 16px 0 8px;
+}
+
+.confirm-copy {
+  font-size: 20px;
+  font-weight: 600;
+}
+
+/* ── safety dock — fixed, portal to body, above everything (F-051) ───────── */
+
+.dock {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 9500;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  background: var(--surface);
+  border-top: 2px solid var(--line);
+  padding: 12px 16px calc(12px + env(safe-area-inset-bottom));
+  box-shadow: 0 -4px 16px rgba(27, 30, 43, 0.08);
+}
+.dock a,
+.dock button {
+  min-height: var(--touch-patient);
+  min-width: var(--touch-patient);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  border-radius: var(--radius);
+  text-decoration: none;
+  text-align: center;
+  padding: 8px 12px;
+}
+.dock-999 {
+  background: var(--emergency);
+  color: #ffffff;
+  font-size: 21px;
+  font-weight: 800;
+}
+.dock-row {
+  display: flex;
+  gap: 10px;
+}
+.dock-row > * {
+  flex: 1;
+}
+.dock-111 {
+  border: 2px solid var(--ink);
+  background: var(--surface);
+  color: var(--ink);
+  font-size: 17px;
+  font-weight: 700;
+}
+.dock-changed {
+  background: var(--indigo);
+  color: #ffffff;
+  font-size: 17px;
+  font-weight: 700;
+}
+
+/* ── emergency interrupt — full-screen, calm but unmissable (F-052) ──────── */
+/* z-index sits BELOW the demo banner (9000) and the safety dock (9500):
+   both remain visible on top of the interrupt. */
+
+.interrupt {
+  position: fixed;
+  inset: 0;
+  z-index: 8500;
+  overflow-y: auto;
+  background: var(--surface);
+  padding-bottom: 300px;
+}
+.interrupt-header {
+  background: var(--emergency);
+  color: #ffffff;
+  padding: calc(var(--banner-h) + 24px) 20px 24px;
+}
+.interrupt-header h1 {
+  color: #ffffff;
+  margin: 0;
+  font-size: 34px;
+}
+.interrupt-body {
+  max-width: 560px;
+  margin: 0 auto;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+.interrupt-lead {
+  font-size: 22px;
+  font-weight: 600;
+}
+.interrupt-999 {
+  min-height: 96px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--emergency);
+  color: #ffffff;
+  font-size: 30px;
+  font-weight: 800;
+  border-radius: var(--radius);
+  text-decoration: none;
+}
+.interrupt-111 {
+  min-height: var(--touch-patient);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 3px solid var(--ink);
+  color: var(--ink);
+  font-size: 20px;
+  font-weight: 700;
+  border-radius: var(--radius);
+  text-decoration: none;
+}
+.interrupt-note {
+  font-size: 18px;
+  color: var(--muted);
+}

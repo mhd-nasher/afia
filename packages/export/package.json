@@ -1,0 +1,13 @@
+{
+  "name": "@afia/export",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "main": "./src/index.ts",
+  "types": "./src/index.ts",
+  "description": "ExportTarget implementations: clipboard (real), FHIR DocumentReference generator (real, sends nothing), HL7v2 (stub). FHIR-ready, not FHIR-integrated.",
+  "dependencies": {
+    "@afia/core": "*",
+    "@afia/rules": "*"
+  }
+}

@@ -1,0 +1,23 @@
+# DECISIONS.md — the why-ledger
+
+> Every consequential decision, who made it, when, and why. AI assistants and engineers
+> cite these IDs when explaining or refusing changes. Only Mohammed Nasher adds or
+> reverses entries (append-only — reversals are new entries, never edits).
+
+| ID | Date | Decision | Why |
+|----|------|----------|-----|
+| D-001 | 2026-08-19 | The ten §2 constraints (HANDOFF) are structural law: one-way escalation, UNKNOWN first-class, per-chip confirmation, flags never block signing, immutable signatures, audio retained, local deterministic red flags, rules-based gap detection, no individual performance data, wait-time-only queues. | Each blocks a specific way clinical software kills or deceives. See RULES.md Part A. |
+| D-002 | 2026-08-19 | Monorepo: TS packages (`core/rules/export/ai/ui`) + 3 web apps as reference implementation; **Flutter** is the real mobile product (`apps/clinician_flutter`, `apps/patient_flutter`); dashboard is React (deployed on Vercel). | Handoff §8 structure requires one language for shared packages; Mohammed then chose Flutter for shippable mobile apps. Web apps stayed as working flow reference. |
+| D-003 | 2026-08-19 | Everything runs on Firebase project **`afia-12f38`** ("Afia"): Firestore, Auth (phone/email/anonymous), AI Logic. Security rules re-enforce the constraints at the DB boundary. | Mohammed: "كل شي بيكون في firebase". Rules-at-boundary so a tampered client still can't violate R1/R5/R12. |
+| D-004 | 2026-08-19 | Jurisdiction: **Bahrain** — emergency 999, MOH line 444, default phone country +973. Firestore region **me-central2** (created by Mohammed; nearest GCP region; effectively permanent). | Mohammed corrected KSA→Bahrain explicitly ("حط ارقام البحرين"). Region determines the data-protection regime (HANDOFF §8). |
+| D-005 | 2026-08-19 | Locales: **Arabic + English only**, full RTL. | Mohammed: "اللغة المدعومة عربي وانجليزي فقط". |
+| D-006 | 2026-08-19 | Gemini via **Firebase AI Logic**, model constant `gemini-3.5-flash` (single constant per app in `lib/services/ai_config.dart`, fallback chain). The requested "gemini flash 3.7" does not exist — closest current Flash used. AI is a real tool-calling agent ("Afia Assistant") with per-user memory (`aiMemory/{uid}`) that learns preferences from usage — but the §4.3 envelope is absolute: reorganisation only, no clinical judgement tools exist. | Mohammed: real agent "زي hermes" with memory that learns per user — granted within the safety envelope he himself set in HANDOFF §4.3. |
+| D-007 | 2026-08-19 | Auth per surface: clinician = phone OTP + invitation only (no self-registration — accounts created from the dashboard); patient = self-registration (phone OTP or email+password) with red flags & emergency BEFORE auth; dashboard = email+password managers. | Mohammed's explicit instructions across the session; safety-before-auth ordering preserves HANDOFF §2.7. |
+| D-008 | 2026-08-19 | **Amendment 1**: demo → real-use pilot. Synthetic banner and demo labels withdrawn everywhere (F-090 withdrawn); synthetic clinical records purged (owner-run script); export acknowledgement is a REAL Firestore server ack labeled "Recorded in Afia"/«مسجَّل في عافية» — never implies hospital receipt; "FHIR-ready" is the only permitted integration claim. HANDOFF §9's unresolved risks remain OPEN and documented. | Mohammed: "احذف موضوع البيانات التجريبيه والاشعار تبعها تماما". The ack redesign came from an agent's safety objection Mohammed's coordinator adopted: a fake ack would be a lie in real use. |
+| D-009 | 2026-08-19 | iOS signing team: **NASGO LTD (SDBHYX4BF4)** for TestFlight (bundle ids `uk.nasgo.afiaClinician`, `uk.nasgo.afiaPatient`, v1.0.0+1). | Only team on the build machine with a distribution certificate; original team id had no Xcode account. Reversible by one build setting + re-archive. |
+| D-010 | 2026-08-19 | Dashboard deployed to Mohammed's Vercel: `afia-dashboard.vercel.app`. Dashboard is NOT in the clinical path (observe/configure only) but IS the only staff-account (invitation) creation path, and carries patient admission (no ADT feed exists). | Mohammed: "انشره على حسابي في vercel"; admission added because real use needs a patient-entry path. |
+| D-011 | 2026-08-19 | No credentials in the repo, ever. Scripts read env vars; test credentials that leaked into transcripts were rotated/disabled. | Team-shared repo; least privilege. |
+
+**How to add a decision:** Mohammed writes (or approves in writing) a new row +, if it
+changes product behaviour, an Amendment section in `docs/HANDOFF.md`. Nothing else
+counts as authority — see RULES.md preamble.

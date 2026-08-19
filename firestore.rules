@@ -1,0 +1,147 @@
+rules_version = '2';
+
+// Afia — Firestore security rules (demo).
+// The §2 constraints are enforced here too, at the database boundary:
+// a client that bypasses the app code still cannot lower a priority,
+// alter a signature, or rewrite the audit trail.
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    function authed() {
+      return request.auth != null;
+    }
+
+    // §2.1 — priority rank; escalation is one-way.
+    function rank(p) {
+      return p == 'routine' ? 0 : (p == 'elevated' ? 1 : 2);
+    }
+
+    match /patients/{id} {
+      allow read, create, update: if authed();
+      allow delete: if false;
+    }
+
+    match /practitioners/{id} {
+      allow read, create: if authed();
+      // §2.5 — signature identity is immutable after account creation.
+      allow update: if authed()
+        && request.resource.data.signatureIdentity == resource.data.signatureIdentity;
+      allow delete: if false;
+    }
+
+    match /wards/{id} {
+      allow read, create, update: if authed();
+      allow delete: if false;
+    }
+
+    match /handovers/{id} {
+      allow read, create: if authed();
+      // §2.5 — an existing signature can never be altered or removed.
+      // (A superseding edit creates a NEW document; the original keeps its signature.)
+      allow update: if authed()
+        && (resource.data.signature == null
+            || request.resource.data.signature == resource.data.signature);
+      allow delete: if false;
+    }
+
+    match /cases/{id} {
+      allow read, create: if authed();
+      // §2.1 — a case priority may rise, never fall. Updates are append-only:
+      // history can grow, never shrink (a tampered client cannot drop updates).
+      allow update: if authed()
+        && rank(request.resource.data.priority) >= rank(resource.data.priority)
+        && request.resource.data.updates.size() >= resource.data.updates.size();
+      allow delete: if false;
+    }
+
+    match /consents/{id} {
+      allow read, create, update: if authed();
+      allow delete: if false; // withdrawal is a timestamp, not a deletion (§3.3)
+    }
+
+    match /audit/{id} {
+      allow read, create: if authed();
+      allow update, delete: if false; // §3.4 — append-only, immutable
+    }
+
+    match /formulary/{id} {
+      allow read, create, update: if authed();
+      allow delete: if false;
+    }
+
+    match /templateVersions/{id} {
+      allow read, create: if authed();
+      allow update, delete: if false; // versioned — never edited in place
+    }
+
+    match /redFlagQuestions/{id} {
+      allow read, create, update: if authed();
+      allow delete: if false;
+    }
+
+    match /functionalQuestions/{id} {
+      allow read, create, update: if authed();
+      allow delete: if false;
+    }
+
+    match /wellbeing/{id} {
+      // §2.9 — anonymous aggregate scores per ward; nothing per-person exists.
+      allow read, create, update: if authed();
+      allow delete: if false;
+    }
+
+    match /signInLog/{id} {
+      allow read, create: if authed();
+      allow update, delete: if false;
+    }
+
+    match /invitations/{phone} {
+      // §2.5 + §5 — accounts exist by invitation only. The dashboard creates
+      // invitations; first OTP sign-in claims one. There is no self-registration.
+      allow read: if authed();
+      allow create: if authed();
+      // A claim may only fill claimedBy (once) — the invitation's identity
+      // fields, including signatureIdentity, are immutable.
+      allow update: if authed()
+        && resource.data.claimedBy == null
+        && request.resource.data.signatureIdentity == resource.data.signatureIdentity
+        && request.resource.data.phone == resource.data.phone
+        && request.resource.data.name == resource.data.name
+        && request.resource.data.role == resource.data.role;
+      allow delete: if false;
+    }
+
+    match /managerAccounts/{uid} {
+      // Dashboard (admin) accounts — email/password sign-in. Owner-only doc.
+      allow read, create, update, delete: if authed() && request.auth.uid == uid;
+    }
+
+    match /patientAccounts/{uid} {
+      // Patient-app accounts are SELF-registered (phone OTP or email) —
+      // unlike clinicians, who exist by invitation only. Owner-only access;
+      // deletable by the owner (erasure right, §3.3).
+      allow read, create, update, delete: if authed() && request.auth.uid == uid;
+    }
+
+    match /aiMemory/{uid} {
+      // The in-app assistant's per-user memory: preferences, learned workflow
+      // habits, distilled notes. Owner-only — no cross-user reads, ever.
+      // Deletable by its owner (selective erasure, §3.3).
+      allow read, create, update, delete: if authed() && request.auth.uid == uid;
+
+      match /notes/{noteId} {
+        allow read, create, update, delete: if authed() && request.auth.uid == uid;
+      }
+    }
+
+    match /meta/{id} {
+      allow read, create, update: if authed();
+      allow delete: if false;
+    }
+
+    // Everything else: denied.
+    match /{document=**} {
+      allow read, write: if false;
+    }
+  }
+}

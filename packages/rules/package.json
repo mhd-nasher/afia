@@ -1,0 +1,10 @@
+{
+  "name": "@afia/rules",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "main": "./src/index.ts",
+  "types": "./src/index.ts",
+  "description": "Pure, deterministic clinical rules: gap detection, red-flag evaluation, formulary matching, queue ordering. Zero runtime dependencies — the part a regulator would examine.",
+  "dependencies": {}
+}

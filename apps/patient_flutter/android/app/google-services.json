@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "899977237335",
+    "project_id": "afia-12f38",
+    "storage_bucket": "afia-12f38.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:899977237335:android:6943959a5a092615816412",
+        "android_client_info": {
+          "package_name": "uk.nasgo.afia_clinician"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDirVYGsObFlUTIF7UyVQDc4ZhwyhMC-No"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:899977237335:android:bc5e9c7774426925816412",
+        "android_client_info": {
+          "package_name": "uk.nasgo.afia_patient"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDirVYGsObFlUTIF7UyVQDc4ZhwyhMC-No"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

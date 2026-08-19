@@ -1,0 +1,28 @@
+{
+  "name": "afia",
+  "private": true,
+  "version": "0.1.0",
+  "description": "Afia — clinical handover platform (hackathon demo, synthetic data only)",
+  "type": "module",
+  "workspaces": [
+    "packages/*",
+    "apps/*"
+  ],
+  "scripts": {
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "typecheck": "tsc -b apps/clinician apps/patient apps/dashboard",
+    "dev:clinician": "npm run dev --workspace apps/clinician",
+    "dev:patient": "npm run dev --workspace apps/patient",
+    "dev:dashboard": "npm run dev --workspace apps/dashboard"
+  },
+  "devDependencies": {
+    "@types/node": "^26.2.0",
+    "@types/react": "^18.3.12",
+    "@types/react-dom": "^18.3.1",
+    "@vitejs/plugin-react": "^4.3.4",
+    "typescript": "^5.7.2",
+    "vite": "^6.0.7",
+    "vitest": "^2.1.8"
+  }
+}

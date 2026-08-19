@@ -1,0 +1,13 @@
+{
+  "name": "@afia/ai",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "main": "./src/index.ts",
+  "types": "./src/index.ts",
+  "description": "Inference interfaces + adapters. The AI reorganises information a human already provided — it never produces a clinical judgement.",
+  "dependencies": {
+    "@afia/core": "*",
+    "@afia/rules": "*"
+  }
+}

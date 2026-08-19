@@ -1,0 +1,19 @@
+{
+  "name": "@afia/app-clinician",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "vite --port 5171 --strictPort",
+    "build": "vite build"
+  },
+  "dependencies": {
+    "@afia/ai": "*",
+    "@afia/core": "*",
+    "@afia/export": "*",
+    "@afia/rules": "*",
+    "@afia/ui": "*",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1"
+  }
+}
